@@ -1,32 +1,29 @@
-package teamport.industry.core.block.logic;
+package teamport.industry.core.block.logic.machine;
 
-import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.ICustomDescription;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import teamport.industry.Industry;
 import teamport.industry.core.block.IndBlocks;
 import teamport.industry.core.block.entity.TileEntitySolarPanel;
+import teamport.industry.core.block.logic.base.BlockLogicElectric;
 
-/*
- * ===========================================================================
- * File: BlockLogicSolarPanel.java
- * Brief: Block logic for the Solar Panel
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Block logic for the Solar Panel
+ * @author Cookie
+ * @date 2024-12-24
  */
-
-public class BlockLogicSolarPanel extends BlockTileEntity implements ICustomDescription {
-    public BlockLogicSolarPanel(String key, int id) {
-        super(key, id, Material.metal);
+public class BlockLogicSolarPanel extends BlockLogicElectric {
+    public BlockLogicSolarPanel(String key, int id, VoltageTier tier) {
+        super(key, id, Material.metal, tier);
     }
 
     @Override
@@ -100,7 +97,12 @@ public class BlockLogicSolarPanel extends BlockTileEntity implements ICustomDesc
     }
 
     @Override
-    public String getDescription(ItemStack itemStack) {
-        return "Capacity: 1E\nOutput: 1E" ;
+    public String getDescription(ItemStack stack) {
+        return String.format("%sMax Voltage %sOUT%s: %s%dV %s(%s%s%s)\n%sMax Current Generated: %s%dA\n%sEnergy Generated: %s0-%dJ/t\n",
+                TextFormatting.LIGHT_GRAY, TextFormatting.RED, TextFormatting.LIGHT_GRAY,
+                TextFormatting.LIME, tier.maxVoltage, TextFormatting.LIGHT_GRAY, tier.textColor, tier.name(), TextFormatting.LIGHT_GRAY,
+                TextFormatting.LIGHT_GRAY, TextFormatting.ORANGE, 1,
+                TextFormatting.LIGHT_GRAY, TextFormatting.YELLOW, 1
+        );
     }
 }

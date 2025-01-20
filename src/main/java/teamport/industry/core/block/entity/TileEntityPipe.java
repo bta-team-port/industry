@@ -4,15 +4,11 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.item.ItemStack;
 import sunsetsatellite.catalyst.core.util.TickTimer;
 
-/*
- * ===========================================================================
- * File: TileEntityPipe.java
- * Brief: Base Tile Entity for the pipes (CURRENTLY UNUSED)
- * Author: Cookie
- * Date: 2025-01-14
- * ===========================================================================
+/**
+ * Base Tile Entity for the pipes (CURRENTLY UNUSED)
+ * @author Cookie
+ * @date 2025-01-14
  */
-
 public class TileEntityPipe extends TileEntity {
     private ItemStack contents = null;
     public int EXTRACT_TICKS = 20;

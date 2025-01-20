@@ -72,6 +72,10 @@ repositories {
 		}
 		metadataSources { artifact() }
 	}
+	maven {
+		name = 'Signalum Maven Releases'
+		url = 'https://maven.thesignalumproject.net/releases/'
+	}
 }
 
 dependencies {
@@ -83,12 +87,12 @@ dependencies {
 
 	// Helper library
 	// If you do not need Halplibe you can comment this line out or delete this line
-	modImplementation "com.github.Turnip-Labs:bta-halplibe:${project.halplibe_version}"
+	modImplementation "turniplabs:halplibe:${project.halplibe_version}"
 
 	// Catalyst
-	modImplementation(files("lib/catalyst-core-1.8.1.jar"))
-	modImplementation(files("lib/catalyst-energy-1.1.0-7.2_01.jar"))
-	modImplementation(files("lib/catalyst-fluids-1.4.0-7.2_01.jar"))
+	implementation project(path: ':catalyst', configuration: "namedElements")
+	implementation project(path: ':catalyst:energy', configuration: "namedElements")
+	implementation project(path: ':catalyst:fluids', configuration: "namedElements")
 
 	modImplementation "ModMenu:ModMenu:${project.mod_menu_version}"
 

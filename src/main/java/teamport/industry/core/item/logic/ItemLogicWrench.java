@@ -13,15 +13,11 @@ import teamport.industry.core.block.IndBlockTags;
 import teamport.industry.core.block.entity.TileEntityPipe;
 import teamport.industry.core.block.logic.BlockLogicPipe;
 
-/*
- * ===========================================================================
- * File: ItemLogicWrench.java
- * Brief: Item logic for the wrench
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Item logic for the wrench
+ * @author Cookie
+ * @date 2024-12-24
  */
-
 public class ItemLogicWrench extends Item {
     public ItemLogicWrench(String name, int id) {
         super(name, id);

@@ -2,99 +2,94 @@ package teamport.industry.core.item.logic;
 
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.net.command.TextFormatting;
 import sunsetsatellite.catalyst.core.util.ICustomDescription;
-import sunsetsatellite.catalyst.energy.api.IEnergyItem;
+import sunsetsatellite.catalyst.core.util.NumberUtil;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
+import sunsetsatellite.catalyst.energy.electric.api.IVoltageTiered;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 
-/*
- * ===========================================================================
- * File: ItemLogicBatteryBase.java
- * Brief: Base Item Logic for the battery items
- * Author: Cookie
- * Date: 2025-01-19
- * ===========================================================================
+/**
+ * Base class for batteries.
+ * @date 2025-01-20
+ * @author sunsetsatellite
  */
+public class ItemLogicBatteryBase extends Item implements IElectricItem, ICustomDescription, IVoltageTiered {
 
-public class ItemLogicBatteryBase extends Item implements IEnergyItem, ICustomDescription {
-    private final int capacity;
-    private final int maxReceive;
-    private final int maxProvide;
-    public ItemLogicBatteryBase(String name, int id, int capacity, int maxReceive, int maxProvide) {
-        super(name, id);
-        this.capacity = capacity;
-        this.maxReceive = maxReceive;
-        this.maxProvide = maxProvide;
-        setMaxStackSize(1);
-    }
+	public VoltageTier tier;
 
-    @Override
-    public int provide(ItemStack itemStack, int amount, boolean test) {
-        int provided = Math.min(getEnergy(itemStack), Math.min(maxProvide, amount));
-        if (!test) {
-            modifyEnergy(itemStack, -provided);
-        }
+	public ItemLogicBatteryBase(String name, int id, VoltageTier tier) {
+		super(name, id);
+		this.tier = tier;
+		setMaxStackSize(1);
+	}
 
-        return provided;
-    }
+	@Override
+	public String getDescription(ItemStack stack) {
+		long maxSeconds = ((getCapacity(stack) / (getMaxVoltage(stack) * getMaxOutputAmperage(stack))) / 20);
+		long seconds = ((getEnergy(stack) / (getMaxVoltage(stack) * getMaxOutputAmperage(stack))) / 20);
+		long mAh = (long) ((maxSeconds / 60f / 60f) * 1000);
+		return String.format(
+			"%sEnergy: %s%s/%sJ %s(%s%s %sremaining)\n" +
+			"%sBattery Voltage: %s%sV %s(%s%s%s)\n" +
+			"%sLasts for %s%s %susing %s%dA@%sV %s(%s%s%s)\n",
+			TextFormatting.LIGHT_GRAY, TextFormatting.YELLOW, NumberUtil.formatMetric(getEnergy(stack)),  NumberUtil.formatMetric(getCapacity(stack)), TextFormatting.LIGHT_GRAY, TextFormatting.WHITE,
+			NumberUtil.formatTime(seconds), TextFormatting.LIGHT_GRAY, TextFormatting.LIGHT_GRAY,
+			TextFormatting.LIME, NumberUtil.formatMetric(tier.maxVoltage), TextFormatting.LIGHT_GRAY, tier.textColor, tier.name(), TextFormatting.LIGHT_GRAY,
+			TextFormatting.LIGHT_GRAY, TextFormatting.LIME, NumberUtil.formatTime(maxSeconds), TextFormatting.LIGHT_GRAY,
+			TextFormatting.ORANGE,getMaxOutputAmperage(stack),NumberUtil.formatMetric(getMaxVoltage(stack)),TextFormatting.LIGHT_GRAY,TextFormatting.WHITE,mAh < 1000 ? mAh+"mAh" : NumberUtil.formatMetric(mAh/1000f)+ "Ah",
+			TextFormatting.LIGHT_GRAY
+		);
+	}
 
-    @Override
-    public int receive(ItemStack itemStack, int amount, boolean test) {
-        int received = Math.min(capacity - getEnergy(itemStack), Math.min(maxReceive, amount));
-        if (!test) {
-            modifyEnergy(itemStack, received);
-        }
+	@Override
+	public long getEnergy(ItemStack stack) {
+		return stack.getData().getLong("Energy");
+	}
 
-        return received;
-    }
+	@Override
+	public long getCapacity(ItemStack stack) {
+		return 32000;
+	}
 
-    @Override
-    public int getEnergy(ItemStack itemStack) {
-        return itemStack.getData().getInteger("energy");
-    }
+	@Override
+	public long getMaxVoltage(ItemStack stack) {
+		return tier.maxVoltage;
+	}
 
-    @Override
-    public int getCapacity(ItemStack itemStack) {
-        if (!itemStack.getData().containsKey("capacity")) {
-            itemStack.getData().putInt("capacity", capacity);
-            return capacity;
-        } else {
-            return itemStack.getData().getInteger("capacity");
-        }
-    }
+	@Override
+	public long getMaxInputAmperage(ItemStack stack) {
+		return 1;
+	}
 
-    @Override
-    public int getMaxReceive(ItemStack itemStack) {
-        if (!itemStack.getData().containsKey("maxReceive")) {
-            itemStack.getData().putInt("maxReceive", maxReceive);
-            return maxReceive;
-        } else {
-            return itemStack.getData().getInteger("maxReceive");
-        }
-    }
+	@Override
+	public long getMaxOutputAmperage(ItemStack stack) {
+		return 1;
+	}
 
-    @Override
-    public int getMaxProvide(ItemStack itemStack) {
-        return maxProvide;
-    }
+	@Override
+	public long charge(ItemStack stack, long energy) {
+		long remaining = getCapacityRemaining(stack);
+		long charge = Math.min(energy, remaining);
+		if(charge+getEnergy(stack) > getCapacity(stack)){
+			return 0;
+		}
+		stack.getData().putLong("Energy",getEnergy(stack)+charge);
+		return charge;
+	}
 
-    @Override
-    public void modifyEnergy(ItemStack itemStack, int amount) {
-        if (itemStack.getData().getInteger("energy") + amount > getCapacity(itemStack)) {
-            itemStack.getData().putInt("energy", getCapacity(itemStack));
-        } else if (itemStack.getData().getInteger("energy") + amount < 0) {
-            itemStack.getData().putInt("energy", 0);
-        } else {
-            itemStack.getData().putInt("energy", getEnergy(itemStack) + amount);
-        }
-    }
+	@Override
+	public long discharge(ItemStack stack, long energy) {
+		long charge = Math.min(getEnergy(stack),energy);
+		if(getEnergy(stack)-charge < 0){
+			return 0;
+		}
+		stack.getData().putLong("Energy",getEnergy(stack)-charge);
+		return charge;
+	}
 
-    @Override
-    public String getDescription(ItemStack itemStack) {
-        return String.format("§8Energy: %sE / %sE%n§8Receives: %sE / Provides: %sE",
-                getEnergy(itemStack),
-                getCapacity(itemStack),
-                getMaxReceive(itemStack),
-                getMaxProvide(itemStack));
-    }
-
-
+	@Override
+	public VoltageTier getTier() {
+		return tier;
+	}
 }

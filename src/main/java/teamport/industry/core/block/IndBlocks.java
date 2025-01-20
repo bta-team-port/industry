@@ -7,17 +7,22 @@ import net.minecraft.core.item.tool.ItemToolPickaxe;
 import net.minecraft.core.sound.BlockSounds;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.MpGuiEntry;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import teamport.industry.client.gui.GUIGenerator;
 import teamport.industry.client.gui.GUISolarPanel;
 import teamport.industry.client.model.block.BlockModelCable;
 import teamport.industry.client.model.block.BlockModelGenerator;
 import teamport.industry.client.model.block.BlockModelInsulatedCable;
 import teamport.industry.core.IndConfig;
-import teamport.industry.core.block.entity.TileEntityCopperCable;
-import teamport.industry.core.block.entity.TileEntityEnergyConductorDamageable;
+import teamport.industry.core.IndWireProperties;
 import teamport.industry.core.block.entity.TileEntityGenerator;
 import teamport.industry.core.block.entity.TileEntitySolarPanel;
-import teamport.industry.core.block.logic.*;
+import teamport.industry.core.block.logic.base.BlockLogicCable;
+import teamport.industry.core.block.logic.machine.BlockLogicGenerator;
+import teamport.industry.core.block.logic.machine.BlockLogicSolarPanel;
+import teamport.industry.core.block.logic.ore.BlockLogicCopperOre;
+import teamport.industry.core.block.logic.ore.BlockLogicTinOre;
+import teamport.industry.core.block.logic.ore.BlockLogicUraniumOre;
 import teamport.industry.core.container.ContainerGenerator;
 import teamport.industry.core.container.ContainerSolarPanel;
 import turniplabs.halplibe.helper.BlockBuilder;
@@ -25,15 +30,11 @@ import turniplabs.halplibe.helper.EntityHelper;
 
 import static teamport.industry.Industry.MOD_ID;
 
-/*
- * ===========================================================================
- * File: IndBlocks.java
- * Brief: Blocks registration and creation
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Blocks registration and creation
+ * @author Cookie
+ * @date 2024-12-24
  */
-
 public class IndBlocks {
     private static int baseID = IndConfig.cfg.getInt("IDs.startingBlockID");
     private static int nextID() {
@@ -55,8 +56,8 @@ public class IndBlocks {
     public static final Block ORE_URANIUM_LIMESTONE;
     public static final Block ORE_URANIUM_GRANITE;
 
-    public static final Block COPPER_CABLE;
-    public static final Block INSULATED_COPPER_CABLE;
+    public static final BlockLogicCable COPPER_CABLE;
+    public static final BlockLogicCable INSULATED_COPPER_CABLE;
 
     public static final Block MACHINE_BLOCK;
     public static final Block GENERATOR;
@@ -116,7 +117,7 @@ public class IndBlocks {
                 .setBlockSound(BlockSounds.METAL)
                 .setTags(BlockTags.BROKEN_BY_FLUIDS, IndBlockTags.BROKEN_BY_WIRECUTTERS, BlockTags.MINEABLE_BY_PICKAXE, BlockTags.NOT_IN_CREATIVE_MENU)
                 .setTextures("industry:block/cable/copper/copper_raw")
-                .build(new BlockLogicCopperCable("copper_cable", nextID()));
+                .build(new BlockLogicCable(nextID(), IndWireProperties.COPPER));
 
         INSULATED_COPPER_CABLE = new BlockBuilder(MOD_ID)
                 .setBlockModel(BlockModelInsulatedCable::new)
@@ -124,7 +125,7 @@ public class IndBlocks {
                 .setHardness(1)
                 .setTags(BlockTags.BROKEN_BY_FLUIDS, BlockTags.MINEABLE_BY_PICKAXE, IndBlockTags.BROKEN_BY_WIRECUTTERS, BlockTags.NOT_IN_CREATIVE_MENU)
                 .setTextures("industry:block/cable/copper/copper_insulated")
-                .build(new BlockLogicInsulatedCopperCable("insulated_copper_cable", nextID()));
+                .build(new BlockLogicCable(nextID(), IndWireProperties.COPPER_INSULATED));
 
         MACHINE_BLOCK = new BlockBuilder(MOD_ID)
                 .setBlockSound(BlockSounds.METAL)
@@ -145,7 +146,7 @@ public class IndBlocks {
                 .setNorthTexture("industry:block/generator/coal/idle_front")
                 .setSouthTexture("industry:block/generator/coal/side")
                 .setTopTexture("industry:block/generator/coal/top")
-                .build(new BlockLogicGenerator("generator", nextID()));
+                .build(new BlockLogicGenerator("generator", nextID(), VoltageTier.LV));
 
         SOLAR_PANEL = new BlockBuilder(MOD_ID)
                 .setBlockSound(BlockSounds.METAL)
@@ -154,7 +155,7 @@ public class IndBlocks {
                 .setTopTexture("industry:block/generator/solar/top")
                 .setSideTextures("industry:block/generator/solar/side")
                 .setBottomTexture("industry:block/generator/solar/bottom")
-                .build(new BlockLogicSolarPanel("solar_panel", nextID()));
+                .build(new BlockLogicSolarPanel("solar_panel", nextID(), VoltageTier.LV));
 
         // MINING LEVELS //
         ItemToolPickaxe.miningLevels.put(ORE_COPPER_STONE, 1);
@@ -173,8 +174,6 @@ public class IndBlocks {
         ItemToolPickaxe.miningLevels.put(MACHINE_BLOCK, 2);
 
         // TILE ENTITIES //
-        EntityHelper.createTileEntity(TileEntityEnergyConductorDamageable.class, "Industry_EnergyConductorDamageable");
-        EntityHelper.createTileEntity(TileEntityCopperCable.class, "Industry_CopperCable");
         EntityHelper.createTileEntity(TileEntityGenerator.class, "Industry_Generator");
         EntityHelper.createTileEntity(TileEntitySolarPanel.class, "Industry_SolarPanel");
 

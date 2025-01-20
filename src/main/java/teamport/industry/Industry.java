@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.IndSounds;
+import teamport.industry.core.IndWireMaterials;
+import teamport.industry.core.IndWireProperties;
 import teamport.industry.core.block.IndBlockTags;
 import teamport.industry.core.block.IndBlocks;
 import teamport.industry.core.item.IndItems;
@@ -25,6 +27,8 @@ public class Industry implements ModInitializer, GameStartEntrypoint {
 
         new IndBlockTags();
         IndSounds.registerSounds();
+        new IndWireMaterials();
+        new IndWireProperties();
 
         new IndBlocks();
         new IndItems();

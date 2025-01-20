@@ -2,76 +2,58 @@ package teamport.industry.core.block.entity;
 
 import com.mojang.nbt.CompoundTag;
 import com.mojang.nbt.ListTag;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.crafting.LookupFuelFurnace;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.sound.SoundCategory;
-import sunsetsatellite.catalyst.core.util.Connection;
-import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.energy.api.IEnergyItem;
-import sunsetsatellite.catalyst.energy.impl.TileEntityEnergyConductor;
-import teamport.industry.core.block.logic.BlockLogicGenerator;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricGenerator;
+import teamport.industry.core.block.logic.base.BlockLogicElectric;
+import teamport.industry.core.block.logic.machine.BlockLogicGenerator;
 
-/*
- * ===========================================================================
- * File: TileEntityGenerator.java
- * Brief: Tile Entity for the Generator
- * Author: Cookie
- * Date: 2025-01-14
- * ===========================================================================
+/**
+ * Logic for the generator.
+ * @author sunsetsatellite
+ * @date 2025-01-20
  */
+public class TileEntityGenerator extends TileEntityElectricGenerator implements IInventory {
 
-public class TileEntityGenerator extends TileEntityEnergyConductor implements IInventory {
     public ItemStack[] invSlots = new ItemStack[2];
-    private int currentBurnTime = 0;
-    private int soundLoop = 0;
 
+    private int currentBurnTime = 0;
     private int maxBurnTime = 0;
 
-    public TileEntityGenerator() {
-        setCapacity(4000);
-        setMaxProvide(32);
-        setMaxReceive(0);
+    private int soundLoop = 0;
 
-        for (Direction dir : Direction.values()) {
-            setConnection(dir, Connection.OUTPUT);
-        }
+    //change properties as you see fit, these are placeholders
+    @Override
+    public void init(Block block) {
+        super.init(block);
+        maxAmpsOut = 1;
+        maxAmpsIn = 0;
+        maxVoltageIn = 0;
+        maxVoltageOut = getTier((BlockLogicElectric) block).maxVoltage;
+        capacity = 4000;
     }
 
-    public int getCurrentBurnTime() {
-        return currentBurnTime;
-    }
-
-    public int getMaxBurnTime() {
-        return maxBurnTime;
-    }
-
-    public void setBurnTimes(int burnTimes) {
-        maxBurnTime = currentBurnTime = burnTimes;
-    }
-
-    private int getBurnTimeFromItem(ItemStack itemStack) {
-        return itemStack == null ? 0 : LookupFuelFurnace.instance.getFuelYield(itemStack.getItem().id);
+    @Override
+    public void onOvervoltage(long voltage) {
+        //kaboom goes here
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (invSlots[0] != null) {
-            if (invSlots[0].getItem() instanceof IEnergyItem) {
-                provide(invSlots[0], 1, false);
-            }
-        }
-
         boolean isBurning = currentBurnTime > 0;
         boolean hasCapacity = energy < capacity;
 
         if (isBurning) {
             --currentBurnTime;
-            modifyEnergy(3);
+            internalAddEnergy(3);
 
             if (soundLoop++ <= 0) {
                 worldObj.playSoundEffect(null, SoundCategory.WORLD_SOUNDS, x, y, z, "industry.GeneratorLoop", 0.3f, 1);
@@ -110,13 +92,18 @@ public class TileEntityGenerator extends TileEntityEnergyConductor implements II
         }
     }
 
-    public int getRemainingBurnTimeScaled(int i) {
-        return this.maxBurnTime == 0 ? 0 : this.currentBurnTime * i / this.maxBurnTime;
+    @Override
+    public long internalChangeEnergy(long difference) {
+        ItemStack stack = invSlots[0];
+        if (stack == null || !(stack.getItem() instanceof IElectricItem)) {
+            return super.internalChangeEnergy(difference);
+        }
+        IElectricItem batt = (IElectricItem) stack.getItem();
+
+        averageEnergyTransfer.increment(worldObj,difference);
+        return batt.charge(stack, difference);
     }
 
-    public int getEnergyScaled(int i) {
-        return getCapacity() == 0 ? 0 : getEnergy() * i / getCapacity();
-    }
 
     @Override
     public int getSizeInventory() {
@@ -209,4 +196,29 @@ public class TileEntityGenerator extends TileEntityEnergyConductor implements II
                 invSlots[slot] = ItemStack.readItemStackFromNbt(slotTag);
         }
     }
+
+    public int getCurrentBurnTime() {
+        return currentBurnTime;
+    }
+
+    public int getMaxBurnTime() {
+        return maxBurnTime;
+    }
+
+    public void setBurnTimes(int burnTimes) {
+        maxBurnTime = currentBurnTime = burnTimes;
+    }
+
+    private int getBurnTimeFromItem(ItemStack itemStack) {
+        return itemStack == null ? 0 : LookupFuelFurnace.instance.getFuelYield(itemStack.getItem().id);
+    }
+
+    public int getRemainingBurnTimeScaled(int i) {
+        return this.maxBurnTime == 0 ? 0 : this.currentBurnTime * i / this.maxBurnTime;
+    }
+
+    public int getEnergyScaled(int i) {
+        return getCapacity() == 0 ? 0 : (int) (getEnergy() * i / getCapacity());
+    }
+
 }

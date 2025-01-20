@@ -9,13 +9,10 @@ import org.lwjgl.opengl.GL11;
 import teamport.industry.core.block.entity.TileEntitySolarPanel;
 import teamport.industry.core.container.ContainerSolarPanel;
 
-/*
- * ===========================================================================
- * File: GUISolarPanel.java
- * Brief: Client gui for the solar panel tile entity
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Client gui for the solar panel tile entity
+ * @author Cookie
+ * @date 2024-12-24
  */
 @Environment(EnvType.CLIENT)
 public class GUISolarPanel extends GuiContainer {

@@ -5,17 +5,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.block.model.BlockModelStandard;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
-import sunsetsatellite.catalyst.energy.api.IEnergy;
+import sunsetsatellite.catalyst.energy.electric.api.IElectric;
 
-/*
- * ===========================================================================
- * File: BlockModelCable.java
- * Brief: Client model renderer for the raw cables (4x4)
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Client model renderer for the raw cables (4x4)
+ * @author Cookie
+ * @date 2024-12-24
  */
-
 @Environment(EnvType.CLIENT)
 public class BlockModelCable extends BlockModelStandard<Block> {
     public BlockModelCable(Block block) {
@@ -28,22 +24,22 @@ public class BlockModelCable extends BlockModelStandard<Block> {
         float boundMax = 0.625f;
 
         boolean aPosX = renderBlocks.blockAccess.getBlockId(x + 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IEnergy;
+                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectric;
 
         boolean aNegX = renderBlocks.blockAccess.getBlockId(x - 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IEnergy;
+                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectric;
 
         boolean aPosY = renderBlocks.blockAccess.getBlockId(x, y + 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IEnergy;
+                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectric;
 
         boolean aNegY = renderBlocks.blockAccess.getBlockId(x, y - 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IEnergy;
+                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectric;
 
         boolean aPosZ = renderBlocks.blockAccess.getBlockId(x, y, z + 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IEnergy;
+                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectric;
 
         boolean aNegZ = renderBlocks.blockAccess.getBlockId(x, y, z - 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IEnergy;
+                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectric;
 
         // If this is set to normal bounds it will visibly z-fight! -Cookie
         block.setBlockBounds(boundMin - 0.0001f,

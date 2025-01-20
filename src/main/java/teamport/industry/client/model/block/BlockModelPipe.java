@@ -7,15 +7,11 @@ import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.player.inventory.IInventory;
 
-/*
- * ===========================================================================
- * File: BlockModelPipe.java
- * Brief: Client model renderer for the pipe blocks (8x8)
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Client model renderer for the pipe blocks (8x8)
+ * @author Cookie
+ * @date 2024-12-24
  */
-
 @Environment(EnvType.CLIENT)
 public class BlockModelPipe extends BlockModelStandard<Block> {
     public BlockModelPipe(Block block) {
