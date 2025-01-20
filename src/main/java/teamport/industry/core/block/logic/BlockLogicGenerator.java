@@ -1,6 +1,6 @@
 package teamport.industry.core.block.logic;
 
-import net.minecraft.core.block.BlockTileEntity;
+import net.minecraft.core.block.BlockTileEntityRotatable;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.EntityItem;
@@ -13,33 +13,34 @@ import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.ICustomDescription;
 import teamport.industry.Industry;
 import teamport.industry.core.block.IndBlocks;
-import teamport.industry.core.block.entity.TileEntitySolarPanel;
+import teamport.industry.core.block.entity.TileEntityGenerator;
 
 /*
  * ===========================================================================
- * File: BlockLogicSolarPanel.java
- * Brief: Block logic for the Solar Panel
+ * File: BlockLogicGenerator.java
+ * Brief: Block logic for the generator
  * Author: Cookie
- * Date: 2024-12-24
+ * Date: 2025-01-14
  * ===========================================================================
  */
 
-public class BlockLogicSolarPanel extends BlockTileEntity implements ICustomDescription {
-    public BlockLogicSolarPanel(String key, int id) {
+public class BlockLogicGenerator extends BlockTileEntityRotatable implements ICustomDescription {
+    public BlockLogicGenerator(String key, int id) {
         super(key, id, Material.metal);
     }
 
+
     @Override
     protected TileEntity getNewBlockEntity() {
-        return new TileEntitySolarPanel();
+        return new TileEntityGenerator();
     }
 
     @Override
     public void onBlockRemoved(World world, int x, int y, int z, int data) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntitySolarPanel) {
-            for (ItemStack stack : ((TileEntitySolarPanel) tileEntity).invSlots) {
+        if (tileEntity instanceof TileEntityGenerator) {
+            for (ItemStack stack : ((TileEntityGenerator) tileEntity).invSlots) {
                 if (stack != null) {
                     float randX = world.rand.nextFloat() * 0.8F + 0.1F;
                     float randY = world.rand.nextFloat() * 0.8F + 0.1F;
@@ -80,8 +81,8 @@ public class BlockLogicSolarPanel extends BlockTileEntity implements ICustomDesc
         if (tileEntity == null || tileEntity.isInvalid()) {
             world.setBlockWithNotify(x, y, z, 0);
             Industry.LOGGER.error("Tile entity at {}, {}, {} was null or invalid and has been removed!", x, y, z);
-        } else if (tileEntity instanceof TileEntitySolarPanel) {
-            Catalyst.displayGui(player, tileEntity, ((TileEntitySolarPanel) tileEntity).getInvName());
+        } else if (tileEntity instanceof TileEntityGenerator) {
+            Catalyst.displayGui(player, tileEntity, ((TileEntityGenerator) tileEntity).getInvName());
         }
 
         return true;
@@ -93,7 +94,7 @@ public class BlockLogicSolarPanel extends BlockTileEntity implements ICustomDesc
             case SILK_TOUCH:
             case PICK_BLOCK:
             case PROPER_TOOL:
-                return new ItemStack[]{new ItemStack(IndBlocks.SOLAR_PANEL)};
+                return new ItemStack[]{new ItemStack(IndBlocks.GENERATOR)};
             default:
                 return new ItemStack[]{new ItemStack(IndBlocks.MACHINE_BLOCK)};
         }
@@ -101,6 +102,11 @@ public class BlockLogicSolarPanel extends BlockTileEntity implements ICustomDesc
 
     @Override
     public String getDescription(ItemStack itemStack) {
-        return "Capacity: 1E\nOutput: 1E" ;
+        return "Capacity: 4000E\nOutput: 32E";
+    }
+
+    public static void updateBlockMetadata(World world, int x, int y, int z, boolean active) {
+        int meta = world.getBlockMetadata(x, y, z);
+        world.setBlockMetadataWithNotify(x, y, z, active ? meta + 6 : meta - 6);
     }
 }

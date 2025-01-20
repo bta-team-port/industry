@@ -3,6 +3,7 @@ package teamport.industry.client.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiContainer;
+import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 import teamport.industry.core.block.entity.TileEntitySolarPanel;
@@ -38,5 +39,13 @@ public class GUISolarPanel extends GuiContainer {
         if (tileEntity.isDayAndClear()) {
             drawTexturedModalRect(scrnX + 80, scrnY + 45, 176, 0, 14, 14);
         }
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer() {
+        I18n i18n = I18n.getInstance();
+        fontRenderer.drawString(i18n.translateKey("industry.gui.solarpanel.label.solarpanel"), 60, 6, 4210752);
+
+        fontRenderer.drawString(i18n.translateKey("industry.gui.solarpanel.label.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 }

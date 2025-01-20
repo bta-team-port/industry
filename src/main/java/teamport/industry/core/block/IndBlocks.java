@@ -7,17 +7,18 @@ import net.minecraft.core.item.tool.ItemToolPickaxe;
 import net.minecraft.core.sound.BlockSounds;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.MpGuiEntry;
+import teamport.industry.client.gui.GUIGenerator;
 import teamport.industry.client.gui.GUISolarPanel;
 import teamport.industry.client.model.block.BlockModelCable;
+import teamport.industry.client.model.block.BlockModelGenerator;
 import teamport.industry.client.model.block.BlockModelInsulatedCable;
-import teamport.industry.client.model.block.BlockModelPipe;
-import teamport.industry.client.model.block.TileEntityRendererPipe;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.block.entity.TileEntityCopperCable;
 import teamport.industry.core.block.entity.TileEntityEnergyConductorDamageable;
-import teamport.industry.core.block.entity.TileEntityPipe;
+import teamport.industry.core.block.entity.TileEntityGenerator;
 import teamport.industry.core.block.entity.TileEntitySolarPanel;
 import teamport.industry.core.block.logic.*;
+import teamport.industry.core.container.ContainerGenerator;
 import teamport.industry.core.container.ContainerSolarPanel;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
@@ -32,6 +33,7 @@ import static teamport.industry.Industry.MOD_ID;
  * Date: 2024-12-24
  * ===========================================================================
  */
+
 public class IndBlocks {
     private static int baseID = IndConfig.cfg.getInt("IDs.startingBlockID");
     private static int nextID() {
@@ -57,9 +59,8 @@ public class IndBlocks {
     public static final Block INSULATED_COPPER_CABLE;
 
     public static final Block MACHINE_BLOCK;
+    public static final Block GENERATOR;
     public static final Block SOLAR_PANEL;
-
-    public static final Block TEST_PIPE;
 
     static {
         // BUILDERS //
@@ -132,6 +133,20 @@ public class IndBlocks {
                 .setTextures("industry:block/machine/machine_block")
                 .build(new Block("machine_block", nextID(), Material.metal));
 
+        GENERATOR = new BlockBuilder(MOD_ID)
+                .setBlockModel(b -> new BlockModelGenerator(b,
+                        "industry:block/generator/coal/idle_front",
+                        "industry:block/generator/coal/active_front"))
+                .setBlockSound(BlockSounds.METAL)
+                .setHardness(3.5f)
+                .setTags(IndBlockTags.REQUIRES_WRENCH)
+                .setBottomTexture("industry:block/generator/coal/bottom")
+                .setEastWestTextures("industry:block/generator/coal/side")
+                .setNorthTexture("industry:block/generator/coal/idle_front")
+                .setSouthTexture("industry:block/generator/coal/side")
+                .setTopTexture("industry:block/generator/coal/top")
+                .build(new BlockLogicGenerator("generator", nextID()));
+
         SOLAR_PANEL = new BlockBuilder(MOD_ID)
                 .setBlockSound(BlockSounds.METAL)
                 .setHardness(3.5f)
@@ -140,14 +155,6 @@ public class IndBlocks {
                 .setSideTextures("industry:block/generator/solar/side")
                 .setBottomTexture("industry:block/generator/solar/bottom")
                 .build(new BlockLogicSolarPanel("solar_panel", nextID()));
-
-        TEST_PIPE = new BlockBuilder(MOD_ID)
-                .setBlockModel(BlockModelPipe::new)
-                .setBlockSound(BlockSounds.STONE)
-                .setHardness(2)
-                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
-                .setTextures("industry:block/pipe/pipe_stone")
-                .build(new BlockLogicPipe("stone_pipe", nextID(), Material.stone));
 
         // MINING LEVELS //
         ItemToolPickaxe.miningLevels.put(ORE_COPPER_STONE, 1);
@@ -168,10 +175,15 @@ public class IndBlocks {
         // TILE ENTITIES //
         EntityHelper.createTileEntity(TileEntityEnergyConductorDamageable.class, "Industry_EnergyConductorDamageable");
         EntityHelper.createTileEntity(TileEntityCopperCable.class, "Industry_CopperCable");
+        EntityHelper.createTileEntity(TileEntityGenerator.class, "Industry_Generator");
         EntityHelper.createTileEntity(TileEntitySolarPanel.class, "Industry_SolarPanel");
-        EntityHelper.createSpecialTileEntity(TileEntityPipe.class, "Industry_Pipe", TileEntityRendererPipe::new);
 
         // CATALYST GUI //
+        Catalyst.GUIS.register("Industry_Generator", new MpGuiEntry(
+                TileEntityGenerator.class,
+                GUIGenerator.class,
+                ContainerGenerator.class)
+        );
         Catalyst.GUIS.register("Industry_SolarPanel", new MpGuiEntry(
                 TileEntitySolarPanel.class,
                 GUISolarPanel.class,

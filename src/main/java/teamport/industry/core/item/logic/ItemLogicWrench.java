@@ -9,14 +9,9 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.sound.SoundCategory;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
-import sunsetsatellite.catalyst.core.util.Connection;
-import sunsetsatellite.catalyst.core.util.Direction;
 import teamport.industry.core.block.IndBlockTags;
 import teamport.industry.core.block.entity.TileEntityPipe;
-import teamport.industry.core.block.interfaces.IPipe;
 import teamport.industry.core.block.logic.BlockLogicPipe;
-
-import java.util.Map;
 
 /*
  * ===========================================================================
@@ -26,6 +21,7 @@ import java.util.Map;
  * Date: 2024-12-24
  * ===========================================================================
  */
+
 public class ItemLogicWrench extends Item {
     public ItemLogicWrench(String name, int id) {
         super(name, id);
@@ -43,6 +39,14 @@ public class ItemLogicWrench extends Item {
 
             block.dropBlockWithCause(world, EnumDropCause.PROPER_TOOL, blockX, blockY, blockZ, meta, null);
             world.setBlockWithNotify(blockX, blockY, blockZ, 0);
+            world.playSoundEffect(player,
+                    SoundCategory.ENTITY_SOUNDS,
+                    player.x,
+                    player.y,
+                    player.z,
+                    "industry.wrench",
+                    0.4f,
+                    1.0f);
 
             return true;
         }
@@ -50,34 +54,14 @@ public class ItemLogicWrench extends Item {
         if (block instanceof BlockLogicPipe) {
             TileEntity tileEntity = world.getBlockTileEntity(blockX, blockY, blockZ);
             if (tileEntity instanceof TileEntityPipe) {
-                for (Map.Entry<Direction, Connection> entry : ((TileEntityPipe) tileEntity).connections.entrySet()) {
-                    TileEntity facingTile = entry.getKey().getTileEntity(world, tileEntity);
-                    if (facingTile != null) {
-                        world.playSoundEffect(player,
-                                SoundCategory.ENTITY_SOUNDS,
-                                player.x,
-                                player.y,
-                                player.z,
-                                "industry.wrench",
-                                0.4f,
-                                1.0f);
-
-                        switch (entry.getValue()) {
-                            case INPUT:
-                                entry.setValue(Connection.OUTPUT);
-                                player.sendMessage("Set to output");
-                                return true;
-                            case OUTPUT:
-                                entry.setValue(Connection.BOTH);
-                                player.sendMessage("Set to none");
-                                return true;
-                            case BOTH:
-                                entry.setValue(Connection.INPUT);
-                                player.sendMessage("Set to input");
-                                return true;
-                        }
-                    }
-                }
+                world.playSoundEffect(player,
+                        SoundCategory.ENTITY_SOUNDS,
+                        player.x,
+                        player.y,
+                        player.z,
+                        "industry.wrench",
+                        0.4f,
+                        1.0f);
             }
         }
 

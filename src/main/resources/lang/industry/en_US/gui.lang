@@ -1,39 +1,5 @@
-gui.industry.energy=Energy
-gui.industry.redstone=Redstone
-gui.industry.scrap=Scrap
-gui.industry.lava=Lava
-gui.industry.water=Water
-gui.industry.height=Height
-gui.industry.generating=Generating
-gui.industry.inventory=Inventory
-gui.industry.heat=Heat
+industry.gui.generator.label.generator=Generator
+industry.gui.generator.label.inventory=Inventory
 
-gui.industry.array.ehv=LV Solar Array
-gui.industry.array.ehv=MV Solar Array
-gui.industry.array.ehv=HV Solar Array
-gui.industry.array.ehv=EHV Solar Array
-gui.industry.lv_combustion_generator=LV Combustion Generator
-gui.industry.lv_watermill=LV Watermill
-gui.industry.lv_solar_panel=LV Solar Panel
-
-gui.industry.lv_furnace=LV Furnace
-gui.industry.lv_macerator=LV Macerator
-gui.industry.lv_compressor=LV Compressor
-gui.industry.lv_wiremill=LV Wiremill
-gui.industry.lv_extractor=LV Extractor
-gui.industry.lv_recycler=LV Recycler
-gui.industry.lv_canning_machine=LV Canning Machine
-
-gui.industry.lv_batterybox=LV Batterybox
-gui.industry.batbox.mv=MV Batterybox
-gui.industry.batbox.hv=HV Batterybox
-gui.industry.batbox.ehv=EHV Batterybox
-
-gui.industry.t2.compressor=Advanced Compressor
-gui.industry.t2.extractor=Advanced Extractor
-gui.industry.t2.furnace=Advanced Electric Furnace
-gui.industry.t2.macerator=Advanced Macerator
-gui.industry.t2.wiremill=Advanced Wiremill
-
-gui.industry.fabricator=E2M Fabricator
-gui.industry.reactor=Nuclear Reactor
+industry.gui.solarpanel.label.solarpanel=Solar Panel
+industry.gui.solarpanel.label.inventory=Inventory

@@ -16,6 +16,7 @@ import teamport.industry.core.item.IndItems;
  * Date: 2024-12-24
  * ===========================================================================
  */
+
 public class BlockLogicCopperOre extends Block {
     public BlockLogicCopperOre(String key, int id) {
         super(key, id, Material.stone);

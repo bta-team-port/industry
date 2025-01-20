@@ -32,6 +32,8 @@ tile.industry.insulated_copper_cable.desc=A length of insulated copper cable.
 
 tile.industry.machine_block.name=LV Machine Block
 tile.industry.machine_block.desc=A hollow metal box full of circuitry.
+tile.industry.generator.name=Generator
+tile.industry.generator.desc=Generates electricity using fuel.
 tile.industry.solar_panel.name=Solar Panel
 tile.industry.solar_panel.desc=Generates electricity from the sun itself.
 

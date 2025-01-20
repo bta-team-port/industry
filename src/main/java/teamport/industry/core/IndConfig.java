@@ -4,6 +4,15 @@ import teamport.industry.Industry;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
+/*
+ * ===========================================================================
+ * File: IndConfig.java
+ * Brief: Config initializer
+ * Author: Cookie
+ * Date: 2024-12-23
+ * ===========================================================================
+ */
+
 public class IndConfig {
     private static final Toml TOML = new Toml("Industry's TOML Config");
     public static TomlConfigHandler cfg;

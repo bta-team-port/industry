@@ -1,61 +1,33 @@
 package teamport.industry.core.block.entity;
 
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.player.inventory.IInventory;
-import sunsetsatellite.catalyst.core.util.Connection;
-import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.TickTimer;
 
-import java.util.*;
+/*
+ * ===========================================================================
+ * File: TileEntityPipe.java
+ * Brief: Base Tile Entity for the pipes (CURRENTLY UNUSED)
+ * Author: Cookie
+ * Date: 2025-01-14
+ * ===========================================================================
+ */
 
 public class TileEntityPipe extends TileEntity {
     private ItemStack contents = null;
     public int EXTRACT_TICKS = 20;
-    public Map<Direction, Connection> connections = new HashMap<>();
-    public Map<Direction, Boolean> restrictDirections = new HashMap<>();
-    public Map<Direction, Boolean> noConnectDirections = new HashMap<>();
-    private final TickTimer extractTimer = new TickTimer(this, this::tickExtract, EXTRACT_TICKS, true);
+    private final TickTimer extractTimer = new TickTimer(this, this::tickItemMovement, EXTRACT_TICKS, true);
     public int ticksRan = 0;
 
     public TileEntityPipe() {
-        for (Direction dir : Direction.values()) {
-            connections.put(dir, Connection.BOTH);
-            restrictDirections.put(dir, false);
-            noConnectDirections.put(dir, false);
-        }
+
     }
 
     public ItemStack getContents() {
         return contents;
     }
 
-    public boolean canConnect(Direction dir, Connection con) {
-        return connections.get(dir).equals(Connection.BOTH) && !con.equals(Connection.NONE) || connections.get(dir).equals(con);
-    }
-
-    public ItemStack receive(Direction dir, ItemStack received) {
-        if (canConnect(dir, Connection.INPUT) || canConnect(dir, Connection.NONE)) {
-            contents = received;
-
-            return received;
-        }
-
-        return null;
-    }
-
-    public ItemStack provide(Direction dir, ItemStack provided) {
-        if (canConnect(dir, Connection.OUTPUT)) {
-            provided = contents;
-            contents = null;
-
-            return provided;
-        }
-
-        return null;
-    }
-
+/*
     private void tickExtract() {
         for (Direction dir : Direction.values()) {
             TileEntity facingTile = dir.getTileEntity(worldObj, this);
@@ -144,18 +116,14 @@ public class TileEntityPipe extends TileEntity {
             }
         }
     }
+*/
 
     private void tickItemMovement() {
-        TileEntity facingTile = null;
 
-        for (Direction dir : Direction.values()) {
-            
-        }
     }
 
     @Override
     public void tick() {
-
         extractTimer.tick();
 
         if (ticksRan == 0) {

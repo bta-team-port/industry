@@ -12,3 +12,6 @@ item.industry.insulated_copper_cable.desc=A length of insulated copper cable.
 
 item.industry.wrench.name=Wrench
 item.industry.wrench.desc=A bronze wrench that's able to disassemble machines.
+
+item.industry.re.battery.name=RE Battery
+item.industry.re.battery.desc=Full of redstone and rechargeable.

@@ -9,14 +9,15 @@ import sunsetsatellite.catalyst.core.util.TickTimer;
 import sunsetsatellite.catalyst.energy.api.IEnergyItem;
 import sunsetsatellite.catalyst.energy.impl.TileEntityEnergyConductor;
 
-/*===========================================================================//
+/*
+ * ===========================================================================
+ * File: TileEntityEnergyConductorDamageable.java
+ * Brief: Tile Entity for damageable energy conductors
+ * Author: Cookie
+ * Date: 2024-12-24
+ * ===========================================================================
+ */
 
-  File: TileEntityEnergyConductorDamageable.java
-  Brief: Base class to add health to energy machines
-  Author: Cookie
-  Date: 2024-12-24
-
-//===========================================================================*/
 public class TileEntityEnergyConductorDamageable extends TileEntityEnergyConductor {
     private int maxMachineHealth;
     private int maxCharge;

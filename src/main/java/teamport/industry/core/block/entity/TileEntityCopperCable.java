@@ -11,6 +11,7 @@ import sunsetsatellite.catalyst.core.util.Direction;
  * Date: 2024-12-24
  * ===========================================================================
  */
+
 public class TileEntityCopperCable extends TileEntityEnergyConductorDamageable {
     public TileEntityCopperCable() {
         super();

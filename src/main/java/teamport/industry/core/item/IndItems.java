@@ -1,9 +1,10 @@
 package teamport.industry.core.item;
 
 import net.minecraft.core.item.Item;
-import net.minecraft.core.item.ItemPlaceable;
+import teamport.industry.client.model.item.ItemModelBattery;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.block.IndBlocks;
+import teamport.industry.core.item.logic.ItemLogicBatteryBase;
 import teamport.industry.core.item.logic.ItemLogicCable;
 import teamport.industry.core.item.logic.ItemLogicWrench;
 import turniplabs.halplibe.helper.ItemBuilder;
@@ -18,6 +19,7 @@ import static teamport.industry.Industry.MOD_ID;
  * Date: 2024-12-24
  * ===========================================================================
  */
+
 public class IndItems {
     private static int baseID = IndConfig.cfg.getInt("IDs.startingItemID");
     private static int nextID() {
@@ -30,6 +32,7 @@ public class IndItems {
     public static final Item COPPER_CABLE;
     public static final Item INSULATED_COPPER_CABLE;
     public static final Item WRENCH;
+    public static final Item RE_BATTERY;
 
     static {
         RAW_COPPER_ORE = new ItemBuilder(MOD_ID)
@@ -55,5 +58,9 @@ public class IndItems {
         WRENCH = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/tool/tool_wrench")
                 .build(new ItemLogicWrench("wrench", nextID()));
+
+        RE_BATTERY = new ItemBuilder(MOD_ID)
+                .setItemModel(item -> new ItemModelBattery(item, MOD_ID, "industry:item/battery/rechargeable/"))
+                .build(new ItemLogicBatteryBase("re.battery", nextID(), 10000, 32, 32));
     }
 }

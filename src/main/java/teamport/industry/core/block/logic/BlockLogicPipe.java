@@ -5,6 +5,15 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
 import teamport.industry.core.block.entity.TileEntityPipe;
 
+/*
+ * ===========================================================================
+ * File: BlockLogicPipe.java
+ * Brief: Block logic for the pipes (CURRENTLY UNUSED)
+ * Author: Cookie
+ * Date: 2024-12-24
+ * ===========================================================================
+ */
+
 public class BlockLogicPipe extends BlockTileEntity {
     public BlockLogicPipe(String key, int id, Material material) {
         super(key, id, material);

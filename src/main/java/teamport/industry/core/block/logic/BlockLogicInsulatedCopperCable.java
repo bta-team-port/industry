@@ -17,6 +17,7 @@ import teamport.industry.core.item.IndItems;
  * Date: 2024-12-24
  * ===========================================================================
  */
+
 public class BlockLogicInsulatedCopperCable extends BlockTileEntity {
     public BlockLogicInsulatedCopperCable(String key, int id) {
         super(key, id, Material.decoration);

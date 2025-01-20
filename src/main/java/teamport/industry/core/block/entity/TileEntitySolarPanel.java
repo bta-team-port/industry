@@ -11,6 +11,15 @@ import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.energy.api.IEnergyItem;
 import sunsetsatellite.catalyst.energy.impl.TileEntityEnergyConductor;
 
+/*
+ * ===========================================================================
+ * File: TileEntitySolarPanel.java
+ * Brief: Tile Entity for the Solar Panels
+ * Author: Cookie
+ * Date: 2024-12-24
+ * ===========================================================================
+ */
+
 public class TileEntitySolarPanel extends TileEntityEnergyConductor implements IInventory {
     public ItemStack[] invSlots = new ItemStack[1];
 
