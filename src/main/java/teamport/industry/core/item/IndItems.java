@@ -1,6 +1,7 @@
 package teamport.industry.core.item;
 
 import net.minecraft.core.item.Item;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import teamport.industry.client.model.item.ItemModelBattery;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.block.IndBlocks;
@@ -11,15 +12,11 @@ import turniplabs.halplibe.helper.ItemBuilder;
 
 import static teamport.industry.Industry.MOD_ID;
 
-/*
- * ===========================================================================
- * File: IndItems.java
- * Brief: Items registration and creation
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Items registration and creation
+ * @author Cookie
+ * @date 2024-12-24
  */
-
 public class IndItems {
     private static int baseID = IndConfig.cfg.getInt("IDs.startingItemID");
     private static int nextID() {
@@ -49,11 +46,11 @@ public class IndItems {
 
         COPPER_CABLE = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/cable/copper/copper_raw")
-                .build(new ItemLogicCable("copper_cable", nextID(), IndBlocks.COPPER_CABLE, "32"));
+                .build(new ItemLogicCable("copper_cable", nextID(), IndBlocks.COPPER_CABLE));
 
         INSULATED_COPPER_CABLE = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/cable/copper/copper_insulated")
-                .build(new ItemLogicCable("insulated_copper_cable", nextID(), IndBlocks.INSULATED_COPPER_CABLE, "32"));
+                .build(new ItemLogicCable("insulated_copper_cable", nextID(), IndBlocks.INSULATED_COPPER_CABLE));
 
         WRENCH = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/tool/tool_wrench")
@@ -61,6 +58,6 @@ public class IndItems {
 
         RE_BATTERY = new ItemBuilder(MOD_ID)
                 .setItemModel(item -> new ItemModelBattery(item, MOD_ID, "industry:item/battery/rechargeable/"))
-                .build(new ItemLogicBatteryBase("re.battery", nextID(), 10000, 32, 32));
+                .build(new ItemLogicBatteryBase("re.battery", nextID(), VoltageTier.LV));
     }
 }

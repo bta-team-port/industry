@@ -4,15 +4,11 @@ import teamport.industry.Industry;
 import turniplabs.halplibe.helper.RecipeBuilder;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 
-/*
- * ===========================================================================
- * File: IndRecipes.java
- * Brief: Recipe registration and creation
- * Author: Cookie
- * Date: 2024-12-23
- * ===========================================================================
+/**
+ * Recipe registration and creation
+ * @author Cookie
+ * @date 2024-12-23
  */
-
 public class IndRecipes implements RecipeEntrypoint {
 
     @Override

@@ -1,4 +1,4 @@
-package teamport.industry.core.block.logic;
+package teamport.industry.core.block.logic.ore;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
@@ -8,17 +8,13 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.world.World;
 import teamport.industry.core.item.IndItems;
 
-/*
- * ===========================================================================
- * File: BlockLogicCopperOre.java
- * Brief: Block logic for the copper ores
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Block logic for the tin ores
+ * @author Cookie
+ * @date 2024-12-24
  */
-
-public class BlockLogicCopperOre extends Block {
-    public BlockLogicCopperOre(String key, int id) {
+public class BlockLogicTinOre extends Block {
+    public BlockLogicTinOre(String key, int id) {
         super(key, id, Material.stone);
     }
 
@@ -30,7 +26,7 @@ public class BlockLogicCopperOre extends Block {
                 return new ItemStack[]{new ItemStack(this)};
             case EXPLOSION:
             case PROPER_TOOL:
-                return new ItemStack[]{new ItemStack(IndItems.RAW_COPPER_ORE)};
+                return new ItemStack[]{new ItemStack(IndItems.RAW_TIN_ORE)};
             default:
                 return null;
         }

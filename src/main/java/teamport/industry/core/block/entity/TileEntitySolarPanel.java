@@ -2,35 +2,33 @@ package teamport.industry.core.block.entity;
 
 import com.mojang.nbt.CompoundTag;
 import com.mojang.nbt.ListTag;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.world.weather.Weather;
-import sunsetsatellite.catalyst.core.util.Connection;
-import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.energy.api.IEnergyItem;
-import sunsetsatellite.catalyst.energy.impl.TileEntityEnergyConductor;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricGenerator;
+import teamport.industry.core.block.logic.base.BlockLogicElectric;
 
-/*
- * ===========================================================================
- * File: TileEntitySolarPanel.java
- * Brief: Tile Entity for the Solar Panels
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Logic for the solar panel.
+ * @author sunsetsatellite
+ * @date 2025-01-20
  */
+public class TileEntitySolarPanel extends TileEntityElectricGenerator implements IInventory {
 
-public class TileEntitySolarPanel extends TileEntityEnergyConductor implements IInventory {
     public ItemStack[] invSlots = new ItemStack[1];
 
-    public TileEntitySolarPanel() {
-        setCapacity(1);
-        setMaxProvide(1);
-        setMaxReceive(0);
-
-        for (Direction dir : Direction.values()) {
-            setConnection(dir, dir == Direction.Y_POS ? Connection.NONE : Connection.OUTPUT);
-        }
+    //change properties as you see fit, these are placeholders
+    @Override
+    public void init(Block block) {
+        super.init(block);
+        maxAmpsOut = 1;
+        maxAmpsIn = 0;
+        maxVoltageIn = 0;
+        maxVoltageOut = getTier((BlockLogicElectric) block).maxVoltage;
+        capacity = getTier((BlockLogicElectric) block).maxVoltage * 64L;
     }
 
     public boolean isDayAndClear() {
@@ -41,13 +39,28 @@ public class TileEntitySolarPanel extends TileEntityEnergyConductor implements I
     public void tick() {
         super.tick();
 
-        if (invSlots[0] != null && invSlots[0].getItem() instanceof IEnergyItem) {
-            provide(invSlots[0], 1, false);
-        }
-
         if (isDayAndClear()) {
-            modifyEnergy(1);
+            internalAddEnergy(1);
         }
+    }
+
+    @Override
+    public long internalChangeEnergy(long difference) {
+        for (ItemStack stack : invSlots) {
+            if (stack == null || !(stack.getItem() instanceof IElectricItem)) {
+                continue;
+            }
+            IElectricItem batt = (IElectricItem) stack.getItem();
+
+            averageEnergyTransfer.increment(worldObj,difference);
+            return batt.charge(stack, difference);
+        }
+        return super.internalChangeEnergy(difference);
+    }
+
+    @Override
+    public void onOvervoltage(long voltage) {
+        //kaboom goes here
     }
 
     @Override

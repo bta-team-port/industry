@@ -1,25 +1,25 @@
 package teamport.industry.core.container;
 
+import net.minecraft.core.InventoryAction;
 import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import net.minecraft.core.player.inventory.slot.Slot;
-import sunsetsatellite.catalyst.energy.impl.ContainerEnergy;
 import teamport.industry.core.block.entity.TileEntitySolarPanel;
 
-/*
- * ===========================================================================
- * File: ContainerSolarPanel.java
- * Brief: Container for the solar panel tile entity
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Container for the solar panel tile entity
+ * @author Cookie
+ * @date 2024-12-24
  */
-public class ContainerSolarPanel extends ContainerEnergy {
+public class ContainerSolarPanel extends Container {
     private final TileEntitySolarPanel tileEntity;
 
     public ContainerSolarPanel(InventoryPlayer inventory, TileEntitySolarPanel tileEntity) {
         this.tileEntity = tileEntity;
-        tile = tileEntity;
 
         addSlot(new Slot(tileEntity, 0, 80, 26));
 
@@ -35,6 +35,16 @@ public class ContainerSolarPanel extends ContainerEnergy {
         for (int hotbar = 0; hotbar < 9; hotbar++) {
             addSlot(new Slot(inventory, hotbar, 8 + hotbar * 18, 142));
         }
+    }
+
+    @Override
+    public List<Integer> getMoveSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Integer> getTargetSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
+        return new ArrayList<>();
     }
 
     @Override

@@ -1,29 +1,28 @@
 package teamport.industry.core.container;
 
-/*
- * ===========================================================================
- * File: ContainerGenerator.java
- * Brief: Container for the Generator tile entity
- * Author: Cookie
- * Date: 2025-01-14
- * ===========================================================================
- */
-
+import net.minecraft.core.InventoryAction;
 import net.minecraft.core.crafting.ICrafting;
 import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import net.minecraft.core.player.inventory.slot.Slot;
-import sunsetsatellite.catalyst.energy.impl.ContainerEnergy;
 import teamport.industry.core.block.entity.TileEntityGenerator;
 
-public class ContainerGenerator extends ContainerEnergy {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Container for the Generator tile entity
+ * @author Cookie
+ * @date 2025-01-14
+ */
+public class ContainerGenerator extends Container {
     private final TileEntityGenerator tileEntity;
     private int currentBurnTime;
     private int maxBurnTime;
 
     public ContainerGenerator(InventoryPlayer inventory, TileEntityGenerator tileEntity) {
         this.tileEntity = tileEntity;
-        tile = tileEntity;
 
         addSlot(new Slot(tileEntity, 0, 65, 17));
         addSlot(new Slot(tileEntity, 1, 65, 53));
@@ -63,6 +62,16 @@ public class ContainerGenerator extends ContainerEnergy {
 
         currentBurnTime = tileEntity.getCurrentBurnTime();
         maxBurnTime = tileEntity.getMaxBurnTime();
+    }
+
+    @Override
+    public List<Integer> getMoveSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Integer> getTargetSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
+        return new ArrayList<>();
     }
 
     @Override

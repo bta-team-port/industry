@@ -8,7 +8,7 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sunsetsatellite.catalyst.energy.api.IEnergyItem;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
 
 public class ItemModelBattery extends ItemModelStandard {
     private final String texturePath;
@@ -19,9 +19,9 @@ public class ItemModelBattery extends ItemModelStandard {
 
     @Override
     public @NotNull IconCoordinate getIcon(@Nullable Entity entity, ItemStack itemStack) {
-        if (itemStack.getItem() instanceof IEnergyItem) {
-            int energy = ((IEnergyItem) itemStack.getItem()).getEnergy(itemStack);
-            int capacity = ((IEnergyItem) itemStack.getItem()).getCapacity(itemStack);
+        if (itemStack.getItem() instanceof IElectricItem) {
+            long energy = ((IElectricItem) itemStack.getItem()).getEnergy(itemStack);
+            long capacity = ((IElectricItem) itemStack.getItem()).getCapacity(itemStack);
 
             if (energy >= capacity) {
                 return TextureRegistry.getTexture(texturePath + "4");

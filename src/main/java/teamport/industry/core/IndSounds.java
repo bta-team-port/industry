@@ -4,15 +4,11 @@ import turniplabs.halplibe.helper.SoundHelper;
 
 import static teamport.industry.Industry.MOD_ID;
 
-/*
- * ===========================================================================
- * File: IndSounds.java
- * Brief: Sound registration
- * Author: Cookie
- * Date: 2024-12-24
- * ===========================================================================
+/**
+ * Sound registration
+ * @author Cookie
+ * @date 2024-12-24
  */
-
 public class IndSounds {
     public static void registerSounds() {
         SoundHelper.addSound(MOD_ID, "CompressorOp.ogg");

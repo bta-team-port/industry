@@ -3,22 +3,17 @@ package teamport.industry.client.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiContainer;
-import net.minecraft.core.block.entity.TileEntityBlastFurnace;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 import teamport.industry.core.block.entity.TileEntityGenerator;
 import teamport.industry.core.container.ContainerGenerator;
 
-/*
- * ===========================================================================
- * File: GUIGenerator.java
- * Brief: Client gui for the Generator tile entity
- * Author: Cookie
- * Date: 2025-01-14
- * ===========================================================================
+/**
+ * Client gui for the Generator tile entity
+ * @author Cookie
+ * @date 2025-01-14
  */
-
 @Environment(EnvType.CLIENT)
 public class GUIGenerator extends GuiContainer {
     TileEntityGenerator tileEntity;

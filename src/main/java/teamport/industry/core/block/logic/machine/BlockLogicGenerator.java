@@ -1,34 +1,32 @@
-package teamport.industry.core.block.logic;
+package teamport.industry.core.block.logic.machine;
 
-import net.minecraft.core.block.BlockTileEntityRotatable;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.ICustomDescription;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import teamport.industry.Industry;
 import teamport.industry.core.block.IndBlocks;
 import teamport.industry.core.block.entity.TileEntityGenerator;
+import teamport.industry.core.block.logic.base.BlockLogicElectric;
 
-/*
- * ===========================================================================
- * File: BlockLogicGenerator.java
- * Brief: Block logic for the generator
- * Author: Cookie
- * Date: 2025-01-14
- * ===========================================================================
+/**
+ * Block logic for the generator
+ * @author Cookie
+ * @date 2025-01-14
  */
+public class BlockLogicGenerator extends BlockLogicElectric {
 
-public class BlockLogicGenerator extends BlockTileEntityRotatable implements ICustomDescription {
-    public BlockLogicGenerator(String key, int id) {
-        super(key, id, Material.metal);
+
+    public BlockLogicGenerator(String key, int id, VoltageTier tier) {
+        super(key, id, Material.metal, tier);
     }
-
 
     @Override
     protected TileEntity getNewBlockEntity() {
@@ -101,12 +99,12 @@ public class BlockLogicGenerator extends BlockTileEntityRotatable implements ICu
     }
 
     @Override
-    public String getDescription(ItemStack itemStack) {
-        return "Capacity: 4000E\nOutput: 32E";
-    }
-
-    public static void updateBlockMetadata(World world, int x, int y, int z, boolean active) {
-        int meta = world.getBlockMetadata(x, y, z);
-        world.setBlockMetadataWithNotify(x, y, z, active ? meta + 6 : meta - 6);
+    public String getDescription(ItemStack stack) {
+        return String.format("%sMax Voltage %sOUT%s: %s%dV %s(%s%s%s)\n%sMax Current Generated: %s%dA\n%sEnergy Capacity: %s%dJ\n",
+                TextFormatting.LIGHT_GRAY, TextFormatting.RED, TextFormatting.LIGHT_GRAY,
+                TextFormatting.LIME, tier.maxVoltage, TextFormatting.LIGHT_GRAY, tier.textColor, tier.name(), TextFormatting.LIGHT_GRAY,
+                TextFormatting.LIGHT_GRAY, TextFormatting.ORANGE, 1,
+                TextFormatting.LIGHT_GRAY, TextFormatting.YELLOW, 4000
+        );
     }
 }
