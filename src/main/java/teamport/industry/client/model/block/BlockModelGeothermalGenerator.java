@@ -10,13 +10,14 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.WorldSource;
 import teamport.industry.core.block.entity.TileEntityGenerator;
+import teamport.industry.core.block.entity.TileEntityGeothermalGenerator;
 
 @Environment(EnvType.CLIENT)
-public class BlockModelGenerator extends BlockModelHorizontalRotation<Block> {
+public class BlockModelGeothermalGenerator extends BlockModelHorizontalRotation<Block> {
     private final IconCoordinate front;
     private final IconCoordinate frontAlternate;
 
-    public BlockModelGenerator(Block block, String front, String frontAlternate) {
+    public BlockModelGeothermalGenerator(Block block, String front, String frontAlternate) {
         super(block);
         this.front = TextureRegistry.getTexture(front);
         this.frontAlternate = TextureRegistry.getTexture(frontAlternate);
@@ -26,8 +27,8 @@ public class BlockModelGenerator extends BlockModelHorizontalRotation<Block> {
     public IconCoordinate getBlockTexture(WorldSource blockAccess, int x, int y, int z, Side side) {
 
         TileEntity tileEntity = blockAccess.getBlockTileEntity(x, y, z);
-        if (tileEntity instanceof TileEntityGenerator) {
-            atlasIndices[Side.NORTH.getId()] = ((TileEntityGenerator) tileEntity).active ? frontAlternate : front;
+        if (tileEntity instanceof TileEntityGeothermalGenerator) {
+            atlasIndices[Side.NORTH.getId()] = ((TileEntityGeothermalGenerator) tileEntity).active ? frontAlternate : front;
         }
 
         return super.getBlockTexture(blockAccess, x, y, z, side);

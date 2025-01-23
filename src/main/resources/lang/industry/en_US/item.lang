@@ -14,4 +14,19 @@ item.industry.wrench.name=Wrench
 item.industry.wrench.desc=A bronze wrench that's able to disassemble machines.
 
 item.industry.re.battery.name=RE Battery
-item.industry.re.battery.desc=Full of redstone and rechargeable.
+item.industry.re.battery.desc=A rechargeable tin casing full of redstone.
+
+item.industry.cell.empty.name=Empty Cell
+item.industry.cell.empty.desc=Used to hold various fluids once.
+item.industry.cell.water.name=Water Cell
+item.industry.cell.water.desc=A cell full of the deep blue.
+item.industry.cell.lava.name=Lava Cell
+item.industry.cell.lava.desc=A cell full of molten rock. Hot!
+item.industry.cell.oil.name=Oil Cell
+item.industry.cell.oil.desc=A cell full of black gold.
+item.industry.cell.coolant.name=Coolant Cell
+item.industry.cell.coolant.desc=A cell full of frozen water. Brrr!
+item.industry.cell.uranium.name=Uranium Cell
+item.industry.cell.uranium.desc=A cell full of a glowing rock.
+item.industry.cell.depleted.uranium.name=Depleted Uranium Cell
+item.industry.cell.depleted.uranium.desc=An almost empty cell with some glowing pebbles.

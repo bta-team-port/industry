@@ -19,7 +19,11 @@ pluginManagement {
 include(":catalyst")
 include(":catalyst:energy")
 include(":catalyst:fluids")
+include(":btwaila")
+include(":tmb")
 
+project(":tmb").projectDir = file("${rootProject.projectDir}/../TMB")
+project(":btwaila").projectDir = file("${rootProject.projectDir}/../BTWaila")
 project(":catalyst").projectDir = file("${rootProject.projectDir}/../catalyst")
 project(":catalyst:energy").projectDir = file("${project(":catalyst").projectDir}/energy")
 project(":catalyst:fluids").projectDir = file("${project(":catalyst").projectDir}/fluids")

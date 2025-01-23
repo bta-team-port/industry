@@ -49,7 +49,7 @@ public class ItemLogicBatteryBase extends Item implements IElectricItem, ICustom
 
 	@Override
 	public long getCapacity(ItemStack stack) {
-		return 32000;
+		return 10000;
 	}
 
 	@Override

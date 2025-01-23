@@ -39,11 +39,6 @@ public abstract class BlockLogicElectric extends BlockTileEntityRotatable implem
         return tier;
     }
 
-    public static void updateBlockMetadata(World world, int x, int y, int z, boolean active) {
-        int meta = world.getBlockMetadata(x, y, z);
-        world.setBlockMetadataWithNotify(x, y, z, active ? meta + 6 : meta - 6);
-    }
-
     @Override
     public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
         switch (dropCause) {

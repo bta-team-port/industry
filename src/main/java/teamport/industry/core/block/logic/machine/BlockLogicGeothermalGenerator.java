@@ -14,30 +14,24 @@ import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import teamport.industry.Industry;
 import teamport.industry.core.block.IndBlocks;
-import teamport.industry.core.block.entity.TileEntityGenerator;
+import teamport.industry.core.block.entity.TileEntityGeothermalGenerator;
 import teamport.industry.core.block.logic.base.BlockLogicElectric;
 
-/**
- * Block logic for the generator
- * @author Cookie
- * @date 2025-01-14
- */
-public class BlockLogicGenerator extends BlockLogicElectric {
-    public BlockLogicGenerator(String key, int id, VoltageTier tier) {
+public class BlockLogicGeothermalGenerator extends BlockLogicElectric {
+    public BlockLogicGeothermalGenerator(String key, int id, VoltageTier tier) {
         super(key, id, Material.metal, tier);
     }
 
     @Override
     protected TileEntity getNewBlockEntity() {
-        return new TileEntityGenerator();
+        return new TileEntityGeothermalGenerator();
     }
 
-    @Override
     public void onBlockRemoved(@NotNull World world, int x, int y, int z, int data) {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileEntityGenerator) {
-            for (ItemStack stack : ((TileEntityGenerator) tileEntity).invSlots) {
+        if (tileEntity instanceof TileEntityGeothermalGenerator) {
+            for (ItemStack stack : ((TileEntityGeothermalGenerator) tileEntity).invSlots) {
                 if (stack != null) {
                     float randX = world.rand.nextFloat() * 0.8F + 0.1F;
                     float randY = world.rand.nextFloat() * 0.8F + 0.1F;
@@ -78,20 +72,20 @@ public class BlockLogicGenerator extends BlockLogicElectric {
         if (tileEntity == null || tileEntity.isInvalid()) {
             world.setBlockWithNotify(x, y, z, 0);
             Industry.LOGGER.error("Tile entity at {}, {}, {} was null or invalid and has been removed!", x, y, z);
-        } else if (tileEntity instanceof TileEntityGenerator) {
-            Catalyst.displayGui(player, tileEntity, ((TileEntityGenerator) tileEntity).getInvName());
+        } else if (tileEntity instanceof TileEntityGeothermalGenerator) {
+            Catalyst.displayGui(player, tileEntity, ((TileEntityGeothermalGenerator) tileEntity).getInvName());
         }
 
         return true;
     }
 
     @Override
-    public ItemStack[] getBreakResult(World world, @NotNull EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
+    public ItemStack[] getBreakResult(@NotNull World world, @NotNull EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
         switch (dropCause) {
             case SILK_TOUCH:
             case PICK_BLOCK:
             case PROPER_TOOL:
-                return new ItemStack[]{new ItemStack(IndBlocks.GENERATOR)};
+                return new ItemStack[]{new ItemStack(IndBlocks.GEOTHERMAL_GENERATOR)};
             default:
                 return new ItemStack[]{new ItemStack(IndBlocks.MACHINE_BLOCK)};
         }
@@ -99,11 +93,11 @@ public class BlockLogicGenerator extends BlockLogicElectric {
 
     @Override
     public String getDescription(ItemStack stack) {
-        return String.format("%sMax Voltage %sOUT%s: %s%dV %s(%s%s%s)\n%sMax Current Generated: %s%dA\n%sEnergy Capacity: %s%dJ\n",
+        return String.format("%sMax Voltage %sOUT%s: %s%dV %s(%s%s%s)\n%sMax Current Generated: %s%dA\n%sFluid Capacity: %s%dmB\n",
                 TextFormatting.LIGHT_GRAY, TextFormatting.RED, TextFormatting.LIGHT_GRAY,
                 TextFormatting.LIME, tier.maxVoltage, TextFormatting.LIGHT_GRAY, tier.textColor, tier.name(), TextFormatting.LIGHT_GRAY,
                 TextFormatting.LIGHT_GRAY, TextFormatting.ORANGE, 1,
-                TextFormatting.LIGHT_GRAY, TextFormatting.YELLOW, 4000
+                TextFormatting.LIGHT_GRAY, TextFormatting.YELLOW, 20000
         );
     }
 }

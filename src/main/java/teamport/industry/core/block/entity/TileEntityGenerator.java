@@ -12,7 +12,6 @@ import net.minecraft.core.sound.SoundCategory;
 import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
 import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricGenerator;
 import teamport.industry.core.block.logic.base.BlockLogicElectric;
-import teamport.industry.core.block.logic.machine.BlockLogicGenerator;
 
 /**
  * Logic for the generator.
@@ -20,12 +19,10 @@ import teamport.industry.core.block.logic.machine.BlockLogicGenerator;
  * @date 2025-01-20
  */
 public class TileEntityGenerator extends TileEntityElectricGenerator implements IInventory {
-
     public ItemStack[] invSlots = new ItemStack[2];
-
+    public boolean active;
     private int currentBurnTime = 0;
     private int maxBurnTime = 0;
-
     private int soundLoop = 0;
 
     //change properties as you see fit, these are placeholders
@@ -50,6 +47,19 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
 
         boolean isBurning = currentBurnTime > 0;
         boolean hasCapacity = energy < capacity;
+        active = isBurning;
+
+        if (getEnergy() - 10 > 0) {
+            ItemStack stack = invSlots[0];
+            if (stack != null && stack.getItem() instanceof IElectricItem) {
+                IElectricItem batt = (IElectricItem) stack.getItem();
+
+                if (batt.getEnergy(stack) + 10 <= batt.getCapacity(stack)) {
+                    internalRemoveEnergy(10);
+                    batt.charge(stack, 10);
+                }
+            }
+        }
 
         if (isBurning) {
             --currentBurnTime;
@@ -57,25 +67,19 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
 
             if (soundLoop++ <= 0) {
                 worldObj.playSoundEffect(null, SoundCategory.WORLD_SOUNDS, x, y, z, "industry.GeneratorLoop", 0.3f, 1);
+                worldObj.markBlockNeedsUpdate(x, y, z);
             }
         }
 
         if (soundLoop >= 60 || (!isBurning && soundLoop > 0)) {
             soundLoop = 0;
+            worldObj.markBlockNeedsUpdate(x, y, z);
         }
 
         if (worldObj != null && !worldObj.isClientSide) {
-            int meta = worldObj.getBlockMetadata(x, y, z);
-            if (meta <= 5 && isBurning) {
-                BlockLogicGenerator.updateBlockMetadata(worldObj, x, y, z, true);
-                onInventoryChanged();
-            } else if (meta > 5 && !isBurning) {
-                BlockLogicGenerator.updateBlockMetadata(worldObj, x, y, z, false);
-                onInventoryChanged();
-            }
-
             if (!isBurning && hasCapacity) {
                 setBurnTimes(getBurnTimeFromItem(invSlots[1]));
+                onInventoryChanged();
 
                 if (invSlots[1] != null) {
                     if (invSlots[1].getItem() == Item.bucketLava) {
@@ -94,14 +98,7 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
 
     @Override
     public long internalChangeEnergy(long difference) {
-        ItemStack stack = invSlots[0];
-        if (stack == null || !(stack.getItem() instanceof IElectricItem)) {
-            return super.internalChangeEnergy(difference);
-        }
-        IElectricItem batt = (IElectricItem) stack.getItem();
-
-        averageEnergyTransfer.increment(worldObj,difference);
-        return batt.charge(stack, difference);
+        return super.internalChangeEnergy(difference);
     }
 
 
@@ -221,4 +218,7 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
         return getCapacity() == 0 ? 0 : (int) (getEnergy() * i / getCapacity());
     }
 
+    public void setEnergy(int amount) {
+        energy = amount;
+    }
 }

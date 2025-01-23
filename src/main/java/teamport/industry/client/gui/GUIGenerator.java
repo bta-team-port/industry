@@ -16,7 +16,7 @@ import teamport.industry.core.container.ContainerGenerator;
  */
 @Environment(EnvType.CLIENT)
 public class GUIGenerator extends GuiContainer {
-    TileEntityGenerator tileEntity;
+    private final TileEntityGenerator tileEntity;
 
     public GUIGenerator(InventoryPlayer inventory, TileEntityGenerator tileEntity) {
         super(new ContainerGenerator(inventory, tileEntity));

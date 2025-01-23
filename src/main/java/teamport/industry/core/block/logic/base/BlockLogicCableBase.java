@@ -22,11 +22,10 @@ import teamport.industry.core.block.entity.TileEntityCable;
  * @date 2025-01-20
  * @author sunsetsatellite
  */
-public class BlockLogicCable extends BlockTileEntity implements NetworkComponent, IConduitBlock, ISideInteractable {
-
+public class BlockLogicCableBase extends BlockTileEntity implements NetworkComponent, IConduitBlock, ISideInteractable {
     public final WireProperties properties;
 
-    public BlockLogicCable(int id, WireProperties properties) {
+    public BlockLogicCableBase(int id, WireProperties properties) {
         super("null", id, Material.decoration);
         this.properties = properties;
     }
@@ -65,7 +64,7 @@ public class BlockLogicCable extends BlockTileEntity implements NetworkComponent
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         if(!properties.isInsulated()){
             TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-            if(tileEntity instanceof TileEntityElectricConductor){
+            if (tileEntity instanceof TileEntityElectricConductor) {
                 if (((TileEntityElectricConductor) tileEntity).getAverageAmpLoad() > 0) {
                     entity.hurt(null, 2, DamageType.FIRE);
                 }

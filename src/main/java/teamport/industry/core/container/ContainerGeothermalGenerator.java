@@ -1,28 +1,30 @@
 package teamport.industry.core.container;
 
 import net.minecraft.core.InventoryAction;
+import net.minecraft.core.block.Block;
+import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.crafting.ICrafting;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import net.minecraft.core.player.inventory.slot.Slot;
-import teamport.industry.core.block.entity.TileEntityGenerator;
+import sunsetsatellite.catalyst.fluids.util.FluidStack;
+import teamport.industry.core.block.entity.TileEntityGeothermalGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Container for the Generator tile entity
+ * Container for the geothermal generator tile entity
  * @author Cookie
- * @date 2025-01-14
+ * @date 2025-01-22
  */
-public class ContainerGenerator extends Container {
-    private final TileEntityGenerator tileEntity;
-    private int currentBurnTime;
-    private int maxBurnTime;
+public class ContainerGeothermalGenerator extends Container {
+    private final TileEntityGeothermalGenerator tileEntity;
+    private int fluidAmount;
     private int energy;
 
-    public ContainerGenerator(InventoryPlayer inventory, TileEntityGenerator tileEntity) {
+    public ContainerGeothermalGenerator(InventoryPlayer inventory, TileEntityGeothermalGenerator tileEntity) {
         this.tileEntity = tileEntity;
 
         addSlot(new Slot(tileEntity, 0, 65, 17));
@@ -43,34 +45,6 @@ public class ContainerGenerator extends Container {
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return tileEntity.canInteractWith(player);
-    }
-
-    @Override
-    public void updateInventory() {
-        super.updateInventory();
-
-        for(ICrafting crafter : this.crafters) {
-            if (currentBurnTime != tileEntity.getCurrentBurnTime()) {
-                crafter.updateCraftingInventoryInfo(this, 0, tileEntity.getCurrentBurnTime());
-            }
-
-            if (maxBurnTime != tileEntity.getMaxBurnTime()) {
-                crafter.updateCraftingInventoryInfo(this, 1, tileEntity.getMaxBurnTime());
-            }
-
-            if (energy != tileEntity.getEnergy()) {
-                crafter.updateCraftingInventoryInfo(this, 2, (int) tileEntity.getEnergy());
-            }
-        }
-
-        currentBurnTime = tileEntity.getCurrentBurnTime();
-        maxBurnTime = tileEntity.getMaxBurnTime();
-        energy = (int) tileEntity.getEnergy();
-    }
-
-    @Override
     public List<Integer> getMoveSlots(InventoryAction inventoryAction, Slot slot, int i, EntityPlayer entityPlayer) {
         return new ArrayList<>();
     }
@@ -81,12 +55,33 @@ public class ContainerGenerator extends Container {
     }
 
     @Override
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        return tileEntity.canInteractWith(player);
+    }
+
+    @Override
+    public void updateInventory() {
+        super.updateInventory();
+
+        for(ICrafting crafter : crafters) {
+            if (fluidAmount != tileEntity.getCurrentFluidAmount()) {
+                crafter.updateCraftingInventoryInfo(this, 0, tileEntity.getCurrentFluidAmount());
+            }
+
+            if (energy != tileEntity.getEnergy()) {
+                crafter.updateCraftingInventoryInfo(this, 1, (int) tileEntity.getEnergy());
+            }
+        }
+    }
+
+    @Override
     public void updateClientProgressBar(int id, int value) {
-        if (id == 0 || id == 1) {
-            tileEntity.setBurnTimes(value);
+        if (id == 0) {
+            int i = tileEntity.getCurrentFluidAmount();
+            tileEntity.setFluidInSlot(0, new FluidStack((BlockFluid) Block.fluidLavaStill, i));
         }
 
-        if (id == 2) {
+        if (id == 1) {
             tileEntity.setEnergy(value);
         }
     }

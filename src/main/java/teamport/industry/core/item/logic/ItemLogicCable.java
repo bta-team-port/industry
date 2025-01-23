@@ -6,7 +6,7 @@ import net.minecraft.core.net.command.TextFormatting;
 import sunsetsatellite.catalyst.core.util.ICustomDescription;
 import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import sunsetsatellite.catalyst.energy.electric.api.WireMaterial;
-import teamport.industry.core.block.logic.base.BlockLogicCable;
+import teamport.industry.core.block.logic.base.BlockLogicCableBase;
 
 /**
  * Item logic for cables
@@ -15,9 +15,9 @@ import teamport.industry.core.block.logic.base.BlockLogicCable;
  */
 public class ItemLogicCable extends ItemPlaceable implements ICustomDescription {
 
-    public BlockLogicCable cableBlock;
+    public BlockLogicCableBase cableBlock;
 
-    public ItemLogicCable(String name, int id, BlockLogicCable blockToPlace) {
+    public ItemLogicCable(String name, int id, BlockLogicCableBase blockToPlace) {
         super(name, id, blockToPlace);
         this.cableBlock = blockToPlace;
     }
