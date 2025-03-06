@@ -1,3 +1,4 @@
+# Copper Ore
 tile.industry.ore_copper_stone.name=Stone Copper Ore
 tile.industry.ore_copper_stone.desc=Copper nuggets embedded in stone.
 tile.industry.ore_copper_basalt.name=Basalt Copper Ore
@@ -7,6 +8,7 @@ tile.industry.ore_copper_limestone.desc=Copper nuggets embedded in limestone.
 tile.industry.ore_copper_granite.name=Granite Copper Ore
 tile.industry.ore_copper_granite.desc=Copper nuggets embedded in granite.
 
+# Tin Ore
 tile.industry.ore_tin_stone.name=Stone Tin Ore
 tile.industry.ore_tin_stone.desc=Tin nuggets embedded in stone.
 tile.industry.ore_tin_basalt.name=Basalt Tin Ore
@@ -16,6 +18,7 @@ tile.industry.ore_tin_limestone.desc=Tin nuggets embedded in limestone.
 tile.industry.ore_tin_granite.name=Granite Tin Ore
 tile.industry.ore_tin_granite.desc=Tin nuggets embedded in granite.
 
+# Uranium Ore
 tile.industry.ore_uranium_stone.name=Stone Uranium Ore
 tile.industry.ore_uranium_stone.desc=A chunk of uranium embedded in stone.
 tile.industry.ore_uranium_basalt.name=Basalt Uranium Ore
@@ -25,11 +28,21 @@ tile.industry.ore_uranium_limestone.desc=A chunk of uranium embedded in limeston
 tile.industry.ore_uranium_granite.name=Granite Uranium Ore
 tile.industry.ore_uranium_granite.desc=A chunk of uranium embedded in granite.
 
+# Material Blocks
+tile.industry.block.copper.name=Block of Copper
+tile.industry.block.copper.desc=A solid block of copper. Shocking!
+tile.industry.block.tin.name=Block of Tin
+tile.industry.block.tin.desc=A solid block of tin. It's surprisingly light!
+tile.industry.block.bronze.name=Block of Bronze
+tile.industry.block.bronze.desc=A solid block of bronze.
+
+# Cables
 tile.industry.copper_cable.name=Copper Cable
 tile.industry.copper_cable.desc=A length of copper cable.
 tile.industry.insulated_copper_cable.name=Insulated Copper Cable
 tile.industry.insulated_copper_cable.desc=A length of insulated copper cable.
 
+# LV Generators
 tile.industry.machine_block.name=LV Machine Block
 tile.industry.machine_block.desc=A hollow metal box full of circuitry.
 tile.industry.generator.name=Generator
@@ -39,5 +52,10 @@ tile.industry.geogenerator.desc=Generates electricity using lava.
 tile.industry.solar_panel.name=Solar Panel
 tile.industry.solar_panel.desc=Generates electricity from the sun itself.
 
+# LV Machines
+tile.industry.batbox.name=BatBox
+tile.industry.batbox.desc=Simple LV energy storage.
+
+# Pipes
 tile.industry.stone_pipe.name=Stone Pipe
 tile.industry.stone_pipe.desc=Made of stone and capable of moving items and fluid.

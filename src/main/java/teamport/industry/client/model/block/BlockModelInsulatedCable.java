@@ -6,6 +6,7 @@ import net.minecraft.client.render.block.model.BlockModelStandard;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import sunsetsatellite.catalyst.energy.electric.api.IElectric;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricWire;
 
 /**
  * Client model renderer for the insulated cables (6x6)
@@ -23,23 +24,23 @@ public class BlockModelInsulatedCable extends BlockModelStandard<Block> {
         float boundMin = 0.315f;
         float boundMax = 0.685f;
 
-        boolean aPosX = renderBlocks.blockAccess.getBlockId(x + 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectric;
+        boolean aPosX = renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectric ||
+                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectricWire;
 
-        boolean aNegX = renderBlocks.blockAccess.getBlockId(x - 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectric;
+        boolean aNegX = renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectric ||
+                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectricWire;
 
-        boolean aPosY = renderBlocks.blockAccess.getBlockId(x, y + 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectric;
+        boolean aPosY = renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectric ||
+                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectricWire;
 
-        boolean aNegY = renderBlocks.blockAccess.getBlockId(x, y - 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectric;
+        boolean aNegY = renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectric ||
+                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectricWire;
 
-        boolean aPosZ = renderBlocks.blockAccess.getBlockId(x, y, z + 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectric;
+        boolean aPosZ = renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectric ||
+                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectricWire;
 
-        boolean aNegZ = renderBlocks.blockAccess.getBlockId(x, y, z - 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectric;
+        boolean aNegZ = renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectric ||
+                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectricWire;
 
         // If this is set to normal bounds it will visibly z-fight! -Cookie
         block.setBlockBounds(boundMin - 0.0001f,

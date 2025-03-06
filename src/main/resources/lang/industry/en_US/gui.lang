@@ -1,8 +1,9 @@
 industry.gui.generator.label.generator=Generator
 industry.gui.generator.label.inventory=Inventory
-
 industry.gui.solarpanel.label.solarpanel=Solar Panel
 industry.gui.solarpanel.label.inventory=Inventory
-
 industry.gui.geogenerator.label.generator=Geothermal Generator
 industry.gui.geogenerator.label.inventory=Inventory
+
+industry.gui.batbox.label.batbox=BatBox
+industry.gui.batbox.label.inventory=Inventory

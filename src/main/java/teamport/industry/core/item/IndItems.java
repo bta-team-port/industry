@@ -28,10 +28,27 @@ public class IndItems {
     public static final Item RAW_COPPER_ORE;
     public static final Item RAW_TIN_ORE;
     public static final Item RAW_URANIUM;
+
+    public static final Item DUST_COPPER;
+    public static final Item DUST_TIN;
+    public static final Item DUST_COAL;
+    public static final Item DUST_IRON;
+    public static final Item DUST_GOLD;
+    public static final Item DUST_BRONZE;
+    public static final Item DUST_STEEL;
+
+    public static final Item INGOT_COPPER;
+    public static final Item INGOT_TIN;
+    public static final Item INGOT_URANIUM;
+    public static final Item INGOT_BRONZE;
+    public static final Item INGOT_MIXED;
+
     public static final Item COPPER_CABLE;
     public static final Item INSULATED_COPPER_CABLE;
+
     public static final Item WRENCH;
     public static final Item RE_BATTERY;
+
     public static final Item EMPTY_CELL;
     public static final Item WATER_CELL;
     public static final Item LAVA_CELL;
@@ -52,6 +69,48 @@ public class IndItems {
         RAW_URANIUM = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/raw_ore/ore_raw_uranium")
                 .build(new Item("raw_uranium", nextID()));
+
+        DUST_COPPER = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_copper")
+                .build(new Item("dust.copper", nextID()));
+        DUST_TIN = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_tin")
+                .build(new Item("dust.tin", nextID()));
+        DUST_COAL = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_coal")
+                .build(new Item("dust.coal", nextID()));
+        DUST_IRON = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_iron")
+                .build(new Item("dust.iron", nextID()));
+        DUST_GOLD = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_gold")
+                .build(new Item("dust.gold", nextID()));
+        DUST_BRONZE = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_bronze")
+                .build(new Item("dust.bronze", nextID()));
+        DUST_STEEL = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/dust/dust_steel")
+                .build(new Item("dust.steel", nextID()));
+
+        INGOT_COPPER = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/ingot/ingot_copper")
+                .build(new Item("ingot.copper", nextID()));
+
+        INGOT_TIN = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/ingot/ingot_tin")
+                .build(new Item("ingot.tin", nextID()));
+
+        INGOT_URANIUM = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/ingot/ingot_uranium")
+                .build(new Item("ingot.uranium", nextID()));
+
+        INGOT_BRONZE = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/ingot/ingot_bronze")
+                .build(new Item("ingot.bronze", nextID()));
+
+        INGOT_MIXED = new ItemBuilder(MOD_ID)
+                .setIcon("industry:item/ingot/ingot_mixed")
+                .build(new Item("ingot.mixed", nextID()));
 
         COPPER_CABLE = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/cable/copper/copper_raw")

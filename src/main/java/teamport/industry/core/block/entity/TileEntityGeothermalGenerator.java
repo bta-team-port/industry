@@ -1,5 +1,8 @@
 package teamport.industry.core.block.entity;
 
+import com.mojang.nbt.CompoundTag;
+import com.mojang.nbt.IntTag;
+import com.mojang.nbt.ListTag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.block.entity.TileEntity;
@@ -114,7 +117,7 @@ public class TileEntityGeothermalGenerator extends TileEntityElectricGenerator
             }
         }
 
-        if (soundLoop >= 60 || (energy >= capacity && soundLoop > 0)) {
+        if (soundLoop >= 120 || (energy >= capacity && soundLoop > 0)) {
             soundLoop = 0;
             worldObj.markBlockNeedsUpdate(x, y, z);
         }
@@ -486,6 +489,82 @@ public class TileEntityGeothermalGenerator extends TileEntityElectricGenerator
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void writeToNBT(CompoundTag tag) {
+        super.writeToNBT(tag);
+
+        ListTag itemTags = new ListTag();
+        ListTag fluidTags = new ListTag();
+        CompoundTag connectionsTag = new CompoundTag();
+        CompoundTag activeFluidSlotsTag = new CompoundTag();
+        for(int i3 = 0; i3 < this.fluidSlots.length; ++i3) {
+            if(this.fluidSlots[i3] != null && this.fluidSlots[i3].getLiquid() != null) {
+                CompoundTag CompoundTag4 = new CompoundTag();
+                CompoundTag4.putByte("Slot", (byte)i3);
+                this.fluidSlots[i3].writeToNBT(CompoundTag4);
+                fluidTags.addTag(CompoundTag4);
+            }
+        }
+        for (int i = 0; i < invSlots.length; i++) {
+            if (invSlots[i] != null) {
+                CompoundTag slotTag = new CompoundTag();
+
+                slotTag.putInt("Slots", i);
+                invSlots[i].writeToNBT(slotTag);
+                itemTags.addTag(slotTag);
+            }
+        }
+
+        for (Map.Entry<Direction, Integer> entry : activeFluidSlots.entrySet()) {
+            Direction dir = entry.getKey();
+            activeFluidSlotsTag.putInt(String.valueOf(dir.ordinal()),entry.getValue());
+        }
+        for (Map.Entry<Direction, Connection> entry : fluidConnections.entrySet()) {
+            Direction dir = entry.getKey();
+            Connection con = entry.getValue();
+            connectionsTag.putInt(String.valueOf(dir.ordinal()),con.ordinal());
+        }
+
+        tag.putCompound("fluidConnections",connectionsTag);
+        tag.putCompound("fluidActiveSlots",activeFluidSlotsTag);
+        tag.put("Fluids", fluidTags);
+        tag.put("Items", itemTags);
+    }
+
+    @Override
+    public void readFromNBT(CompoundTag tag) {
+        super.readFromNBT(tag);
+
+        ListTag nbtTagList = tag.getList("Fluids");
+        ListTag listTag = tag.getList("Items");
+        this.fluidSlots = new FluidStack[this.getFluidInventorySize()];
+
+        for(int tagCount = 0; tagCount < nbtTagList.tagCount(); ++tagCount) {
+            CompoundTag itemSlots = (CompoundTag)nbtTagList.tagAt(tagCount);
+            int i5 = itemSlots.getByte("Slot") & 255;
+            if(i5 < this.fluidSlots.length) {
+                this.fluidSlots[i5] = new FluidStack(itemSlots);
+            }
+        }
+        for (int i = 0; i < listTag.tagCount(); i++) {
+            CompoundTag slotTag = (CompoundTag) listTag.tagAt(i);
+            int slot = slotTag.getInteger("Slots");
+
+            if (slot >= 0 && slot < invSlots.length)
+                invSlots[slot] = ItemStack.readItemStackFromNbt(slotTag);
+        }
+
+        CompoundTag connectionsTag = tag.getCompound("fluidConnections");
+        for (Object con : connectionsTag.getValues()) {
+            fluidConnections.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],Connection.values()[((IntTag)con).getValue()]);
+        }
+
+        CompoundTag activeFluidSlotsTag = tag.getCompound("fluidActiveSlots");
+        for (Object con : activeFluidSlotsTag.getValues()) {
+            activeFluidSlots.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],((IntTag) con).getValue());
         }
     }
 }

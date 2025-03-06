@@ -39,23 +39,21 @@ public class TileEntitySolarPanel extends TileEntityElectricGenerator implements
     public void tick() {
         super.tick();
 
+        if (getEnergy() - 10 >= 0) {
+            ItemStack stack = invSlots[0];
+            if (stack != null && stack.getItem() instanceof IElectricItem) {
+                IElectricItem batt = (IElectricItem) stack.getItem();
+
+                if (batt.getEnergy(stack) + 10 <= batt.getCapacity(stack)) {
+                    internalRemoveEnergy(10);
+                    batt.charge(stack, 10);
+                }
+            }
+        }
+
         if (isDayAndClear()) {
             internalAddEnergy(1);
         }
-    }
-
-    @Override
-    public long internalChangeEnergy(long difference) {
-        for (ItemStack stack : invSlots) {
-            if (stack == null || !(stack.getItem() instanceof IElectricItem)) {
-                continue;
-            }
-            IElectricItem batt = (IElectricItem) stack.getItem();
-
-            averageEnergyTransfer.increment(worldObj,difference);
-            return batt.charge(stack, difference);
-        }
-        return super.internalChangeEnergy(difference);
     }
 
     @Override

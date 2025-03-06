@@ -15,6 +15,7 @@ import java.util.Random;
 
 public class TileEntityCable extends TileEntityElectricConductor implements IVoltageHealth {
 	private int health = 100;
+	private final Random rand = new Random();
 
 	@Override
 	public void init(Block block) {
@@ -45,14 +46,15 @@ public class TileEntityCable extends TileEntityElectricConductor implements IVol
 
 	@Override
 	public void industry$modifyHealth(int amount) {
-		health += amount;
+		if (health + amount <= 100) {
+			health += amount;
+		}
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		Random rand = worldObj.rand;
 		if (industry$getHealth() <= 50 && industry$getHealth() > 0) {
 			for(int i = 0; i < 3; ++i) {
 				double dX = (double)x + (double)rand.nextFloat();

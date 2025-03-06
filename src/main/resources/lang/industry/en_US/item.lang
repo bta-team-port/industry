@@ -1,3 +1,4 @@
+# Raw Ores
 item.industry.raw_copper_ore.name=Raw Copper Ore
 item.industry.raw_copper_ore.desc=A chunk of unprocessed copper. Can be smelted into a copper ingot.
 item.industry.raw_tin_ore.name=Raw Copper Ore
@@ -5,17 +6,49 @@ item.industry.raw_tin_ore.desc=A chunk of unprocessed tin. Can be smelted into a
 item.industry.raw_uranium.name=Raw Uranium
 item.industry.raw_uranium.desc=A chunk of unprocessed uranium. Can be compressed into a uranium ingot.
 
+# Dusts
+item.industry.dust.copper.name=Copper Dust
+item.industry.dust.copper.desc=A pile of macerated copper. Can be smelted into a copper ingot.
+item.industry.dust.tin.name=Tin Dust
+item.industry.dust.tin.desc=A pile of macerated tin. Can be smelted into a tin ingot.
+item.industry.dust.coal.name=Coal Dust
+item.industry.dust.coal.desc=A pile of macerated coal.
+item.industry.dust.iron.name=Iron Dust
+item.industry.dust.iron.desc=A pile of macerated iron. Can be smelted into an iron ingot.
+item.industry.dust.gold.name=Gold Dust
+item.industry.dust.gold.desc=A pile of macerated gold. Can be smelted into a gold ingot.
+item.industry.dust.bronze.name=Bronze Dust
+item.industry.dust.bronze.desc=A pile of copper and tin mixed together into a dust. Can be smelted into a bronze ingot.
+item.industry.dust.steel.name=Steel Dust
+item.industry.dust.steel.desc=A pile of iron and carbon mixed together into a dust. Can be smelted into a steel ingot.
+
+# Ingots
+item.industry.ingot.copper.name=Copper Ingot
+item.industry.ingot.copper.desc=A metal bar of copper used for electricity.
+item.industry.ingot.tin.name=Tin Ingot
+item.industry.ingot.tin.desc=A metal bar of tin used to make casings.
+item.industry.ingot.uranium.name=Uranium Ingot
+item.industry.ingot.uranium.desc=A metal bar of uranium that glows elegantly.
+item.industry.ingot.bronze.name=Bronze Ingot
+item.industry.ingot.bronze.desc=Tin and Copper fused together into an alloy.
+item.industry.ingot.mixed.name=Mixed Metal Ingot
+item.industry.ingot.mixed.desc=Steel, Bronze, and Tin put together and ready to be alloyed.
+
+# Cables
 item.industry.copper_cable.name=Copper Cable
 item.industry.copper_cable.desc=A length of copper cable.
 item.industry.insulated_copper_cable.name=Insulated Copper Cable
 item.industry.insulated_copper_cable.desc=A length of insulated copper cable.
 
+# Tools
 item.industry.wrench.name=Wrench
 item.industry.wrench.desc=A bronze wrench that's able to disassemble machines.
 
+# Batteries
 item.industry.re.battery.name=RE Battery
-item.industry.re.battery.desc=A rechargeable tin casing full of redstone.
+item.industry.re.battery.desc=A tin casing full of rechargeable redstone.
 
+# Cells
 item.industry.cell.empty.name=Empty Cell
 item.industry.cell.empty.desc=Used to hold various fluids once.
 item.industry.cell.water.name=Water Cell

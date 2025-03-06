@@ -3,52 +3,32 @@ package teamport.industry.core.block.entity;
 import com.mojang.nbt.CompoundTag;
 import com.mojang.nbt.ListTag;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.crafting.LookupFuelFurnace;
 import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
-import net.minecraft.core.sound.SoundCategory;
+import org.jetbrains.annotations.NotNull;
+import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
-import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricGenerator;
 import teamport.industry.core.block.logic.base.BlockLogicElectric;
 
 /**
- * Logic for the generator.
- * @author sunsetsatellite
- * @date 2025-01-20
+ * Logic for the batbox
+ * @author Cookie
+ * @date 2025-01-23
  */
-public class TileEntityGenerator extends TileEntityElectricGenerator implements IInventory {
+public class TileEntityBatBox extends TileEntityMachine implements IInventory {
     public ItemStack[] invSlots = new ItemStack[2];
-    public boolean active;
-    private int currentBurnTime = 0;
-    private int maxBurnTime = 0;
-    private int soundLoop = 0;
 
-    //change properties as you see fit, these are placeholders
     @Override
     public void init(Block block) {
         super.init(block);
-        maxAmpsOut = 1;
-        maxAmpsIn = 0;
-        maxVoltageIn = 0;
         maxVoltageOut = getTier((BlockLogicElectric) block).maxVoltage;
-        capacity = 4000;
-        ampsUsing = 0;
-    }
-
-    @Override
-    public void onOvervoltage(long voltage) {
-        //kaboom goes here
+        capacity = 40000;
     }
 
     @Override
     public void tick() {
         super.tick();
-
-        boolean isBurning = currentBurnTime > 0;
-        boolean hasCapacity = energy < capacity;
-        active = isBurning;
 
         if (getEnergy() - 10 >= 0) {
             ItemStack stack = invSlots[0];
@@ -62,46 +42,32 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
             }
         }
 
-        if (isBurning) {
-            --currentBurnTime;
-            internalAddEnergy(3);
+        if (getEnergy() + 10 <= getCapacity()) {
+            ItemStack stack = invSlots[1];
+            if (stack != null && stack.getItem() instanceof IElectricItem) {
+                IElectricItem batt = (IElectricItem) stack.getItem();
 
-            if (soundLoop++ <= 0) {
-                worldObj.playSoundEffect(null, SoundCategory.WORLD_SOUNDS, x, y, z, "industry.GeneratorLoop", 0.3f, 1);
-                worldObj.markBlockNeedsUpdate(x, y, z);
-            }
-        }
-
-        if (soundLoop >= 60 || (!isBurning && soundLoop > 0)) {
-            soundLoop = 0;
-            worldObj.markBlockNeedsUpdate(x, y, z);
-        }
-
-        if (worldObj != null && !worldObj.isClientSide) {
-            if (!isBurning && hasCapacity) {
-                setBurnTimes(getBurnTimeFromItem(invSlots[1]));
-                onInventoryChanged();
-
-                if (invSlots[1] != null) {
-                    if (invSlots[1].getItem() == Item.bucketLava) {
-                        invSlots[1] = new ItemStack(Item.bucket);
-                    } else if (getBurnTimeFromItem(invSlots[1]) > 0){
-                        --invSlots[1].stackSize;
-
-                        if (invSlots[1].stackSize <= 0) {
-                            invSlots[1] = null;
-                        }
-                    }
+                if (batt.getEnergy(stack) - 10 >= 0) {
+                    internalAddEnergy(10);
+                    batt.discharge(stack, 10);
                 }
             }
         }
     }
 
-    @Override
-    public long internalChangeEnergy(long difference) {
-        return super.internalChangeEnergy(difference);
+    public int getEnergyScaled(int i) {
+        return getCapacity() == 0 ? 0 : (int) (getEnergy() * i / getCapacity());
     }
 
+    @Override
+    public boolean canReceive(@NotNull Direction dir) {
+        return dir == Direction.Y_POS || dir == Direction.Y_NEG;
+    }
+
+    @Override
+    public boolean canProvide(@NotNull Direction dir) {
+        return dir != Direction.Y_POS && dir != Direction.Y_NEG;
+    }
 
     @Override
     public int getSizeInventory() {
@@ -143,7 +109,7 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
 
     @Override
     public String getInvName() {
-        return "Industry_Generator";
+        return "Industry_BatBox";
     }
 
     @Override
@@ -164,7 +130,6 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
     @Override
     public void writeToNBT(CompoundTag tag) {
         super.writeToNBT(tag);
-        tag.putInt("BurnTimes", currentBurnTime);
 
         ListTag listTag = new ListTag();
         for (int i = 0; i < invSlots.length; i++) {
@@ -184,7 +149,6 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
         super.readFromNBT(tag);
         ListTag listTag = tag.getList("Items");
         invSlots = new ItemStack[getSizeInventory()];
-        maxBurnTime = currentBurnTime = tag.getInteger("BurnTimes");
 
         for (int i = 0; i < listTag.tagCount(); i++) {
             CompoundTag slotTag = (CompoundTag) listTag.tagAt(i);
@@ -193,36 +157,6 @@ public class TileEntityGenerator extends TileEntityElectricGenerator implements 
             if (slot >= 0 && slot < invSlots.length) {
                 invSlots[slot] = ItemStack.readItemStackFromNbt(slotTag);
             }
-        }
-    }
-
-    public int getCurrentBurnTime() {
-        return currentBurnTime;
-    }
-
-    public int getMaxBurnTime() {
-        return maxBurnTime;
-    }
-
-    public void setBurnTimes(int burnTimes) {
-        maxBurnTime = currentBurnTime = burnTimes;
-    }
-
-    private int getBurnTimeFromItem(ItemStack itemStack) {
-        return itemStack == null ? 0 : LookupFuelFurnace.instance.getFuelYield(itemStack.getItem().id);
-    }
-
-    public int getRemainingBurnTimeScaled(int i) {
-        return this.maxBurnTime == 0 ? 0 : this.currentBurnTime * i / this.maxBurnTime;
-    }
-
-    public int getEnergyScaled(int i) {
-        return getCapacity() == 0 ? 0 : (int) (getEnergy() * i / getCapacity());
-    }
-
-    public void setEnergy(int amount) {
-        if (amount <= getCapacity()) {
-            energy = amount;
         }
     }
 }
