@@ -10,7 +10,7 @@ import sunsetsatellite.catalyst.energy.electric.api.IElectricWire;
 
 /**
  * Client model renderer for the raw cables (4x4)
- * @author Cookie
+ * @author Cookie, sunsetsatellite
  * @date 2024-12-24
  */
 @Environment(EnvType.CLIENT)
@@ -21,62 +21,63 @@ public class BlockModelCable extends BlockModelStandard<Block> {
 
     @Override
     public boolean render(Tessellator tessellator, int x, int y, int z) {
-        float boundMin = 0.375f;
-        float boundMax = 0.625f;
+        float width = 0.375f;
 
-        boolean aPosX = renderBlocks.blockAccess.getBlockId(x + 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectric ||
+        float halfWidth = (1.0F - width) / 2.0F;
+
+        boolean aPosX = renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectric ||
                 renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectricWire;
 
-        boolean aNegX = renderBlocks.blockAccess.getBlockId(x - 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectric ||
+        boolean aNegX = renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectric ||
                 renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectricWire;
 
-        boolean aPosY = renderBlocks.blockAccess.getBlockId(x, y + 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectric ||
+        boolean aPosY = renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectric ||
                 renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectricWire;
 
-        boolean aNegY = renderBlocks.blockAccess.getBlockId(x, y - 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectric ||
+        boolean aNegY = renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectric ||
                 renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectricWire;
 
-        boolean aPosZ = renderBlocks.blockAccess.getBlockId(x, y, z + 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectric ||
+        boolean aPosZ = renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectric ||
                 renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectricWire;
 
-        boolean aNegZ = renderBlocks.blockAccess.getBlockId(x, y, z - 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectric ||
+        boolean aNegZ = renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectric ||
                 renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectricWire;
 
-        // If this is set to normal bounds it will visibly z-fight! -Cookie
-        block.setBlockBounds(boundMin - 0.0001f,
-                boundMin - 0.0001f,
-                boundMin - 0.0001f,
-                boundMax + 0.0001f,
-                boundMax + 0.0001f,
-                boundMax + 0.0001f);
+        block.setBlockBounds(halfWidth, halfWidth, halfWidth, halfWidth + width, halfWidth + width, halfWidth + width);
 
         renderStandardBlock(tessellator, block, x, y, z);
 
-        if (aPosX || aNegX) {
-            block.setBlockBounds(0.5f + (aNegX ? -0.5f : 0), boundMin, boundMin,
-                    0.5f + (aPosX ? 0.5f : 0), boundMax, boundMax);
+        if(aPosX){
+            block.setBlockBounds(halfWidth + width, halfWidth, halfWidth, 1.0F, halfWidth + width, halfWidth + width);
             renderStandardBlock(tessellator, block, x, y, z);
         }
 
-        if (aPosY || aNegY) {
-            block.setBlockBounds(boundMin, 0.5f + (aNegY ? -0.5f : 0), boundMin,
-                    boundMax, 0.5f + (aPosY ? 0.5f : 0), boundMax);
+        if(aNegX){
+            block.setBlockBounds(0.0F, halfWidth, halfWidth, halfWidth, halfWidth + width, halfWidth + width);
             renderStandardBlock(tessellator, block, x, y, z);
         }
 
-        if (aPosZ || aNegZ) {
-            block.setBlockBounds(boundMin, boundMin, 0.5f + (aNegZ ? -0.5f : 0),
-                    boundMax, boundMax, 0.5f + (aPosZ ? 0.5f : 0));
+        if(aPosY){
+            block.setBlockBounds(halfWidth, halfWidth + width, halfWidth, halfWidth + width, 1.0F, halfWidth + width);
             renderStandardBlock(tessellator, block, x, y, z);
         }
 
-        block.setBlockBounds(0.15f, 0.15f, 0.15f, 0.85f, 0.85f, 0.85f);
+        if(aNegY){
+            block.setBlockBounds(halfWidth, 0.0F, halfWidth, halfWidth + width, halfWidth, halfWidth + width);
+            renderStandardBlock(tessellator, block, x, y, z);
+        }
+
+        if(aPosZ){
+            block.setBlockBounds(halfWidth, halfWidth, halfWidth + width, halfWidth + width, halfWidth + width, 1.0F);
+            renderStandardBlock(tessellator, block, x, y, z);
+        }
+
+        if(aNegZ){
+            block.setBlockBounds(halfWidth, halfWidth, 0.0F, halfWidth + width, halfWidth + width, halfWidth);
+            renderStandardBlock(tessellator, block, x, y, z);
+        }
+
+        block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
         return true;
     }
