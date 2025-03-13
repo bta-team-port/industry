@@ -6,25 +6,29 @@ import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.InventoryPlayer;
 import net.minecraft.core.player.inventory.slot.Slot;
-import teamport.industry.core.block.entity.TileEntityBatBox;
+import net.minecraft.core.player.inventory.slot.SlotFurnace;
+import teamport.industry.core.block.entity.TileEntityMacerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Container for the batbox tile entity
+ * Container for the macerator tile entity
  * @author Cookie
- * @date 2025-01-23
+ * @date 2025-03-10
  */
-public class ContainerBatBox extends Container {
-    private final TileEntityBatBox tileEntity;
+public class ContainerMacerator extends Container {
+    TileEntityMacerator tileEntity;
     private int energy;
+    private int machineTime;
 
-    public ContainerBatBox(InventoryPlayer inventory, TileEntityBatBox tileEntity) {
+    public ContainerMacerator(InventoryPlayer inventory, TileEntityMacerator tileEntity) {
         this.tileEntity = tileEntity;
 
-        addSlot(new Slot(tileEntity, 0, 65, 17));
-        addSlot(new Slot(tileEntity, 1, 65, 53));
+        // 0 - input, 1 - battery, 2 - output
+        addSlot(new Slot(tileEntity, 0, 56, 17));
+        addSlot(new Slot(tileEntity, 1, 56, 53));
+        addSlot(new SlotFurnace(inventory.player, tileEntity, 2, 116, 35));
 
         // PLAYER INVENTORY //
         // Main Inventory
@@ -48,6 +52,10 @@ public class ContainerBatBox extends Container {
             if (energy != tileEntity.getEnergy()) {
                 crafter.updateCraftingInventoryInfo(this, 0, (int) tileEntity.getEnergy());
             }
+
+            if (machineTime != tileEntity.getMachineTime()) {
+                crafter.updateCraftingInventoryInfo(this, 1, tileEntity.getMachineTime());
+            }
         }
     }
 
@@ -55,6 +63,10 @@ public class ContainerBatBox extends Container {
     public void updateClientProgressBar(int id, int value) {
         if (id == 0) {
             tileEntity.setEnergy(value);
+        }
+
+        if (id == 1) {
+            tileEntity.setMachineTime(value);
         }
     }
 

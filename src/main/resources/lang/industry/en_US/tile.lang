@@ -55,6 +55,8 @@ tile.industry.solar_panel.desc=Generates electricity from the sun itself.
 # LV Machines
 tile.industry.batbox.name=BatBox
 tile.industry.batbox.desc=Simple LV energy storage.
+tile.industry.macerator.name=Macerator
+tile.industry.macerator.desc=Crushes and doubles your ores into fine dust.
 
 # Pipes
 tile.industry.stone_pipe.name=Stone Pipe

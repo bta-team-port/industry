@@ -1,10 +1,10 @@
 # Raw Ores
-item.industry.raw_copper_ore.name=Raw Copper Ore
-item.industry.raw_copper_ore.desc=A chunk of unprocessed copper. Can be smelted into a copper ingot.
-item.industry.raw_tin_ore.name=Raw Copper Ore
-item.industry.raw_tin_ore.desc=A chunk of unprocessed tin. Can be smelted into a tin ingot.
-item.industry.raw_uranium.name=Raw Uranium
-item.industry.raw_uranium.desc=A chunk of unprocessed uranium. Can be compressed into a uranium ingot.
+item.industry.raw.copper.name=Raw Copper Ore
+item.industry.raw.copper.desc=A chunk of unprocessed copper. Can be smelted into a copper ingot.
+item.industry.raw.tin.name=Raw Tin Ore
+item.industry.raw.tin.desc=A chunk of unprocessed tin. Can be smelted into a tin ingot.
+item.industry.raw.uranium.name=Raw Uranium
+item.industry.raw.uranium.desc=A chunk of unprocessed uranium. Can be compressed into a uranium ingot.
 
 # Dusts
 item.industry.dust.copper.name=Copper Dust

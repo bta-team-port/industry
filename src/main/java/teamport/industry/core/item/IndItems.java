@@ -60,15 +60,15 @@ public class IndItems {
     static {
         RAW_COPPER_ORE = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/raw_ore/ore_raw_copper")
-                .build(new Item("raw_copper_ore", nextID()));
+                .build(new Item("raw.copper", nextID()));
 
         RAW_TIN_ORE = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/raw_ore/ore_raw_tin")
-                .build(new Item("raw_tin_ore", nextID()));
+                .build(new Item("raw.tin", nextID()));
 
         RAW_URANIUM = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/raw_ore/ore_raw_uranium")
-                .build(new Item("raw_uranium", nextID()));
+                .build(new Item("raw.uranium", nextID()));
 
         DUST_COPPER = new ItemBuilder(MOD_ID)
                 .setIcon("industry:item/dust/dust_copper")

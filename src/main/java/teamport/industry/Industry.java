@@ -10,6 +10,7 @@ import teamport.industry.core.IndWireProperties;
 import teamport.industry.core.block.IndBlockTags;
 import teamport.industry.core.block.IndBlocks;
 import teamport.industry.core.item.IndItems;
+import teamport.industry.core.recipe.IndRecipes;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
 public class Industry implements ModInitializer, GameStartEntrypoint {

@@ -5,8 +5,10 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.block.model.BlockModelStandard;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.util.helper.Direction;
 import sunsetsatellite.catalyst.energy.electric.api.IElectric;
 import sunsetsatellite.catalyst.energy.electric.api.IElectricWire;
+import teamport.industry.core.block.logic.base.BlockLogicCableBase;
 
 /**
  * Client model renderer for the raw cables (4x4)
@@ -14,69 +16,88 @@ import sunsetsatellite.catalyst.energy.electric.api.IElectricWire;
  * @date 2024-12-24
  */
 @Environment(EnvType.CLIENT)
-public class BlockModelCable extends BlockModelStandard<Block> {
+public class BlockModelCable extends BlockModelStandard<BlockLogicCableBase> {
     public BlockModelCable(Block block) {
         super(block);
     }
 
     @Override
     public boolean render(Tessellator tessellator, int x, int y, int z) {
-        float boundMin = 0.375f;
-        float boundMax = 0.625f;
+        float width = 0.125F;
+        float halfWidth = (1.0F - width) / 2.0F;
 
-        boolean aPosX = renderBlocks.blockAccess.getBlockId(x + 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectric ||
-                renderBlocks.blockAccess.getBlockTileEntity(x + 1, y, z) instanceof IElectricWire;
+        boolean connectNorth = block.canConnectTo(renderBlocks.blockAccess,
+                x + Direction.NORTH.getOffsetX(),
+                y + Direction.NORTH.getOffsetY(),
+                z + Direction.NORTH.getOffsetZ());
 
-        boolean aNegX = renderBlocks.blockAccess.getBlockId(x - 1, y, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectric ||
-                renderBlocks.blockAccess.getBlockTileEntity(x - 1, y, z) instanceof IElectricWire;
+        boolean connectSouth = block.canConnectTo(renderBlocks.blockAccess,
+                x + Direction.SOUTH.getOffsetX(),
+                y + Direction.SOUTH.getOffsetY(),
+                z + Direction.SOUTH.getOffsetZ());
 
-        boolean aPosY = renderBlocks.blockAccess.getBlockId(x, y + 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectric ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y + 1, z) instanceof IElectricWire;
+        boolean connectEast = block.canConnectTo(renderBlocks.blockAccess,
+                x + Direction.EAST.getOffsetX(),
+                y + Direction.EAST.getOffsetY(),
+                z + Direction.EAST.getOffsetZ());
 
-        boolean aNegY = renderBlocks.blockAccess.getBlockId(x, y - 1, z) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectric ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y - 1, z) instanceof IElectricWire;
+        boolean connectWest = block.canConnectTo(renderBlocks.blockAccess,
+                x + Direction.WEST.getOffsetX(),
+                y + Direction.WEST.getOffsetY(),
+                z + Direction.WEST.getOffsetZ());
 
-        boolean aPosZ = renderBlocks.blockAccess.getBlockId(x, y, z + 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectric ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z + 1) instanceof IElectricWire;
+        boolean connectUp = block.canConnectTo(renderBlocks.blockAccess,
+                x + Direction.UP.getOffsetX(),
+                y + Direction.UP.getOffsetY(),
+                z + Direction.UP.getOffsetZ());
 
-        boolean aNegZ = renderBlocks.blockAccess.getBlockId(x, y, z - 1) == block.id ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectric ||
-                renderBlocks.blockAccess.getBlockTileEntity(x, y, z - 1) instanceof IElectricWire;
+        boolean connectDown = block.canConnectTo(renderBlocks.blockAccess,
+                x + Direction.DOWN.getOffsetX(),
+                y + Direction.DOWN.getOffsetY(),
+                z + Direction.DOWN.getOffsetZ());
 
-        // If this is set to normal bounds it will visibly z-fight! -Cookie
-        block.setBlockBounds(boundMin - 0.0001f,
-                boundMin - 0.0001f,
-                boundMin - 0.0001f,
-                boundMax + 0.0001f,
-                boundMax + 0.0001f,
-                boundMax + 0.0001f);
-
+        // Base bounds
+        block.setBlockBounds(halfWidth, halfWidth, halfWidth,
+                halfWidth + width, halfWidth + width, halfWidth + width);
         renderStandardBlock(tessellator, block, x, y, z);
 
-        if (aPosX || aNegX) {
-            block.setBlockBounds(0.5f + (aNegX ? -0.5f : 0), boundMin, boundMin,
-                    0.5f + (aPosX ? 0.5f : 0), boundMax, boundMax);
+        // Connection bounds
+        if (connectEast) {
+            block.setBlockBounds(halfWidth + width, halfWidth, halfWidth,
+                    1.0F, halfWidth + width, halfWidth + width);
             renderStandardBlock(tessellator, block, x, y, z);
         }
 
-        if (aPosY || aNegY) {
-            block.setBlockBounds(boundMin, 0.5f + (aNegY ? -0.5f : 0), boundMin,
-                    boundMax, 0.5f + (aPosY ? 0.5f : 0), boundMax);
+        if (connectWest) {
+            block.setBlockBounds(0.0F, halfWidth, halfWidth,
+                    halfWidth, halfWidth + width, halfWidth + width);
             renderStandardBlock(tessellator, block, x, y, z);
         }
 
-        if (aPosZ || aNegZ) {
-            block.setBlockBounds(boundMin, boundMin, 0.5f + (aNegZ ? -0.5f : 0),
-                    boundMax, boundMax, 0.5f + (aPosZ ? 0.5f : 0));
+        if (connectUp) {
+            block.setBlockBounds(halfWidth, halfWidth + width, halfWidth,
+                    halfWidth + width, 1.0F, halfWidth + width);
             renderStandardBlock(tessellator, block, x, y, z);
         }
 
-        block.setBlockBounds(0.15f, 0.15f, 0.15f, 0.85f, 0.85f, 0.85f);
+        if (connectDown) {
+            block.setBlockBounds(halfWidth, 0.0F, halfWidth,
+                    halfWidth + width, halfWidth, halfWidth + width);
+            renderStandardBlock(tessellator, block, x, y, z);
+        }
+
+        if (connectSouth) {
+            block.setBlockBounds(halfWidth, halfWidth, halfWidth + width,
+                    halfWidth + width, halfWidth + width, 1.0F);
+            renderStandardBlock(tessellator, block, x, y, z);
+        }
+
+        if (connectNorth) {
+            block.setBlockBounds(halfWidth, halfWidth, 0.0F, halfWidth + width, halfWidth + width, halfWidth);
+            renderStandardBlock(tessellator, block, x, y, z);
+        }
+
+        block.setBlockBounds(0.25f, 0.25f, 0.25f, 0.75f, 0.75f, 0.75f);
 
         return true;
     }

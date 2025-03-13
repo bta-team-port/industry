@@ -91,15 +91,6 @@ public class TileEntityMachine extends TileEntityElectricBase implements IVoltag
                         long voltage = dest.getMaxOutputVoltage();
                         amperage = Math.min(amperage, (dest.getMaxOutputAmperage() - dest.getAmpsCurrentlyUsed()));
                         //calculate path loss
-                        for (NetworkComponentTile component : path.path) {
-                            if(component instanceof TileEntityElectricConductor){
-                                pathLoss += ((TileEntityElectricConductor) component).getProperties().getMaterial().getLossPerBlock();
-                            }
-                        }
-                        if (pathLoss >= voltage) {
-                            //avoid paths where all energy is lost
-                            continue;
-                        }
                         //voltage drop
                         long pathVoltage = voltage - pathLoss;
                         boolean pathBroken = false;

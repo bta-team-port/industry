@@ -1,0 +1,438 @@
+[
+  {
+    "name": "industry:macerator/copper_ores_to_raw_copper",
+    "type": "industry:macerator",
+    "input": {
+      "group": "industry:copper_ores"
+    },
+    "output": {
+      "key": "item.industry.raw.copper",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/tin_ores_to_raw_tin",
+    "type": "industry:macerator",
+    "input": {
+      "group": "industry:tin_ores"
+    },
+    "output": {
+      "key": "item.industry.raw.tin",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/uranium_ores_to_raw_uranium",
+    "type": "industry:macerator",
+    "input": {
+      "group": "industry:uranium_ores"
+    },
+    "output": {
+      "key": "item.industry.raw.uranium",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/coal_ores_to_coal",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:coal_ores"
+    },
+    "output": {
+      "key": "item.coal",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/iron_ores_to_raw_iron",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:iron_ores"
+    },
+    "output": {
+      "key": "item.ore.raw.iron",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/gold_ores_to_raw_gold",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:gold_ores"
+    },
+    "output": {
+      "key": "item.ore.raw.gold",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/diamond_ores_to_diamond",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:diamond_ores"
+    },
+    "output": {
+      "key": "item.diamond",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/redstone_ores_to_redstone_dust",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:redstone_ores"
+    },
+    "output": {
+      "key": "item.dust.redstone",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/lapis_ores_to_lapis_lazuli",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:lapis_ores"
+    },
+    "output": {
+      "key": "item.dye",
+      "amount": 2,
+      "meta": 4
+    }
+  },
+  {
+    "name": "industry:macerator/nethercoal_ores_to_nethercoal",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:nethercoal_ores"
+    },
+    "output": {
+      "key": "item.nethercoal",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/raw_copper_to_copper_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.industry.raw.copper",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.copper",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/raw_tin_to_tin_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.industry.raw.tin",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.tin",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/coal_to_coal_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.coal",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.coal",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/nethercoal_to_coal_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.nethercoal",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.coal",
+      "amount": 4,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/raw_iron_to_iron_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.ore.raw.iron",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.iron",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/raw_gold_to_gold_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.ore.raw.gold",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.gold",
+      "amount": 2,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/copper_ingot_to_copper_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.industry.ingot.copper",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.copper",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/tin_ingot_to_tin_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.industry.ingot.tin",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.tin",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/iron_ingot_to_iron_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.ingot.iron",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.iron",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/gold_ingot_to_gold_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.ingot.gold",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.gold",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/bronze_ingot_to_bronze_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.industry.ingot.bronze",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.bronze",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/steel_ingot_to_steel_dust",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.ingot.steel",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.industry.dust.steel",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/gravel_to_flint",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "tile.gravel",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.flint",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/stone_to_cobblestone",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "tile.stone",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "tile.cobble.stone",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/basalt_to_cobbled_basalt",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "tile.basalt",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "tile.cobble.basalt",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/limestone_to_cobbled_limestone",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "tile.limestone",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "tile.cobble.limestone",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/granite_to_cobbled_granite",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "tile.granite",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "tile.cobble.granite",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/permafrost_to_cobbled_permafrost",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "tile.permafrost",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "tile.cobble.permafrost",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/cobblestones_to_sand",
+    "type": "industry:macerator",
+    "input": {
+      "group": "minecraft:cobblestones"
+    },
+    "output": {
+      "key": "tile.sand",
+      "amount": 1,
+      "meta": 0
+    }
+  },
+  {
+    "name": "industry:macerator/bone_to_bonemeal",
+    "type": "industry:macerator",
+    "input": {
+      "stack": {
+        "key": "item.bone",
+        "amount": 1,
+        "meta": 0
+      }
+    },
+    "output": {
+      "key": "item.dye",
+      "amount": 5,
+      "meta": 15
+    }
+  }
+]

@@ -8,31 +8,19 @@ import net.minecraft.core.sound.BlockSounds;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.MpGuiEntry;
 import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
-import teamport.industry.client.gui.GUIBatBox;
-import teamport.industry.client.gui.GUIGenerator;
-import teamport.industry.client.gui.GUIGeothermalGenerator;
-import teamport.industry.client.gui.GUISolarPanel;
-import teamport.industry.client.model.block.BlockModelCable;
-import teamport.industry.client.model.block.BlockModelGenerator;
-import teamport.industry.client.model.block.BlockModelGeothermalGenerator;
-import teamport.industry.client.model.block.BlockModelInsulatedCable;
+import teamport.industry.client.gui.*;
+import teamport.industry.client.model.block.*;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.IndWireProperties;
 import teamport.industry.core.block.entity.*;
 import teamport.industry.core.block.logic.base.BlockLogicCableBase;
 import teamport.industry.core.block.logic.cable.BlockLogicCableCopper;
 import teamport.industry.core.block.logic.cable.BlockLogicCableInsulatedCopper;
-import teamport.industry.core.block.logic.machine.BlockLogicBatBox;
-import teamport.industry.core.block.logic.machine.BlockLogicGenerator;
-import teamport.industry.core.block.logic.machine.BlockLogicGeothermalGenerator;
-import teamport.industry.core.block.logic.machine.BlockLogicSolarPanel;
+import teamport.industry.core.block.logic.machine.*;
 import teamport.industry.core.block.logic.ore.BlockLogicCopperOre;
 import teamport.industry.core.block.logic.ore.BlockLogicTinOre;
 import teamport.industry.core.block.logic.ore.BlockLogicUraniumOre;
-import teamport.industry.core.container.ContainerBatBox;
-import teamport.industry.core.container.ContainerGenerator;
-import teamport.industry.core.container.ContainerGeothermalGenerator;
-import teamport.industry.core.container.ContainerSolarPanel;
+import teamport.industry.core.container.*;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
 
@@ -77,6 +65,8 @@ public class IndBlocks {
     public static final Block SOLAR_PANEL;
 
     public static final Block BATBOX;
+
+    public static final Block MACERATOR;
 
     static {
         // BUILDERS //
@@ -218,6 +208,20 @@ public class IndBlocks {
                 .setSideTextures("industry:block/batbox/front")
                 .build(new BlockLogicBatBox("batbox", nextID(), VoltageTier.LV));
 
+        MACERATOR = new BlockBuilder(MOD_ID)
+                .setBlockModel(b -> new BlockModelMacerator(b,
+                        "industry:block/machine/macerator/idle_top",
+                        "industry:block/machine/macerator/active_top"))
+                .setBlockSound(BlockSounds.METAL)
+                .setHardness(3.5f)
+                .setTags(IndBlockTags.REQUIRES_WRENCH)
+                .setBottomTexture("industry:block/machine/macerator/bottom")
+                .setEastWestTextures("industry:block/machine/macerator/side")
+                .setNorthTexture("industry:block/machine/macerator/front")
+                .setSouthTexture("industry:block/machine/macerator/side")
+                .setTopTexture("industry:block/machine/macerator/idle_top")
+                .build(new BlockLogicMacerator("macerator", nextID(), VoltageTier.LV));
+
         // MINING LEVELS //
         ItemToolPickaxe.miningLevels.put(ORE_COPPER_STONE, 1);
         ItemToolPickaxe.miningLevels.put(ORE_COPPER_BASALT, 1);
@@ -243,6 +247,7 @@ public class IndBlocks {
         EntityHelper.createTileEntity(TileEntityGeothermalGenerator.class, "Industry_GeothermalGenerator");
         EntityHelper.createTileEntity(TileEntitySolarPanel.class, "Industry_SolarPanel");
         EntityHelper.createTileEntity(TileEntityBatBox.class, "Industry_BatBox");
+        EntityHelper.createTileEntity(TileEntityMacerator.class, "Industry_Macerator");
 
         // CATALYST GUI //
         Catalyst.GUIS.register("Industry_Generator", new MpGuiEntry(
@@ -264,6 +269,11 @@ public class IndBlocks {
                 TileEntityBatBox.class,
                 GUIBatBox.class,
                 ContainerBatBox.class
+        ));
+        Catalyst.GUIS.register("Industry_Macerator", new MpGuiEntry(
+                TileEntityMacerator.class,
+                GUIMacerator.class,
+                ContainerMacerator.class
         ));
     }
 }

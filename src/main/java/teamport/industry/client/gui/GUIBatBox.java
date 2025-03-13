@@ -17,6 +17,7 @@ import teamport.industry.core.container.ContainerBatBox;
 @Environment(EnvType.CLIENT)
 public class GUIBatBox extends GuiContainer {
     private final TileEntityBatBox tileEntity;
+
     public GUIBatBox(InventoryPlayer inventory, TileEntityBatBox tileEntity) {
         super(new ContainerBatBox(inventory, tileEntity));
         this.tileEntity = tileEntity;

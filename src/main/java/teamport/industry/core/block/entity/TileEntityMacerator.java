@@ -1,17 +1,23 @@
 package teamport.industry.core.block.entity;
 
+import com.mojang.nbt.CompoundTag;
+import com.mojang.nbt.ListTag;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.data.registry.Registries;
-import net.minecraft.core.data.registry.recipe.entry.RecipeEntryFurnace;
 import net.minecraft.core.entity.player.EntityPlayer;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.sound.SoundCategory;
 import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
+import teamport.industry.core.recipe.IndRecipes;
+import teamport.industry.core.recipe.entry.RecipeEntryMacerator;
 
 import java.util.List;
 
+/**
+ * Client gui for the macerator tile entity
+ * @author Cookie
+ * @date 2025-03-10
+ */
 public class TileEntityMacerator extends TileEntityMachine implements IInventory {
     public boolean active;
     public ItemStack[] invSlots = new ItemStack[3];
@@ -22,7 +28,7 @@ public class TileEntityMacerator extends TileEntityMachine implements IInventory
     @Override
     public void init(Block block) {
         super.init(block);
-        capacity = 1200;
+        capacity = 800;
     }
 
     @Override
@@ -45,28 +51,39 @@ public class TileEntityMacerator extends TileEntityMachine implements IInventory
             }
         }
 
-        // Sound loop
-        if (soundLoop >= 300 || (!hasEnergy && soundLoop > 0)) {
-            soundLoop = 0;
-            worldObj.markBlockNeedsUpdate(x, y, z);
-        }
-
         if (worldObj != null && !worldObj.isClientSide) {
+            // Sound loop
+            if (soundLoop >= 300 || (!canProcess() && soundLoop > 0)) {
+                soundLoop = 0;
+                worldObj.markBlockNeedsUpdate(x, y, z);
+            }
+
+            // This is needed so the texture updates. Only called once at tick 2 to prevent lag.
+            if (machineTime == 2) {
+                worldObj.markBlockNeedsUpdate(x, y, z);
+            }
+
             // Item processing (slot 0 and slot 2)
             if (hasEnergy) {
-                if (soundLoop++ <= 0) {
-                    worldObj.playSoundEffect(null, SoundCategory.WORLD_SOUNDS, x, y, z, "industry.MaceratorOp", 0.3f, 1);
-                    worldObj.markBlockNeedsUpdate(x, y, z);
-                }
-
                 if (machineTime == 0 && canProcess()) {
                     ++machineTime;
-                    ++soundLoop;
+                }
+
+                if (machineTime > 0 && canProcess()) {
+                    internalRemoveEnergy(2);
+                    ++machineTime;
+
+                    if (soundLoop++ <= 0) {
+                        worldObj.playSoundEffect(null, SoundCategory.WORLD_SOUNDS, x, y, z, "industry.MaceratorOp", 0.3f, 1);
+                        worldObj.markBlockNeedsUpdate(x, y, z);
+                    }
 
                     if (machineTime >= maxMachineTime) {
                         machineTime = 0;
                         processItem();
                     }
+                } else {
+                    machineTime = 0;
                 }
             } else {
                 machineTime = 0;
@@ -76,11 +93,12 @@ public class TileEntityMacerator extends TileEntityMachine implements IInventory
 
     private boolean canProcess() {
         if (invSlots[0] == null) return false;
+        if (getEnergy() <= 0) return false;
 
-        List<RecipeEntryFurnace> list = Registries.RECIPES.getAllFurnaceRecipes();
+        List<RecipeEntryMacerator> list = IndRecipes.MACERATOR.getAllRecipes();
         ItemStack itemstack = null;
 
-        for(RecipeEntryFurnace recipeEntryBase : list) {
+        for(RecipeEntryMacerator recipeEntryBase : list) {
             if (recipeEntryBase != null && recipeEntryBase.matches(this.invSlots[0]))
                 itemstack = recipeEntryBase.getOutput();
         }
@@ -95,10 +113,10 @@ public class TileEntityMacerator extends TileEntityMachine implements IInventory
 
     private void processItem() {
         if (this.canProcess()) {
-            List<RecipeEntryFurnace> list = Registries.RECIPES.getAllFurnaceRecipes();
+            List<RecipeEntryMacerator> list = IndRecipes.MACERATOR.getAllRecipes();
             ItemStack itemstack = null;
 
-            for(RecipeEntryFurnace recipeEntryBase : list) {
+            for(RecipeEntryMacerator recipeEntryBase : list) {
                 if (recipeEntryBase != null && recipeEntryBase.matches(this.invSlots[0]))
                     itemstack = recipeEntryBase.getOutput();
             }
@@ -120,7 +138,15 @@ public class TileEntityMacerator extends TileEntityMachine implements IInventory
     }
 
     public int getEnergyScaled(int i) {
-        return getCapacity() == 0 ? 0 : (int) (getEnergy() * i / getCapacity());
+        return getEnergy() == 0 ? 0 : (int) (getEnergy() * i / getCapacity());
+    }
+
+    public int getMachineTime() {
+        return machineTime;
+    }
+
+    public void setMachineTime(int amount) {
+        machineTime = amount;
     }
 
     @Override
@@ -179,5 +205,40 @@ public class TileEntityMacerator extends TileEntityMachine implements IInventory
     @Override
     public void sortInventory() {
 
+    }
+
+    @Override
+    public void writeToNBT(CompoundTag tag) {
+        super.writeToNBT(tag);
+        tag.putInt("MachineTime", machineTime);
+
+        ListTag listTag = new ListTag();
+        for (int i = 0; i < invSlots.length; i++) {
+            if (invSlots[i] != null) {
+                CompoundTag slotTag = new CompoundTag();
+
+                slotTag.putInt("Slots", i);
+                invSlots[i].writeToNBT(slotTag);
+                listTag.addTag(slotTag);
+            }
+        }
+        tag.put("Items", listTag);
+    }
+
+    @Override
+    public void readFromNBT(CompoundTag tag) {
+        super.readFromNBT(tag);
+        machineTime = tag.getInteger("MachineTime");
+        ListTag listTag = tag.getList("Items");
+        invSlots = new ItemStack[getSizeInventory()];
+
+        for (int i = 0; i < listTag.tagCount(); i++) {
+            CompoundTag slotTag = (CompoundTag) listTag.tagAt(i);
+            int slot = slotTag.getInteger("Slots");
+
+            if (slot >= 0 && slot < invSlots.length) {
+                invSlots[slot] = ItemStack.readItemStackFromNbt(slotTag);
+            }
+        }
     }
 }

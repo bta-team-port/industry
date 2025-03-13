@@ -28,7 +28,7 @@ public class TileEntitySolarPanel extends TileEntityElectricGenerator implements
         maxAmpsIn = 0;
         maxVoltageIn = 0;
         maxVoltageOut = getTier((BlockLogicElectric) block).maxVoltage;
-        capacity = getTier((BlockLogicElectric) block).maxVoltage * 64L;
+        capacity = getTier((BlockLogicElectric) block).maxVoltage;
     }
 
     public boolean isDayAndClear() {

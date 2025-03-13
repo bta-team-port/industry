@@ -1,5 +1,6 @@
 package teamport.industry.core.block.logic.base;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockTileEntity;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
@@ -8,11 +9,14 @@ import net.minecraft.core.enums.EnumDropCause;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.DamageType;
 import net.minecraft.core.world.World;
+import net.minecraft.core.world.WorldSource;
 import sunsetsatellite.catalyst.core.util.ConduitCapability;
 import sunsetsatellite.catalyst.core.util.IConduitBlock;
 import sunsetsatellite.catalyst.core.util.ISideInteractable;
 import sunsetsatellite.catalyst.core.util.network.NetworkComponent;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
+import sunsetsatellite.catalyst.energy.electric.api.IElectric;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricWire;
 import sunsetsatellite.catalyst.energy.electric.api.WireProperties;
 import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricConductor;
 import teamport.industry.core.block.entity.TileEntityCable;
@@ -75,5 +79,10 @@ public class BlockLogicCableBase extends BlockTileEntity implements NetworkCompo
     @Override
     public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
         return new ItemStack[]{new ItemStack(this)};
+    }
+
+    public boolean canConnectTo(WorldSource blockAccess, int x, int y, int z) {
+        TileEntity block = blockAccess.getBlockTileEntity(x, y, z);
+        return block instanceof IElectric || block instanceof IElectricWire;
     }
 }
