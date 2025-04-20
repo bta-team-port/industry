@@ -3,7 +3,7 @@
     "name": "industry:macerator/copper_ores_to_raw_copper",
     "type": "industry:macerator",
     "input": {
-      "group": "industry:copper_ores"
+      "group": "common_ores:copper"
     },
     "output": {
       "key": "item.industry.raw.copper",
@@ -15,7 +15,7 @@
     "name": "industry:macerator/tin_ores_to_raw_tin",
     "type": "industry:macerator",
     "input": {
-      "group": "industry:tin_ores"
+      "group": "common_ores:tin"
     },
     "output": {
       "key": "item.industry.raw.tin",
@@ -27,7 +27,7 @@
     "name": "industry:macerator/uranium_ores_to_raw_uranium",
     "type": "industry:macerator",
     "input": {
-      "group": "industry:uranium_ores"
+      "group": "common_ores:uranium"
     },
     "output": {
       "key": "item.industry.raw.uranium",
@@ -123,11 +123,7 @@
     "name": "industry:macerator/raw_copper_to_copper_dust",
     "type": "industry:macerator",
     "input": {
-      "stack": {
-        "key": "item.industry.raw.copper",
-        "amount": 1,
-        "meta": 0
-      }
+      "group": "common_raw_ores:copper"
     },
     "output": {
       "key": "item.industry.dust.copper",
@@ -139,11 +135,7 @@
     "name": "industry:macerator/raw_tin_to_tin_dust",
     "type": "industry:macerator",
     "input": {
-      "stack": {
-        "key": "item.industry.raw.tin",
-        "amount": 1,
-        "meta": 0
-      }
+      "group": "common_raw_ores:tin"
     },
     "output": {
       "key": "item.industry.dust.tin",
@@ -219,11 +211,7 @@
     "name": "industry:macerator/copper_ingot_to_copper_dust",
     "type": "industry:macerator",
     "input": {
-      "stack": {
-        "key": "item.industry.ingot.copper",
-        "amount": 1,
-        "meta": 0
-      }
+      "group": "common_ingots:copper"
     },
     "output": {
       "key": "item.industry.dust.copper",
@@ -235,11 +223,7 @@
     "name": "industry:macerator/tin_ingot_to_tin_dust",
     "type": "industry:macerator",
     "input": {
-      "stack": {
-        "key": "item.industry.ingot.tin",
-        "amount": 1,
-        "meta": 0
-      }
+      "group": "common_ingots:tin"
     },
     "output": {
       "key": "item.industry.dust.tin",
@@ -283,11 +267,7 @@
     "name": "industry:macerator/bronze_ingot_to_bronze_dust",
     "type": "industry:macerator",
     "input": {
-      "stack": {
-        "key": "item.industry.ingot.bronze",
-        "amount": 1,
-        "meta": 0
-      }
+      "group": "common_ingots:bronze"
     },
     "output": {
       "key": "item.industry.dust.bronze",

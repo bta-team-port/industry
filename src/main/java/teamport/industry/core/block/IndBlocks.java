@@ -1,279 +1,210 @@
 package teamport.industry.core.block;
 
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.block.tag.BlockTags;
-import net.minecraft.core.item.tool.ItemToolPickaxe;
 import net.minecraft.core.sound.BlockSounds;
-import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.MpGuiEntry;
-import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
-import teamport.industry.client.gui.*;
-import teamport.industry.client.model.block.*;
+import sunsetsatellite.catalyst.core.util.DataInitializer;
+import teamport.industry.Industry;
 import teamport.industry.core.IndConfig;
-import teamport.industry.core.IndWireProperties;
-import teamport.industry.core.block.entity.*;
-import teamport.industry.core.block.logic.base.BlockLogicCableBase;
-import teamport.industry.core.block.logic.cable.BlockLogicCableCopper;
-import teamport.industry.core.block.logic.cable.BlockLogicCableInsulatedCopper;
-import teamport.industry.core.block.logic.machine.*;
-import teamport.industry.core.block.logic.ore.BlockLogicCopperOre;
-import teamport.industry.core.block.logic.ore.BlockLogicTinOre;
-import teamport.industry.core.block.logic.ore.BlockLogicUraniumOre;
-import teamport.industry.core.container.*;
+import teamport.industry.core.block.logic.*;
 import turniplabs.halplibe.helper.BlockBuilder;
-import turniplabs.halplibe.helper.EntityHelper;
+import turniplabs.halplibe.util.BlockInitEntrypoint;
 
-import static teamport.industry.Industry.MOD_ID;
-
-/**
- * Blocks registration and creation
- * @author Cookie
- * @date 2024-12-24
- */
-public class IndBlocks {
+public class IndBlocks extends DataInitializer implements BlockInitEntrypoint {
     private static int baseID = IndConfig.cfg.getInt("IDs.startingBlockID");
     private static int nextID() {
         return baseID++;
     }
 
-    public static final Block ORE_COPPER_STONE;
-    public static final Block ORE_COPPER_BASALT;
-    public static final Block ORE_COPPER_LIMESTONE;
-    public static final Block ORE_COPPER_GRANITE;
+    public static Block<BlockLogicLogRubberwood> LOG_RUBBERWOOD;
+    public static Block<BlockLogicSaplingRubberwood> SAPLING_RUBBERWOOD;
+    public static Block<BlockLogicLeavesRubberwood> LEAVES_RUBBERWOOD;
+    public static Block<BlockLogicSaplingOrange> SAPLING_ORANGE;
+    public static Block<BlockLogicLeavesOrange> LEAVES_ORANGE;
+    public static Block<BlockLogicLeavesOrangeFlowering> LEAVES_ORANGE_FLOWERING;
 
-    public static final Block ORE_TIN_STONE;
-    public static final Block ORE_TIN_BASALT;
-    public static final Block ORE_TIN_LIMESTONE;
-    public static final Block ORE_TIN_GRANITE;
+    public static Block<BlockLogicOreCopper> ORE_COPPER_STONE;
+    public static Block<BlockLogicOreCopper> ORE_COPPER_BASALT;
+    public static Block<BlockLogicOreCopper> ORE_COPPER_LIMESTONE;
+    public static Block<BlockLogicOreCopper> ORE_COPPER_GRANITE;
+    public static Block<BlockLogicOreCopper> ORE_COPPER_PERMAFROST;
+    public static Block<BlockLogicOreTin> ORE_TIN_STONE;
+    public static Block<BlockLogicOreTin> ORE_TIN_BASALT;
+    public static Block<BlockLogicOreTin> ORE_TIN_LIMESTONE;
+    public static Block<BlockLogicOreTin> ORE_TIN_GRANITE;
+    public static Block<BlockLogicOreTin> ORE_TIN_PERMAFROST;
+    public static Block<BlockLogicOreUranium> ORE_URANIUM_STONE;
+    public static Block<BlockLogicOreUranium> ORE_URANIUM_BASALT;
+    public static Block<BlockLogicOreUranium> ORE_URANIUM_LIMESTONE;
+    public static Block<BlockLogicOreUranium> ORE_URANIUM_GRANITE;
+    public static Block<BlockLogicOreUranium> ORE_URANIUM_PERMAFROST;
 
-    public static final Block ORE_URANIUM_STONE;
-    public static final Block ORE_URANIUM_BASALT;
-    public static final Block ORE_URANIUM_LIMESTONE;
-    public static final Block ORE_URANIUM_GRANITE;
+    public static Block<BlockLogicPipe> PIPE_WOODEN;
+    public static Block<BlockLogicPipe> DEV_PIPE;
 
-    public static final Block BLOCK_OF_COPPER;
-    public static final Block BLOCK_OF_TIN;
-    public static final Block BLOCK_OF_BRONZE;
+    @Override
+    public void init() {
+        if (initialized) {
+            return;
+        }
+        Industry.LOGGER.info("Initializing blocks...");
 
-    public static final BlockLogicCableBase COPPER_CABLE;
-    public static final BlockLogicCableBase INSULATED_COPPER_CABLE;
-
-    public static final Block MACHINE_BLOCK;
-    public static final Block GENERATOR;
-    public static final Block GEOTHERMAL_GENERATOR;
-    public static final Block SOLAR_PANEL;
-
-    public static final Block BATBOX;
-
-    public static final Block MACERATOR;
-
-    static {
-        // BUILDERS //
-        BlockBuilder oreBuilder = new BlockBuilder(MOD_ID)
-                .setHardness(3)
-                .setResistance(5)
-                .setBlockSound(BlockSounds.STONE)
-                .setTags(BlockTags.CAVES_CUT_THROUGH, BlockTags.MINEABLE_BY_PICKAXE);
-
-        BlockBuilder materialBlockBuilder = new BlockBuilder(MOD_ID)
-                .setBlockSound(BlockSounds.METAL)
-                .setHardness(5)
-                .setResistance(10)
-                .setTags(BlockTags.MINEABLE_BY_PICKAXE);
-
-        // BLOCKS //
-        ORE_COPPER_STONE = oreBuilder
-                .setTextures("industry:block/ore/copper/ore_copper_stone")
-                .build(new BlockLogicCopperOre("ore_copper_stone", nextID()));
-        ORE_COPPER_BASALT = oreBuilder
-                .setTextures("industry:block/ore/copper/ore_copper_basalt")
-                .build(new BlockLogicCopperOre("ore_copper_basalt", nextID()));
-        ORE_COPPER_LIMESTONE = oreBuilder
-                .setTextures("industry:block/ore/copper/ore_copper_limestone")
-                .build(new BlockLogicCopperOre("ore_copper_limestone", nextID()));
-        ORE_COPPER_GRANITE = oreBuilder
-                .setTextures("industry:block/ore/copper/ore_copper_granite")
-                .build(new BlockLogicCopperOre("ore_copper_granite", nextID()));
-
-        ORE_TIN_STONE = oreBuilder
-                .setTextures("industry:block/ore/tin/ore_tin_stone")
-                .build(new BlockLogicTinOre("ore_tin_stone", nextID()));
-        ORE_TIN_BASALT = oreBuilder
-                .setTextures("industry:block/ore/tin/ore_tin_basalt")
-                .build(new BlockLogicTinOre("ore_tin_basalt", nextID()));
-        ORE_TIN_LIMESTONE = oreBuilder
-                .setTextures("industry:block/ore/tin/ore_tin_limestone")
-                .build(new BlockLogicTinOre("ore_tin_limestone", nextID()));
-        ORE_TIN_GRANITE = oreBuilder
-                .setTextures("industry:block/ore/tin/ore_tin_granite")
-                .build(new BlockLogicTinOre("ore_tin_granite", nextID()));
-
-        ORE_URANIUM_STONE = oreBuilder
-                .setTextures("industry:block/ore/uranium/ore_uranium_stone")
-                .build(new BlockLogicUraniumOre("ore_uranium_stone", nextID()));
-        ORE_URANIUM_BASALT = oreBuilder
-                .setTextures("industry:block/ore/uranium/ore_uranium_basalt")
-                .build(new BlockLogicUraniumOre("ore_uranium_basalt", nextID()));
-        ORE_URANIUM_LIMESTONE = oreBuilder
-                .setTextures("industry:block/ore/uranium/ore_uranium_limestone")
-                .build(new BlockLogicUraniumOre("ore_uranium_limestone", nextID()));
-        ORE_URANIUM_GRANITE = oreBuilder
-                .setTextures("industry:block/ore/uranium/ore_uranium_granite")
-                .build(new BlockLogicUraniumOre("ore_uranium_granite", nextID()));
-
-        BLOCK_OF_COPPER = materialBlockBuilder
-                .setTopTexture("industry:block/block_copper/top")
-                .setSideTextures("industry:block/block_copper/side")
-                .setBottomTexture("industry:block/block_copper/bottom")
-                .build(new Block("block.copper", nextID(), Material.metal));
-
-        BLOCK_OF_TIN = materialBlockBuilder
-                .setTopTexture("industry:block/block_tin/top")
-                .setSideTextures("industry:block/block_tin/side")
-                .setBottomTexture("industry:block/block_tin/bottom")
-                .build(new Block("block.tin", nextID(), Material.metal));
-
-        BLOCK_OF_BRONZE = materialBlockBuilder
-                .setTopTexture("industry:block/block_bronze/top")
-                .setSideTextures("industry:block/block_bronze/side")
-                .setBottomTexture("industry:block/block_bronze/bottom")
-                .build(new Block("block.bronze", nextID(), Material.metal));
-
-        COPPER_CABLE = new BlockBuilder(MOD_ID)
-                .setHardness(1)
-                .setBlockModel(BlockModelCable::new)
-                .setBlockSound(BlockSounds.METAL)
-                .setTags(BlockTags.BROKEN_BY_FLUIDS, IndBlockTags.BROKEN_BY_WIRECUTTERS, BlockTags.MINEABLE_BY_PICKAXE, BlockTags.NOT_IN_CREATIVE_MENU)
-                .setTextures("industry:block/cable/copper/copper_raw")
-                .build(new BlockLogicCableCopper(nextID(), IndWireProperties.COPPER));
-
-        INSULATED_COPPER_CABLE = new BlockBuilder(MOD_ID)
-                .setBlockModel(BlockModelInsulatedCable::new)
-                .setBlockSound(BlockSounds.CLOTH)
-                .setHardness(1)
-                .setTags(BlockTags.BROKEN_BY_FLUIDS, BlockTags.MINEABLE_BY_PICKAXE, IndBlockTags.BROKEN_BY_WIRECUTTERS, BlockTags.NOT_IN_CREATIVE_MENU)
-                .setTextures("industry:block/cable/copper/copper_insulated")
-                .build(new BlockLogicCableInsulatedCopper(nextID(), IndWireProperties.COPPER_INSULATED));
-
-        MACHINE_BLOCK = new BlockBuilder(MOD_ID)
-                .setBlockSound(BlockSounds.METAL)
-                .setHardness(3.5f)
-                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
-                .setTextures("industry:block/machine/machine_block")
-                .build(new Block("machine_block", nextID(), Material.metal));
-
-        GENERATOR = new BlockBuilder(MOD_ID)
-                .setBlockModel(b -> new BlockModelGenerator(b,
-                        "industry:block/generator/coal/idle_front",
-                        "industry:block/generator/coal/active_front"))
-                .setBlockSound(BlockSounds.METAL)
-                .setHardness(3.5f)
-                .setTags(IndBlockTags.REQUIRES_WRENCH)
-                .setBottomTexture("industry:block/generator/coal/bottom")
-                .setEastWestTextures("industry:block/generator/coal/side")
-                .setNorthTexture("industry:block/generator/coal/idle_front")
-                .setSouthTexture("industry:block/generator/coal/side")
-                .setTopTexture("industry:block/generator/coal/top")
-                .build(new BlockLogicGenerator("generator", nextID(), VoltageTier.LV));
-
-        GEOTHERMAL_GENERATOR = new BlockBuilder(MOD_ID)
-                .setBlockModel(b -> new BlockModelGeothermalGenerator(b,
-                        "industry:block/generator/geothermal/idle_front",
-                        "industry:block/generator/geothermal/active_front"))
-                .setBlockSound(BlockSounds.METAL)
-                .setHardness(3.5f)
-                .setTags(IndBlockTags.REQUIRES_WRENCH)
-                .setBottomTexture("industry:block/generator/geothermal/bottom")
-                .setEastWestTextures("industry:block/generator/geothermal/side")
-                .setNorthTexture("industry:block/generator/geothermal/idle_front")
-                .setSouthTexture("industry:block/generator/geothermal/side")
-                .setTopTexture("industry:block/generator/geothermal/top")
-                .build(new BlockLogicGeothermalGenerator("geogenerator", nextID(), VoltageTier.LV));
-
-        SOLAR_PANEL = new BlockBuilder(MOD_ID)
-                .setBlockSound(BlockSounds.METAL)
-                .setHardness(3.5f)
-                .setTags(IndBlockTags.REQUIRES_WRENCH)
-                .setTopTexture("industry:block/generator/solar/top")
-                .setSideTextures("industry:block/generator/solar/side")
-                .setBottomTexture("industry:block/generator/solar/bottom")
-                .build(new BlockLogicSolarPanel("solar_panel", nextID(), VoltageTier.LV));
-
-        BATBOX = new BlockBuilder(MOD_ID)
+        LOG_RUBBERWOOD = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(2)
                 .setBlockSound(BlockSounds.WOOD)
-                .setHardness(3.5f)
-                .setTags(BlockTags.MINEABLE_BY_AXE)
-                .setTopBottomTextures("industry:block/batbox/side")
-                .setSideTextures("industry:block/batbox/front")
-                .build(new BlockLogicBatBox("batbox", nextID(), VoltageTier.LV));
+                .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.FENCES_CONNECT)
+                .setTicking(true)
+                .build("log.rubberwood", nextID(), BlockLogicLogRubberwood::new)
+                .withDisabledNeighborNotifyOnMetadataChange();
 
-        MACERATOR = new BlockBuilder(MOD_ID)
-                .setBlockModel(b -> new BlockModelMacerator(b,
-                        "industry:block/machine/macerator/idle_top",
-                        "industry:block/machine/macerator/active_top"))
-                .setBlockSound(BlockSounds.METAL)
-                .setHardness(3.5f)
-                .setTags(IndBlockTags.REQUIRES_WRENCH)
-                .setBottomTexture("industry:block/machine/macerator/bottom")
-                .setEastWestTextures("industry:block/machine/macerator/side")
-                .setNorthTexture("industry:block/machine/macerator/front")
-                .setSouthTexture("industry:block/machine/macerator/side")
-                .setTopTexture("industry:block/machine/macerator/idle_top")
-                .build(new BlockLogicMacerator("macerator", nextID(), VoltageTier.LV));
+        SAPLING_RUBBERWOOD = new BlockBuilder(Industry.MOD_ID)
+                .setBlockSound(BlockSounds.GRASS)
+                .setTags(BlockTags.BROKEN_BY_FLUIDS, BlockTags.PLANTABLE_IN_JAR)
+                .build("sapling.rubberwood", nextID(), BlockLogicSaplingRubberwood::new)
+                .withDisabledNeighborNotifyOnMetadataChange();
 
-        // MINING LEVELS //
-        ItemToolPickaxe.miningLevels.put(ORE_COPPER_STONE, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_COPPER_BASALT, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_COPPER_LIMESTONE, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_COPPER_GRANITE, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_TIN_STONE, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_TIN_BASALT, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_TIN_LIMESTONE, 1);
-        ItemToolPickaxe.miningLevels.put(ORE_TIN_GRANITE, 1);
+        LEAVES_RUBBERWOOD = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(0.2F)
+                .setBlockSound(BlockSounds.GRASS)
+                .setTags(BlockTags.SHEARS_DO_SILK_TOUCH, BlockTags.MINEABLE_BY_AXE, BlockTags.MINEABLE_BY_HOE, BlockTags.MINEABLE_BY_SWORD, BlockTags.MINEABLE_BY_SHEARS)
+                .build("leaves.rubberwood", nextID(), BlockLogicLeavesRubberwood::new)
+                .withLightBlock(1)
+                .withDisabledNeighborNotifyOnMetadataChange();
 
-        ItemToolPickaxe.miningLevels.put(ORE_URANIUM_STONE, 2);
-        ItemToolPickaxe.miningLevels.put(ORE_URANIUM_BASALT, 2);
-        ItemToolPickaxe.miningLevels.put(ORE_URANIUM_LIMESTONE, 2);
-        ItemToolPickaxe.miningLevels.put(ORE_URANIUM_GRANITE, 2);
-        ItemToolPickaxe.miningLevels.put(MACHINE_BLOCK, 2);
-        ItemToolPickaxe.miningLevels.put(BLOCK_OF_COPPER, 2);
-        ItemToolPickaxe.miningLevels.put(BLOCK_OF_TIN, 2);
-        ItemToolPickaxe.miningLevels.put(BLOCK_OF_BRONZE, 2);
+        SAPLING_ORANGE = new BlockBuilder(Industry.MOD_ID)
+                .setBlockSound(BlockSounds.GRASS)
+                .setTags(BlockTags.BROKEN_BY_FLUIDS, BlockTags.PLANTABLE_IN_JAR)
+                .build("sapling.orange", nextID(), BlockLogicSaplingOrange::new)
+                .withDisabledNeighborNotifyOnMetadataChange();
 
-        // TILE ENTITIES //
-        EntityHelper.createTileEntity(TileEntityCable.class, "Industry_Cable");
-        EntityHelper.createTileEntity(TileEntityGenerator.class, "Industry_Generator");
-        EntityHelper.createTileEntity(TileEntityGeothermalGenerator.class, "Industry_GeothermalGenerator");
-        EntityHelper.createTileEntity(TileEntitySolarPanel.class, "Industry_SolarPanel");
-        EntityHelper.createTileEntity(TileEntityBatBox.class, "Industry_BatBox");
-        EntityHelper.createTileEntity(TileEntityMacerator.class, "Industry_Macerator");
+        LEAVES_ORANGE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(0.2F)
+                .setBlockSound(BlockSounds.GRASS)
+                .setTags(BlockTags.SHEARS_DO_SILK_TOUCH, BlockTags.MINEABLE_BY_AXE, BlockTags.MINEABLE_BY_HOE, BlockTags.MINEABLE_BY_SWORD, BlockTags.MINEABLE_BY_SHEARS)
+                .build("leaves.orange", nextID(), BlockLogicLeavesOrange::new)
+                .withLightBlock(1)
+                .withDisabledNeighborNotifyOnMetadataChange();
 
-        // CATALYST GUI //
-        Catalyst.GUIS.register("Industry_Generator", new MpGuiEntry(
-                TileEntityGenerator.class,
-                GUIGenerator.class,
-                ContainerGenerator.class)
-        );
-        Catalyst.GUIS.register("Industry_SolarPanel", new MpGuiEntry(
-                TileEntitySolarPanel.class,
-                GUISolarPanel.class,
-                ContainerSolarPanel.class)
-        );
-        Catalyst.GUIS.register("Industry_GeothermalGenerator", new MpGuiEntry(
-                TileEntityGeothermalGenerator.class,
-                GUIGeothermalGenerator.class,
-                ContainerGeothermalGenerator.class)
-        );
-        Catalyst.GUIS.register("Industry_BatBox", new MpGuiEntry(
-                TileEntityBatBox.class,
-                GUIBatBox.class,
-                ContainerBatBox.class
-        ));
-        Catalyst.GUIS.register("Industry_Macerator", new MpGuiEntry(
-                TileEntityMacerator.class,
-                GUIMacerator.class,
-                ContainerMacerator.class
-        ));
+        LEAVES_ORANGE_FLOWERING = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(0.2F)
+                .setBlockSound(BlockSounds.GRASS)
+                .setTags(BlockTags.SHEARS_DO_SILK_TOUCH, BlockTags.MINEABLE_BY_AXE, BlockTags.MINEABLE_BY_HOE, BlockTags.MINEABLE_BY_SWORD, BlockTags.MINEABLE_BY_SHEARS)
+                .build("leaves.orange.flowering", nextID(), BlockLogicLeavesOrangeFlowering::new)
+                .withLightBlock(1)
+                .withDisabledNeighborNotifyOnMetadataChange();
+
+        ORE_COPPER_STONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.copper.stone", nextID(), b -> new BlockLogicOreCopper(b, Blocks.STONE, Material.stone));
+        ORE_COPPER_BASALT = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.copper.basalt", nextID(), b -> new BlockLogicOreCopper(b, Blocks.BASALT, Material.basalt));
+        ORE_COPPER_LIMESTONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.copper.limestone", nextID(), b -> new BlockLogicOreCopper(b, Blocks.LIMESTONE, Material.limestone));
+        ORE_COPPER_GRANITE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.copper.granite", nextID(), b -> new BlockLogicOreCopper(b, Blocks.GRANITE, Material.granite));
+        ORE_COPPER_PERMAFROST = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.PERMAFROST)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.copper.permafrost", nextID(), b -> new BlockLogicOreCopper(b, Blocks.PERMAFROST, Material.permafrost));
+
+        ORE_TIN_STONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.tin.stone", nextID(), b -> new BlockLogicOreTin(b, Blocks.STONE, Material.stone));
+        ORE_TIN_BASALT = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.tin.basalt", nextID(), b -> new BlockLogicOreTin(b, Blocks.BASALT, Material.basalt));
+        ORE_TIN_LIMESTONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.tin.limestone", nextID(), b -> new BlockLogicOreTin(b, Blocks.LIMESTONE, Material.limestone));
+        ORE_TIN_GRANITE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.tin.granite", nextID(), b -> new BlockLogicOreTin(b, Blocks.GRANITE, Material.granite));
+        ORE_TIN_PERMAFROST = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.PERMAFROST)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.tin.permafrost", nextID(), b -> new BlockLogicOreTin(b, Blocks.PERMAFROST, Material.permafrost));
+
+        ORE_URANIUM_STONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.uranium.stone", nextID(), b -> new BlockLogicOreUranium(b, Blocks.STONE, Material.stone));
+        ORE_URANIUM_BASALT = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.uranium.basalt", nextID(), b -> new BlockLogicOreUranium(b, Blocks.BASALT, Material.basalt));
+        ORE_URANIUM_LIMESTONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.uranium.limestone", nextID(), b -> new BlockLogicOreUranium(b, Blocks.LIMESTONE, Material.limestone));
+        ORE_URANIUM_GRANITE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.uranium.granite", nextID(), b -> new BlockLogicOreUranium(b, Blocks.GRANITE, Material.granite));
+        ORE_URANIUM_PERMAFROST = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(3.0F)
+                .setResistance(5.0F)
+                .setBlockSound(BlockSounds.PERMAFROST)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("ore.uranium.permafrost", nextID(), b -> new BlockLogicOreUranium(b, Blocks.PERMAFROST, Material.permafrost));
+
+        PIPE_WOODEN = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.WOOD)
+                .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.wooden", nextID(), b -> new BlockLogicPipe(b, Material.wood));
+
+        DEV_PIPE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.dev", nextID(), b -> new BlockLogicPipe(b, Material.stone));
+
+        setInitialized(true);
+    }
+
+    @Override
+    public void afterBlockInit() {
+        init();
     }
 }

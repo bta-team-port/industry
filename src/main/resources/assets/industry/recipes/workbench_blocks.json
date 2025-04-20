@@ -1,0 +1,297 @@
+[
+  {
+    "name": "industry:workbench/rubberwood_logs_to_orange_wooden_planks",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "1"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "group": "industry:rubberwood_logs"
+      }
+    ],
+    "result": {
+      "key": "tile.planks.oak.painted",
+      "amount": 4,
+      "meta": 1
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/block_of_copper",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "111",
+      "111",
+      "111"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "item.industry.ingot.copper",
+          "amount": 9,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.block.copper",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/block_of_tin",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "111",
+      "111",
+      "111"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "item.industry.ingot.tin",
+          "amount": 9,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.block.tin",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/block_of_bronze",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "111",
+      "111",
+      "111"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "item.industry.ingot.bronze",
+          "amount": 9,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.block.bronze",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/block_of_uranium",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "111",
+      "111",
+      "111"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "item.industry.ingot.uranium",
+          "amount": 9,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.block.uranium",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/machine_block",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "111",
+      "121",
+      "111"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "item.ingot.iron",
+          "amount": 8,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "2",
+        "stack": {
+          "key": "item.industry.circuit",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.block.machine",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/generator",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "1",
+      "2",
+      "3"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "item.industry.battery.re",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "2",
+        "stack": {
+          "key": "tile.industry.block.machine",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "3",
+        "stack": {
+          "key": "tile.furnace.stone.idle",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.generator",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/geothermal_generator",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "121",
+      "131",
+      "454"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "key": "tile.glass",
+          "amount": 4,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "2",
+        "stack": {
+          "key": "item.industry.battery.re",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "3",
+        "stack": {
+          "key": "tile.industry.block.machine",
+          "amount": 1,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "4",
+        "stack": {
+          "key": "item.industry.cell.empty",
+          "amount": 2,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "5",
+        "stack": {
+          "key": "tile.furnace.stone.idle",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.generator.geothermal",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  },
+  {
+    "name": "industry:workbench/solar_generator",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "121",
+      "212",
+      "343"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "group": "common_dusts:coal"
+      },
+      {
+        "symbol": "2",
+        "stack": {
+          "key": "tile.glass",
+          "amount": 3,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "3",
+        "stack": {
+          "key": "item.industry.battery.re",
+          "amount": 2,
+          "meta": 0
+        }
+      },
+      {
+        "symbol": "4",
+        "stack": {
+          "key": "tile.industry.block.machine",
+          "amount": 1,
+          "meta": 0
+        }
+      }
+    ],
+    "result": {
+      "key": "tile.industry.generator",
+      "amount": 1,
+      "meta": 0
+    },
+    "consumeContainers": true
+  }
+]

@@ -1,10 +1,12 @@
 package teamport.industry.extra.mixin;
 
+import net.minecraft.core.block.BlockLogicOreGold;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.chunk.Chunk;
 import net.minecraft.core.world.generate.chunk.ChunkDecorator;
 import net.minecraft.core.world.generate.chunk.perlin.overworld.ChunkDecoratorOverworld;
 import net.minecraft.core.world.generate.feature.WorldFeatureOre;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,6 +15,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.block.IndBlocks;
+import teamport.industry.core.block.logic.BlockLogicOreCopper;
+import teamport.industry.core.block.logic.BlockLogicOreTin;
+import teamport.industry.core.block.logic.BlockLogicOreUranium;
 
 import java.util.Random;
 
@@ -22,45 +27,44 @@ public abstract class ChunkDecoratorOverworldMixin implements ChunkDecorator {
     @Shadow @Final private World world;
 
     @Inject(method = "decorate", at = @At("TAIL"))
-    private void industry_decorateOres(Chunk chunk, CallbackInfo ci) {
+    private void industry_decorateOres(@NotNull Chunk chunk, CallbackInfo ci) {
         int chunkX = chunk.xPosition;
         int chunkZ = chunk.zPosition;
-        int minY = world.getWorldType().getMinY();
-        int maxY = world.getWorldType().getMaxY();
+        int minY = this.world.getWorldType().getMinY();
+        int maxY = this.world.getWorldType().getMaxY();
         int rangeY = maxY + 1 - minY;
-        float oreHeightModifier = (float) rangeY / 128;
+        float oreHeightModifier = (float)rangeY / 128.0F;
         int x = chunkX * 16;
         int z = chunkZ * 16;
-        int y = world.getHeightValue(x + 16, z + 16);
         Random rand = new Random(world.getRandomSeed());
 
-        // COPPER ORE //
+        // Copper Ore
         if (IndConfig.cfg.getBoolean("Spawning.copperOre")) {
-            for (int height = 0; (float) height < 24 * oreHeightModifier; ++height) {
-                int randX = x + rand.nextInt(16);
-                int randY = minY + rand.nextInt(rangeY / 2);
-                int randZ = z + rand.nextInt(16);
-                (new WorldFeatureOre(IndBlocks.ORE_COPPER_STONE.id, 12, true)).generate(world, rand, randX, randY, randZ);
+            for (int heightModifier = 0; (float) heightModifier < 10.0F * oreHeightModifier; ++heightModifier) {
+                int _x = x + rand.nextInt(16);
+                int _y = minY + rand.nextInt(rangeY / 2);
+                int _z = z + rand.nextInt(16);
+                (new WorldFeatureOre(BlockLogicOreCopper.variantMap, 10)).place(this.world, rand, _x, _y, _z);
             }
         }
 
-        // TIN ORE //
+        // Tin Ore
         if (IndConfig.cfg.getBoolean("Spawning.tinOre")) {
-            for (int height = 0; (float) height < 20 * oreHeightModifier; ++height) {
-                int randX = x + rand.nextInt(16);
-                int randY = minY + rand.nextInt(rangeY / 2);
-                int randZ = z + rand.nextInt(16);
-                (new WorldFeatureOre(IndBlocks.ORE_TIN_STONE.id, 8, true)).generate(world, rand, randX, randY, randZ);
+            for (int heightModifier = 0; (float) heightModifier < 12.0F * oreHeightModifier; ++heightModifier) {
+                int _x = x + rand.nextInt(16);
+                int _y = minY + rand.nextInt(rangeY / 2);
+                int _z = z + rand.nextInt(16);
+                (new WorldFeatureOre(BlockLogicOreTin.variantMap, 12)).place(this.world, rand, _x, _y, _z);
             }
         }
 
-        // URANIUM ORE //
+        // Uranium Ore
         if (IndConfig.cfg.getBoolean("Spawning.uraniumOre")) {
-            for (int height = 0; (float) height < 2 * oreHeightModifier; ++height) {
-                int randX = x + rand.nextInt(16);
-                int randY = minY + rand.nextInt(rangeY / 3);
-                int randZ = z + rand.nextInt(16);
-                (new WorldFeatureOre(IndBlocks.ORE_URANIUM_STONE.id, 4, true)).generate(world, rand, randX, randY, randZ);
+            for (int heightModifier = 0; (float) heightModifier < 4.0F * oreHeightModifier; ++heightModifier) {
+                int _x = x + rand.nextInt(16);
+                int _y = minY + rand.nextInt(rangeY / 2);
+                int _z = z + rand.nextInt(16);
+                (new WorldFeatureOre(BlockLogicOreUranium.variantMap, 3)).place(this.world, rand, _x, _y, _z);
             }
         }
     }

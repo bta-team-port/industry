@@ -1,10 +1,10 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
-        gradlePluginPortal()
         maven {
             name = 'Jitpack'
             url = 'https://jitpack.io'
@@ -13,17 +13,16 @@ pluginManagement {
             name = 'Babric'
             url = 'https://maven.glass-launcher.net/babric'
         }
+        maven {
+            name = 'SignalumMavenInfrastructure'
+            url = 'https://maven.thesignalumproject.net/infrastructure'
+        }
+    }
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version '2.1.0'
     }
 }
 
-include(":catalyst")
-include(":catalyst:energy")
-include(":catalyst:fluids")
-include(":btwaila")
-include(":tmb")
-
-project(":tmb").projectDir = file("${rootProject.projectDir}/../TMB")
-project(":btwaila").projectDir = file("${rootProject.projectDir}/../BTWaila")
-project(":catalyst").projectDir = file("${rootProject.projectDir}/../catalyst")
-project(":catalyst:energy").projectDir = file("${project(":catalyst").projectDir}/energy")
-project(":catalyst:fluids").projectDir = file("${project(":catalyst").projectDir}/fluids")
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}

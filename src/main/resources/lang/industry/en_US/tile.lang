@@ -1,32 +1,52 @@
+# Trees
+tile.industry.log.rubberwood.name=Rubberwood Log
+tile.industry.log.rubberwood.desc=A log from a rubberwood tree.
+tile.industry.leaves.rubberwood.name=Rubberwood Leaves
+tile.industry.leaves.rubberwood.desc=Leaves from a rubberwood tree.
+tile.industry.sapling.rubberwood.name=Rubberwood Sapling
+tile.industry.sapling.rubberwood.desc=Plant to grow a rubberwood tree.
+tile.industry.sapling.orange.name=Orange Sapling
+tile.industry.sapling.orange.desc=Plant to grow an orange tree.
+tile.industry.leaves.orange.name=Orange Leaves
+tile.industry.leaves.orange.desc=Leaves from an orange tree.
+tile.industry.leaves.orange.flowering.name=Orange Leaves
+tile.industry.leaves.orange.flowering.desc=Leaves from an orange tree that are budding with fruit.
+
 # Copper Ore
-tile.industry.ore_copper_stone.name=Stone Copper Ore
-tile.industry.ore_copper_stone.desc=Copper nuggets embedded in stone.
-tile.industry.ore_copper_basalt.name=Basalt Copper Ore
-tile.industry.ore_copper_basalt.desc=Copper nuggets embedded in basalt.
-tile.industry.ore_copper_limestone.name=Limestone Copper Ore
-tile.industry.ore_copper_limestone.desc=Copper nuggets embedded in limestone.
-tile.industry.ore_copper_granite.name=Granite Copper Ore
-tile.industry.ore_copper_granite.desc=Copper nuggets embedded in granite.
+tile.industry.ore.copper.stone.name=Stone Copper Ore
+tile.industry.ore.copper.stone.desc=Copper nuggets embedded in stone.
+tile.industry.ore.copper.basalt.name=Basalt Copper Ore
+tile.industry.ore.copper.basalt.desc=Copper nuggets embedded in basalt.
+tile.industry.ore.copper.limestone.name=Limestone Copper Ore
+tile.industry.ore.copper.limestone.desc=Copper nuggets embedded in limestone.
+tile.industry.ore.copper.granite.name=Granite Copper Ore
+tile.industry.ore.copper.granite.desc=Copper nuggets embedded in granite.
+tile.industry.ore.copper.permafrost.name=Permafrost Copper Ore
+tile.industry.ore.copper.permafrost.desc=Copper nuggets embedded in permafrost.
 
 # Tin Ore
-tile.industry.ore_tin_stone.name=Stone Tin Ore
-tile.industry.ore_tin_stone.desc=Tin nuggets embedded in stone.
-tile.industry.ore_tin_basalt.name=Basalt Tin Ore
-tile.industry.ore_tin_basalt.desc=Tin nuggets embedded in basalt.
-tile.industry.ore_tin_limestone.name=Limestone Tin Ore
-tile.industry.ore_tin_limestone.desc=Tin nuggets embedded in limestone.
-tile.industry.ore_tin_granite.name=Granite Tin Ore
-tile.industry.ore_tin_granite.desc=Tin nuggets embedded in granite.
+tile.industry.ore.tin.stone.name=Stone Tin Ore
+tile.industry.ore.tin.stone.desc=Tin nuggets embedded in stone.
+tile.industry.ore.tin.basalt.name=Basalt Tin Ore
+tile.industry.ore.tin.basalt.desc=Tin nuggets embedded in basalt.
+tile.industry.ore.tin.limestone.name=Limestone Tin Ore
+tile.industry.ore.tin.limestone.desc=Tin nuggets embedded in limestone.
+tile.industry.ore.tin.granite.name=Granite Tin Ore
+tile.industry.ore.tin.granite.desc=Tin nuggets embedded in granite.
+tile.industry.ore.tin.permafrost.name=Permafrost Tin Ore
+tile.industry.ore.tin.permafrost.desc=Tin nuggets embedded in permafrost.
 
 # Uranium Ore
-tile.industry.ore_uranium_stone.name=Stone Uranium Ore
-tile.industry.ore_uranium_stone.desc=A chunk of uranium embedded in stone.
-tile.industry.ore_uranium_basalt.name=Basalt Uranium Ore
-tile.industry.ore_uranium_basalt.desc=A chunk of uranium embedded in basalt.
-tile.industry.ore_uranium_limestone.name=Limestone Uranium Ore
-tile.industry.ore_uranium_limestone.desc=A chunk of uranium embedded in limestone.
-tile.industry.ore_uranium_granite.name=Granite Uranium Ore
-tile.industry.ore_uranium_granite.desc=A chunk of uranium embedded in granite.
+tile.industry.ore.uranium.stone.name=Stone Uranium Ore
+tile.industry.ore.uranium.stone.desc=A chunk of uranium embedded in stone.
+tile.industry.ore.uranium.basalt.name=Basalt Uranium Ore
+tile.industry.ore.uranium.basalt.desc=A chunk of uranium embedded in basalt.
+tile.industry.ore.uranium.limestone.name=Limestone Uranium Ore
+tile.industry.ore.uranium.limestone.desc=A chunk of uranium embedded in limestone.
+tile.industry.ore.uranium.granite.name=Granite Uranium Ore
+tile.industry.ore.uranium.granite.desc=A chunk of uranium embedded in granite.
+tile.industry.ore.uranium.permafrost.name=Permafrost Uranium Ore
+tile.industry.ore.uranium.permafrost.desc=A chunk of uranium embedded in permafrost.
 
 # Material Blocks
 tile.industry.block.copper.name=Block of Copper
@@ -35,6 +55,8 @@ tile.industry.block.tin.name=Block of Tin
 tile.industry.block.tin.desc=A solid block of tin. It's surprisingly light!
 tile.industry.block.bronze.name=Block of Bronze
 tile.industry.block.bronze.desc=A solid block of bronze.
+tile.industry.block.uranium.name=Block of Uranium
+tile.industry.block.uranium.desc=A solid block of uranium. It glows!
 
 # Cables
 tile.industry.copper_cable.name=Copper Cable
@@ -43,14 +65,14 @@ tile.industry.insulated_copper_cable.name=Insulated Copper Cable
 tile.industry.insulated_copper_cable.desc=A length of insulated copper cable.
 
 # LV Generators
-tile.industry.machine_block.name=LV Machine Block
-tile.industry.machine_block.desc=A hollow metal box full of circuitry.
+tile.industry.machine.block.name=LV Machine Block
+tile.industry.machine.block.desc=A hollow metal box full of circuitry.
 tile.industry.generator.name=Generator
 tile.industry.generator.desc=Generates electricity using fuel.
-tile.industry.geogenerator.name=Geothermal Generator
-tile.industry.geogenerator.desc=Generates electricity using lava.
-tile.industry.solar_panel.name=Solar Panel
-tile.industry.solar_panel.desc=Generates electricity from the sun itself.
+tile.industry.generator.geothermal.name=Geothermal Generator
+tile.industry.generator.geothermal.desc=Generates electricity using lava.
+tile.industry.generator.solar.name=Solar Panel
+tile.industry.generator.solar.desc=Generates electricity from the sun itself.
 
 # LV Machines
 tile.industry.batbox.name=BatBox

@@ -1,0 +1,8 @@
+{
+  "tool.treetap": {
+    "subtitle": "industry.tool.treetap",
+    "sounds": [
+      "ic2/tool/Treetap.ogg"
+    ]
+  }
+}

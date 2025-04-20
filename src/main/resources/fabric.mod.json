@@ -12,8 +12,9 @@
     "TeamPort"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://github.com/bta-team-port",
+    "sources": "https://github.com/FatherCheese/industry",
+    "issues": "https://github.com/FatherCheese/industry/issues"
   },
 
   "license": "CC0-1.0",
@@ -21,8 +22,35 @@
 
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "teamport.industry.Industry"
+    ],
+    "afterBlockInit": [
+      "teamport.industry.core.block.IndBlocks"
+    ],
+    "afterItemInit": [
+      "teamport.industry.core.item.IndItems"
+    ],
+    "afterGameStart": [
+      "teamport.industry.Industry"
+    ],
     "beforeGameStart": [
       "teamport.industry.Industry"
+    ],
+    "client": [
+      "teamport.industry.IndustryClient"
+    ],
+    "afterClientStart": [
+      "teamport.industry.IndustryClient"
+    ],
+    "beforeClientStart": [
+      "teamport.industry.IndustryClient"
+    ],
+    "initModels": [
+      "teamport.industry.client.model.IndModels"
+    ],
+    "server": [
+      "teamport.industry.IndustryServer"
     ],
     "recipesReady": [
       "teamport.industry.core.recipe.IndRecipes"
@@ -32,10 +60,12 @@
     "industry.mixins.json"
   ],
 
+  "accessWidener": "industry.accesswidener",
+
   "depends": {
     "minecraft": "^7.2-beta",
     "fabricloader": ">=0.15.5",
-    "halplibe":">=4.0.0"
+    "halplibe":">=5.2.3"
   },
   "suggests": {
   }

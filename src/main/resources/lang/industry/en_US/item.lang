@@ -1,10 +1,10 @@
 # Raw Ores
-item.industry.raw.copper.name=Raw Copper Ore
-item.industry.raw.copper.desc=A chunk of unprocessed copper. Can be smelted into a copper ingot.
-item.industry.raw.tin.name=Raw Tin Ore
-item.industry.raw.tin.desc=A chunk of unprocessed tin. Can be smelted into a tin ingot.
-item.industry.raw.uranium.name=Raw Uranium
-item.industry.raw.uranium.desc=A chunk of unprocessed uranium. Can be compressed into a uranium ingot.
+item.industry.ore.raw.copper.name=Raw Copper Ore
+item.industry.ore.raw.copper.desc=A chunk of unprocessed copper. Can be smelted into a copper ingot.
+item.industry.ore.raw.tin.name=Raw Tin Ore
+item.industry.ore.raw.tin.desc=A chunk of unprocessed tin. Can be smelted into a tin ingot.
+item.industry.ore.raw.uranium.name=Raw Uranium
+item.industry.ore.raw.uranium.desc=A chunk of unprocessed uranium. Can be compressed into a uranium ingot.
 
 # Dusts
 item.industry.dust.copper.name=Copper Dust
@@ -35,18 +35,20 @@ item.industry.ingot.mixed.name=Mixed Metal Ingot
 item.industry.ingot.mixed.desc=Steel, Bronze, and Tin put together and ready to be alloyed.
 
 # Cables
-item.industry.copper_cable.name=Copper Cable
-item.industry.copper_cable.desc=A length of copper cable.
-item.industry.insulated_copper_cable.name=Insulated Copper Cable
-item.industry.insulated_copper_cable.desc=A length of insulated copper cable.
+item.industry.cable.copper.name=Copper Cable
+item.industry.cable.copper.desc=A length of copper cable.
+item.industry.cable.copper.insulated.name=Insulated Copper Cable
+item.industry.cable.copper.insulated.desc=A length of insulated copper cable.
 
 # Tools
 item.industry.wrench.name=Wrench
 item.industry.wrench.desc=A bronze wrench that's able to disassemble machines.
+item.industry.tool.treetap.name=Treetap
+item.industry.tool.treetap.desc=Extracts resin from rubberwood.
 
 # Batteries
-item.industry.re.battery.name=RE Battery
-item.industry.re.battery.desc=A tin casing full of rechargeable redstone.
+item.industry.battery.re.name=RE Battery
+item.industry.battery.re.desc=A tin casing full of rechargeable redstone.
 
 # Cells
 item.industry.cell.empty.name=Empty Cell
@@ -63,3 +65,19 @@ item.industry.cell.uranium.name=Uranium Cell
 item.industry.cell.uranium.desc=A cell full of a glowing rock.
 item.industry.cell.depleted.uranium.name=Depleted Uranium Cell
 item.industry.cell.depleted.uranium.desc=An almost empty cell with some glowing pebbles.
+
+# Materials
+item.industry.resin.name=Sticky Resin
+item.industry.resin.desc=Not to be confused with potato pancakes.
+item.industry.rubber.name=Rubber
+item.industry.rubber.desc=Squishy!
+item.industry.circuit.name=Circuit
+item.industry.circuit.desc=An iron plate covered in bits and bobs.
+item.industry.circuit.advanced.name=Advanced Circuit
+item.industry.circuit.advanced.desc=A steel plate covered in more advanced bits and bobs.
+
+# Food
+item.industry.food.orange.name=Orange
+item.industry.food.orange.desc=Name a yellow fruit.
+item.industry.food.joffocake.name=Joffo Cake
+item.industry.food.joffocake.desc=Delicious enough to spend a budget on.

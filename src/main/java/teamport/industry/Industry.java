@@ -1,16 +1,16 @@
 package teamport.industry;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.core.sound.SoundTypes;
+import net.minecraft.core.util.collection.NamespaceID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import teamport.industry.core.IndConfig;
-import teamport.industry.core.IndSounds;
 import teamport.industry.core.IndWireMaterials;
 import teamport.industry.core.IndWireProperties;
 import teamport.industry.core.block.IndBlockTags;
-import teamport.industry.core.block.IndBlocks;
-import teamport.industry.core.item.IndItems;
-import teamport.industry.core.recipe.IndRecipes;
+import teamport.industry.core.block.entity.TileEntityPipe;
+import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
 public class Industry implements ModInitializer, GameStartEntrypoint {
@@ -19,20 +19,16 @@ public class Industry implements ModInitializer, GameStartEntrypoint {
 
     @Override
     public void onInitialize() {
+        EntityHelper.createTileEntity(TileEntityPipe.class, NamespaceID.getPermanent(MOD_ID, "pipe"));
         LOGGER.info("Industry Initialized. Have fun automating!");
     }
 
     @Override
     public void beforeGameStart() {
         new IndConfig();
-
         new IndBlockTags();
-        IndSounds.registerSounds();
         new IndWireMaterials();
         new IndWireProperties();
-
-        new IndBlocks();
-        new IndItems();
     }
 
     @Override

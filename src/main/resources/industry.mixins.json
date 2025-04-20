@@ -4,10 +4,11 @@
   "package": "teamport.industry.extra.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ChunkDecoratorOverworldMixin"
-  ],
-  "client": [
-    "TextureRegistryMixin"
+    "BiomeForestMixin",
+    "BiomeSwampMixin",
+    "ChunkDecoratorOverworldMixin",
+    "TileEntityBasketMixin",
+    "WorldFeatureDungeonMixin"
   ],
   "injectors": {
     "defaultRequire": 1

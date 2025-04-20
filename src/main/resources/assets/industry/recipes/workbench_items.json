@@ -1,0 +1,43 @@
+[
+  {
+    "name": "industry:workbench/joffo_cake",
+    "type": "minecraft:crafting/shaped",
+    "pattern": [
+      "#1#",
+      "232",
+      "#4#"
+    ],
+    "symbols": [
+      {
+        "symbol": "1",
+        "stack": {
+          "id": "minecraft:item/dye",
+          "meta": 3
+        }
+      },
+      {
+        "symbol": "2",
+        "stack": {
+          "id": "minecraft:item/dust_sugar"
+        }
+      },
+      {
+        "symbol": "3",
+        "stack": {
+          "id": "industry:item/food_orange"
+        }
+      },
+      {
+        "symbol": "4",
+        "stack": {
+          "id": "minecraft:item/wheat"
+        }
+      }
+    ],
+    "result": {
+      "id": "industry:item/food_joffo_cake",
+      "amount": 2
+    },
+    "consumeContainers": true
+  }
+]
