@@ -47,4 +47,9 @@ public abstract class TileEntityBasketMixin extends TileEntity implements IBaske
             worldObj.notifyBlockChange(this.x, this.y, this.z, Blocks.BASKET.id());
         }
     }
+
+    @Override
+    public Map<TileEntityBasket.BasketEntry, Integer> industry$getContents() {
+        return contents;
+    }
 }

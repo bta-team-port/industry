@@ -4,5 +4,11 @@
     "sounds": [
       "ic2/tool/Treetap.ogg"
     ]
+  },
+  "tool.wrench": {
+    "subtitle": "industry.tool.wrench",
+    "sounds": [
+      "ic2/tool/wrench.ogg"
+    ]
   }
 }

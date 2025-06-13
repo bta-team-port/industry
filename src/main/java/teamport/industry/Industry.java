@@ -1,7 +1,6 @@
 package teamport.industry;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.core.sound.SoundTypes;
 import net.minecraft.core.util.collection.NamespaceID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +8,8 @@ import teamport.industry.core.IndConfig;
 import teamport.industry.core.IndWireMaterials;
 import teamport.industry.core.IndWireProperties;
 import teamport.industry.core.block.IndBlockTags;
-import teamport.industry.core.block.entity.TileEntityPipe;
+import teamport.industry.core.block.entity.TileEntityPipeBase;
+import teamport.industry.core.block.entity.TileEntityPipeIron;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
@@ -19,7 +19,8 @@ public class Industry implements ModInitializer, GameStartEntrypoint {
 
     @Override
     public void onInitialize() {
-        EntityHelper.createTileEntity(TileEntityPipe.class, NamespaceID.getPermanent(MOD_ID, "pipe"));
+        EntityHelper.createTileEntity(TileEntityPipeBase.class, NamespaceID.getPermanent(MOD_ID, "pipe"));
+        EntityHelper.createTileEntity(TileEntityPipeIron.class, NamespaceID.getPermanent(MOD_ID, "pipe_iron"));
         LOGGER.info("Industry Initialized. Have fun automating!");
     }
 

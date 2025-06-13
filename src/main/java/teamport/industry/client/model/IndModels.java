@@ -13,12 +13,10 @@ import net.minecraft.client.render.item.model.ItemModelStandard;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.util.helper.Side;
 import teamport.industry.Industry;
-import teamport.industry.client.model.block.BlockModelLeavesOrange;
-import teamport.industry.client.model.block.BlockModelLogRubberwood;
-import teamport.industry.client.model.block.BlockModelPipe;
+import teamport.industry.client.model.block.*;
 import teamport.industry.client.model.block.entity.TileEntityRendererPipe;
 import teamport.industry.core.block.IndBlocks;
-import teamport.industry.core.block.entity.TileEntityPipe;
+import teamport.industry.core.block.entity.TileEntityPipeBase;
 import teamport.industry.core.item.IndItems;
 import turniplabs.halplibe.helper.ModelHelper;
 import turniplabs.halplibe.util.ModelEntrypoint;
@@ -85,11 +83,30 @@ public class IndModels implements ModelEntrypoint {
                 .setAllTextures(BlockModelStandard.BLOCK_TEXTURES, "industry:block/ore/uranium/permafrost")
                 .setAllTextures(BlockModelStandard.OVERBRIGHT_TEXTURES, "industry:block/ore/uranium/overlay"));
 
-        dispatcher.addDispatch(new BlockModelPipe(IndBlocks.PIPE_WOODEN)
-                .setAllTextures(0, "industry:block/pipe/wooden"));
-
-        dispatcher.addDispatch(new BlockModelPipe(IndBlocks.DEV_PIPE)
-                .setAllTextures(0, "industry:block/pipe/stone"));
+        dispatcher.addDispatch(new BlockModelPipeWooden(IndBlocks.PIPE_WOODEN)
+                .setAllTextures(0, "industry:block/pipe/wooden")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeBase(IndBlocks.PIPE_BASALT)
+                .setAllTextures(0, "industry:block/pipe/basalt")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeBase(IndBlocks.PIPE_STONE)
+                .setAllTextures(0, "industry:block/pipe/stone")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeBase(IndBlocks.PIPE_LIMESTONE)
+                .setAllTextures(0, "industry:block/pipe/limestone")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeBase(IndBlocks.PIPE_GRANITE)
+                .setAllTextures(0, "industry:block/pipe/granite")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeBase(IndBlocks.PIPE_NETHERRACK)
+                .setAllTextures(0, "industry:block/pipe/netherrack")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeBase(IndBlocks.PIPE_PERMAFROST)
+                .setAllTextures(0, "industry:block/pipe/permafrost")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
+        dispatcher.addDispatch(new BlockModelPipeIron(IndBlocks.PIPE_IRON)
+                .setAllTextures(0, "industry:block/pipe/iron")
+                .withCustomItemBounds(0.25, 0.25, 0.25, 0.75, 0.75, 0.75));
     }
 
     @Override
@@ -185,6 +202,38 @@ public class IndModels implements ModelEntrypoint {
             itemModel.icon = TextureRegistry.getTexture("industry:item/dust/steel");
             return itemModel;
         });
+
+        ModelHelper.setItemModel(IndItems.INGOT_COPPER, () -> {
+            ItemModelStandard itemModel = new ItemModelStandard(IndItems.INGOT_COPPER, Industry.MOD_ID);
+            itemModel.icon = TextureRegistry.getTexture("industry:item/ingot/copper");
+            return itemModel;
+        });
+
+        ModelHelper.setItemModel(IndItems.INGOT_TIN, () -> {
+            ItemModelStandard itemModel = new ItemModelStandard(IndItems.INGOT_TIN, Industry.MOD_ID);
+            itemModel.icon = TextureRegistry.getTexture("industry:item/ingot/tin");
+            return itemModel;
+        });
+
+        ModelHelper.setItemModel(IndItems.INGOT_BRONZE, () -> {
+            ItemModelStandard itemModel = new ItemModelStandard(IndItems.INGOT_BRONZE, Industry.MOD_ID);
+            itemModel.icon = TextureRegistry.getTexture("industry:item/ingot/bronze");
+            return itemModel;
+        });
+
+        ModelHelper.setItemModel(IndItems.INGOT_URANIUM, () -> {
+            ItemModelStandard itemModel = new ItemModelStandard(IndItems.INGOT_URANIUM, Industry.MOD_ID);
+            itemModel.icon = TextureRegistry.getTexture("industry:item/ingot/uranium");
+            itemModel.setFullBright();
+            return itemModel;
+        });
+
+        ModelHelper.setItemModel(IndItems.TOOL_WRENCH, () -> {
+            ItemModelStandard itemModel = new ItemModelStandard(IndItems.TOOL_WRENCH, Industry.MOD_ID);
+            itemModel.icon = TextureRegistry.getTexture("industry:item/tool/wrench");
+            itemModel.setFull3D();
+            return itemModel;
+        });
     }
 
     @Override
@@ -194,7 +243,7 @@ public class IndModels implements ModelEntrypoint {
 
     @Override
     public void initTileEntityModels(TileEntityRenderDispatcher dispatcher) {
-        ModelHelper.setTileEntityModel(TileEntityPipe.class, TileEntityRendererPipe::new);
+        ModelHelper.setTileEntityModel(TileEntityPipeBase.class, TileEntityRendererPipe::new);
     }
 
     @Override

@@ -11,39 +11,35 @@ import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.Global;
 import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.item.Items;
 import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.MathHelper;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.vector.Vec3f;
-import teamport.industry.core.block.entity.TileEntityPipe;
+import teamport.industry.core.block.entity.TileEntityPipeBase;
 
 import java.util.Random;
 
 @Environment(EnvType.CLIENT)
-public class TileEntityRendererPipe extends TileEntityRenderer<TileEntityPipe> {
+public class TileEntityRendererPipe extends TileEntityRenderer<TileEntityPipeBase> {
     public EntityItem renderEntity = new EntityItem(null);
-    private Random rand = new Random();
+    private final Random rand = new Random();
+    private static final float ANIMATION_MIDPOINT = 0.5f;
 
     @Override
-    public void doRender(Tessellator tessellator, TileEntityPipe tileEntity, double x, double y, double z, float partialTick) {
-        for (TileEntityPipe.PipeItem content : tileEntity.getContents()) {
+    public void doRender(Tessellator tessellator, TileEntityPipeBase tileEntity, double x, double y, double z, float partialTick) {
+        for (TileEntityPipeBase.PipeItem content : tileEntity.getContents()) {
             Direction begin = content.getEntry();
-            Direction end = content.getExit();
-            Vec3f beginVec = begin.getVecF();
+            Vec3f beginVec = content.getEntry().getVecF();
             Axis beginAxis = begin.getAxis();
-            Vec3f endVec = end.getVecF();
-            Axis endAxis = end.getAxis();
-            double v = 0;
             boolean positive = (begin == Direction.Z_POS || begin == Direction.Y_POS || begin == Direction.X_POS);
-            v = Catalyst.map(content.getTicks(), TileEntityPipe.TRANSFER_TICKS, 0, 1, -1);
+            double v = Catalyst.map(content.getTicks() + partialTick, tileEntity.transferSpeed, 0, 1, -1);
             Vec3f base = new Vec3f(0.5d);
-            Vec3f pos = new Vec3f(x, y, z);
-            Vec3f offset = new Vec3f();
+            Vec3f pos = new Vec3f(x,y,z);
+            Vec3f offset = new Vec3f(0);
 
-            float lerped = 0;
+            float lerped;
             switch (beginAxis) {
                 case X:
                     lerped = MathHelper.lerp((float) beginVec.x, (float) base.x, (float) v);
@@ -68,7 +64,6 @@ public class TileEntityRendererPipe extends TileEntityRenderer<TileEntityPipe> {
                     if(!positive){
                         lerped = (float) Catalyst.map(lerped, -2.5f,0.5f,-0.5f,0.5f);
                     }
-
                     offset.x += base.x;
                     offset.y += base.y;
                     offset.z += lerped;
@@ -79,13 +74,12 @@ public class TileEntityRendererPipe extends TileEntityRenderer<TileEntityPipe> {
 
             Vec3f p = pos.copy().add(offset);
 
+            GL11.glPushMatrix();
             if (!tileEntity.getContents().isEmpty()) {
-                GL11.glPushMatrix();
-                GL11.glTranslatef((float)p.x, (float) p.y, (float) p.z);
                 this.renderEntity.world = tileEntity.worldObj;
-                this.renderEntity.x = this.renderEntity.xo = tileEntity.x + 0.5;
-                this.renderEntity.y = this.renderEntity.yo = tileEntity.y + 0.5;
-                this.renderEntity.z = this.renderEntity.zo = tileEntity.z + 0.5;
+                this.renderEntity.x = this.renderEntity.xo = tileEntity.x;
+                this.renderEntity.y = this.renderEntity.yo = tileEntity.y;
+                this.renderEntity.z = this.renderEntity.zo = tileEntity.z;
 
                 float lightLevel = Minecraft.getMinecraft().currentWorld.getLightBrightness(tileEntity.x, tileEntity.y, tileEntity.z);
                 if (Global.accessor.isFullbrightEnabled()) {
@@ -93,12 +87,24 @@ public class TileEntityRendererPipe extends TileEntityRenderer<TileEntityPipe> {
                 }
 
                 ItemStack stack = tileEntity.getContents().get(0).getStack();
+
+                if (stack.getItem().id >= 16384) {
+                    if (Minecraft.getMinecraft().gameSettings.items3D.value) {
+                        GL11.glTranslatef((float) p.x, (float) p.y - 0.24f, (float) p.z);
+                    } else {
+                        GL11.glTranslatef((float) p.x, (float) p.y - 0.16f, (float) p.z);
+                    }
+                } else {
+                    GL11.glTranslatef((float)p.x, (float) p.y, (float) p.z);
+                }
+
                 BlockModel.setRenderBlocks(EntityRenderDispatcher.instance.itemRenderer.renderBlocksInstance);
                 GL11.glEnable(32826);
                 GL11.glEnable(3042);
-                ItemModelDispatcher.getInstance().getDispatch(stack).renderAsItemEntity(Tessellator.instance, this.renderEntity, rand, stack, 1, 0, lightLevel, partialTick);
+                ItemModelDispatcher.getInstance().getDispatch(stack).renderAsItemEntity(Tessellator.instance, renderEntity, rand, stack, 1, 0, lightLevel, partialTick);
                 GL11.glDisable(3042);
                 GL11.glDisable(32826);
+
                 GL11.glPopMatrix();
 
                 this.renderEntity.world = null;

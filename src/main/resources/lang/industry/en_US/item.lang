@@ -81,3 +81,7 @@ item.industry.food.orange.name=Orange
 item.industry.food.orange.desc=Name a yellow fruit.
 item.industry.food.joffocake.name=Joffo Cake
 item.industry.food.joffocake.desc=Delicious enough to spend a budget on.
+
+# Tools
+item.industry.tool.wrench.name=Wrench
+item.industry.tool.wrench.desc=A useful tool for rotating certain blocks, or changing their modes.

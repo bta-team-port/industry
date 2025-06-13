@@ -81,5 +81,19 @@ tile.industry.macerator.name=Macerator
 tile.industry.macerator.desc=Crushes and doubles your ores into fine dust.
 
 # Pipes
-tile.industry.stone_pipe.name=Stone Pipe
-tile.industry.stone_pipe.desc=Made of stone and capable of moving items and fluid.
+tile.industry.pipe.wooden.name=Wooden Pipe
+tile.industry.pipe.wooden.desc=Capable of transporting items and fluids.
+tile.industry.pipe.basalt.name=Basalt Pipe
+tile.industry.pipe.basalt.desc=Capable of moving items and fluid.
+tile.industry.pipe.stone.name=Stone Pipe
+tile.industry.pipe.stone.desc=Capable of moving items and fluid.
+tile.industry.pipe.limestone.name=LimeStone Pipe
+tile.industry.pipe.limestone.desc=Capable of moving items and fluid.
+tile.industry.pipe.granite.name=Granite Pipe
+tile.industry.pipe.granite.desc=Capable of moving items and fluid.
+tile.industry.pipe.netherrack.name=Netherrack Pipe
+tile.industry.pipe.netherrack.desc=Capable of moving items and fluid.
+tile.industry.pipe.permafrost.name=Permafrost Pipe
+tile.industry.pipe.permafrost.desc=Capable of moving items and fluid.
+tile.industry.pipe.iron.name=Iron Pipe
+tile.industry.pipe.iron.desc=Capable of moving items and fluid into a single direction.

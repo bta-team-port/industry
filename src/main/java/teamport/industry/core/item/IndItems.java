@@ -7,6 +7,7 @@ import sunsetsatellite.catalyst.core.util.DataInitializer;
 import teamport.industry.Industry;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.block.IndBlocks;
+import teamport.industry.core.item.logic.ItemLogicWrench;
 import turniplabs.halplibe.helper.ItemBuilder;
 import turniplabs.halplibe.util.ItemInitEntrypoint;
 
@@ -35,6 +36,7 @@ public class IndItems extends DataInitializer implements ItemInitEntrypoint {
     public static Item INGOT_TIN;
     public static Item INGOT_BRONZE;
     public static Item INGOT_URANIUM;
+    public static Item TOOL_WRENCH;
 
     @Override
     public void init() {
@@ -98,6 +100,9 @@ public class IndItems extends DataInitializer implements ItemInitEntrypoint {
 
         INGOT_URANIUM = new ItemBuilder(Industry.MOD_ID)
                 .build(new Item("ingot.uranium", "industry:item/ingot_uranium", nextID()));
+
+        TOOL_WRENCH = new ItemBuilder(Industry.MOD_ID)
+                .build(new ItemLogicWrench("tool.wrench", "industry:item/tool/wrench", nextID()));
 
         setInitialized(true);
     }

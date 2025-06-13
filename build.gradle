@@ -103,9 +103,11 @@ dependencies {
 	modImplementation("turniplabs:modmenu-bta:${project.mod_menu_version}")
 
 	// Catalyst
-	modImplementation(files("lib/catalyst-core-2.0.0.jar"))
-	modImplementation(files("lib/catalyst-energy-2.0.2.jar"))
-	modImplementation(files("lib/catalyst-fluids-2.0.0.jar"))
+	modImplementation(files("lib/catalyst-core-2.0.3-7.3_03.jar"))
+	modImplementation(files("lib/catalyst-energy-2.0.3.jar"))
+	modImplementation(files("lib/catalyst-fluids-2.1.1-7.3_03.jar"))
+	modImplementation(files("lib/tmb-1.1.1-7.3_03.jar"))
+	modImplementation(files("lib/btwaila-1.2.1-7.3_01.jar"))
 
 	implementation "org.slf4j:slf4j-api:1.8.0-beta4"
 	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"

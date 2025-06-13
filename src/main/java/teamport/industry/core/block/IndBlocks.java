@@ -9,6 +9,9 @@ import sunsetsatellite.catalyst.core.util.DataInitializer;
 import teamport.industry.Industry;
 import teamport.industry.core.IndConfig;
 import teamport.industry.core.block.logic.*;
+import teamport.industry.core.block.logic.pipe.BlockLogicPipeBase;
+import teamport.industry.core.block.logic.pipe.BlockLogicPipeIron;
+import teamport.industry.core.block.logic.pipe.BlockLogicPipeWood;
 import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.util.BlockInitEntrypoint;
 
@@ -41,14 +44,19 @@ public class IndBlocks extends DataInitializer implements BlockInitEntrypoint {
     public static Block<BlockLogicOreUranium> ORE_URANIUM_GRANITE;
     public static Block<BlockLogicOreUranium> ORE_URANIUM_PERMAFROST;
 
-    public static Block<BlockLogicPipe> PIPE_WOODEN;
-    public static Block<BlockLogicPipe> DEV_PIPE;
+    public static Block<BlockLogicPipeBase> PIPE_WOODEN;
+    public static Block<BlockLogicPipeBase> PIPE_BASALT;
+    public static Block<BlockLogicPipeBase> PIPE_STONE;
+    public static Block<BlockLogicPipeBase> PIPE_LIMESTONE;
+    public static Block<BlockLogicPipeBase> PIPE_GRANITE;
+    public static Block<BlockLogicPipeBase> PIPE_NETHERRACK;
+    public static Block<BlockLogicPipeBase> PIPE_PERMAFROST;
+    public static Block<BlockLogicPipeBase> PIPE_IRON;
 
     @Override
     public void init() {
-        if (initialized) {
-            return;
-        }
+        if (initialized) return;
+
         Industry.LOGGER.info("Initializing blocks...");
 
         LOG_RUBBERWOOD = new BlockBuilder(Industry.MOD_ID)
@@ -192,13 +200,49 @@ public class IndBlocks extends DataInitializer implements BlockInitEntrypoint {
                 .setHardness(1.0F)
                 .setBlockSound(BlockSounds.WOOD)
                 .setTags(BlockTags.MINEABLE_BY_AXE, BlockTags.MINEABLE_BY_PICKAXE)
-                .build("pipe.wooden", nextID(), b -> new BlockLogicPipe(b, Material.wood));
+                .build("pipe.wooden", nextID(), BlockLogicPipeWood::new);
 
-        DEV_PIPE = new BlockBuilder(Industry.MOD_ID)
+        PIPE_BASALT = new BlockBuilder(Industry.MOD_ID)
                 .setHardness(1.0F)
                 .setBlockSound(BlockSounds.STONE)
                 .setTags(BlockTags.MINEABLE_BY_PICKAXE)
-                .build("pipe.dev", nextID(), b -> new BlockLogicPipe(b, Material.stone));
+                .build("pipe.basalt", nextID(), b -> new BlockLogicPipeBase(b, Material.basalt));
+
+        PIPE_STONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.stone", nextID(), b -> new BlockLogicPipeBase(b, Material.stone));
+
+        PIPE_LIMESTONE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.limestone", nextID(), b -> new BlockLogicPipeBase(b, Material.limestone));
+
+        PIPE_GRANITE = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.granite", nextID(), b -> new BlockLogicPipeBase(b, Material.granite));
+
+        PIPE_NETHERRACK = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.STONE)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.netherrack", nextID(), b -> new BlockLogicPipeBase(b, Material.netherrack));
+
+        PIPE_PERMAFROST = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.PERMAFROST)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.permafrost", nextID(), b -> new BlockLogicPipeBase(b, Material.permafrost));
+
+        PIPE_IRON = new BlockBuilder(Industry.MOD_ID)
+                .setHardness(1.0F)
+                .setBlockSound(BlockSounds.METAL)
+                .setTags(BlockTags.MINEABLE_BY_PICKAXE)
+                .build("pipe.iron", nextID(), BlockLogicPipeIron::new);
 
         setInitialized(true);
     }
